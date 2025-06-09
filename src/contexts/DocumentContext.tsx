@@ -1,18 +1,14 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { supabase } from '../lib/supabase';
+import { Database } from '../types/database';
 import toast from 'react-hot-toast';
 import { useAuth } from './AuthContext';
 
-// Define types
+type DocumentRow = Database['public']['Tables']['documents']['Row'];
+type ActivityRow = Database['public']['Tables']['activities']['Row'];
 type DocumentCategory = 'SAP CMCT' | 'SAP FI' | 'SAP QM';
 
-type Document = {
-  id: string;
-  name: string;
-  type: string;
-  size: number;
-  uploadDate: string;
-  category: DocumentCategory;
+type Document = DocumentRow & {
   uploader: {
     id: string;
     name: string;
@@ -24,19 +20,17 @@ type Document = {
     email: string;
     role?: string;
   }>;
+  category: DocumentCategory;
 };
 
-type Activity = {
-  id: string;
-  type: 'upload' | 'view' | 'download' | 'archive' | 'restore' | 'delete';
+type Activity = ActivityRow & {
   document: {
     id: string;
     name: string;
-  };
+  } | null;
   user: {
     name: string;
-  };
-  timestamp: string;
+  } | null;
 };
 
 type DocumentContextType = {
@@ -44,13 +38,15 @@ type DocumentContextType = {
   archivedDocuments: Document[];
   recentActivities: Activity[];
   categories: DocumentCategory[];
+  loading: boolean;
   uploadDocument: (document: any, file: File) => Promise<void>;
-  moveToArchive: (documentId: string) => void;
-  restoreDocument: (documentId: string) => void;
-  deleteDocument: (documentId: string) => void;
+  moveToArchive: (documentId: string) => Promise<void>;
+  restoreDocument: (documentId: string) => Promise<void>;
+  deleteDocument: (documentId: string) => Promise<void>;
   viewDocument: (documentId: string) => Promise<string>;
-  downloadDocument: (documentId: string) => void;
-  shareDocument: (documentId: string, userIds: string[]) => void;
+  downloadDocument: (documentId: string) => Promise<void>;
+  shareDocument: (documentId: string, userIds: string[]) => Promise<void>;
+  refreshDocuments: () => Promise<void>;
 };
 
 const DocumentContext = createContext<DocumentContextType>({} as DocumentContextType);
@@ -59,435 +55,431 @@ export const useDocument = () => useContext(DocumentContext);
 
 export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { currentUser } = useAuth();
-  
   const [documents, setDocuments] = useState<Document[]>([]);
   const [archivedDocuments, setArchivedDocuments] = useState<Document[]>([]);
   const [recentActivities, setRecentActivities] = useState<Activity[]>([]);
-  
+  const [loading, setLoading] = useState(false);
+
   const categories: DocumentCategory[] = ['SAP CMCT', 'SAP FI', 'SAP QM'];
-  
+
   useEffect(() => {
     if (currentUser) {
-      // Initialize with sample data when user logs in
-      const sampleDocs = generateSampleDocuments(currentUser);
-      const sampleArchivedDocs = generateSampleArchivedDocuments(currentUser);
-      
-      setDocuments(sampleDocs);
-      setArchivedDocuments(sampleArchivedDocs);
-      setRecentActivities(generateSampleActivities(sampleDocs, sampleArchivedDocs));
-    } else {
-      setDocuments([]);
-      setArchivedDocuments([]);
-      setRecentActivities([]);
+      refreshDocuments();
+      loadActivities();
     }
   }, [currentUser]);
 
-  const addActivity = (type: Activity['type'], document: Document) => {
-    const newActivity: Activity = {
-      id: uuidv4(),
-      type,
-      document: {
-        id: document.id,
-        name: document.name,
-      },
-      user: {
-        name: currentUser?.name || 'Unknown User',
-      },
-      timestamp: new Date().toISOString(),
-    };
-    
-    setRecentActivities(prev => [newActivity, ...prev]);
+  const refreshDocuments = async () => {
+    if (!currentUser) return;
+
+    setLoading(true);
+    try {
+      // Load documents with uploader and access information
+      const { data: documentsData, error: documentsError } = await supabase
+        .from('documents')
+        .select(`
+          *,
+          uploader:users!documents_uploader_id_fkey(id, name, email),
+          document_access(
+            user_id,
+            users(id, name, email, role)
+          )
+        `)
+        .is('archived_at', null)
+        .order('created_at', { ascending: false });
+
+      if (documentsError) {
+        throw documentsError;
+      }
+
+      // Load archived documents
+      const { data: archivedData, error: archivedError } = await supabase
+        .from('documents')
+        .select(`
+          *,
+          uploader:users!documents_uploader_id_fkey(id, name, email),
+          document_access(
+            user_id,
+            users(id, name, email, role)
+          )
+        `)
+        .not('archived_at', 'is', null)
+        .order('archived_at', { ascending: false });
+
+      if (archivedError) {
+        throw archivedError;
+      }
+
+      // Transform the data to match our Document type
+      const transformDocument = (doc: any): Document => ({
+        ...doc,
+        uploader: doc.uploader || { id: '', name: 'Unknown', email: '' },
+        access: doc.document_access?.map((access: any) => ({
+          id: access.users?.id || '',
+          name: access.users?.name || 'Unknown',
+          email: access.users?.email || '',
+          role: access.users?.role || 'viewer',
+        })) || [],
+        category: getCategoryFromName(doc.name),
+      });
+
+      setDocuments(documentsData?.map(transformDocument) || []);
+      setArchivedDocuments(archivedData?.map(transformDocument) || []);
+    } catch (error: any) {
+      console.error('Error loading documents:', error);
+      toast.error('Failed to load documents');
+    } finally {
+      setLoading(false);
+    }
   };
-  
+
+  const loadActivities = async () => {
+    if (!currentUser) return;
+
+    try {
+      const { data: activitiesData, error } = await supabase
+        .from('activities')
+        .select(`
+          *,
+          documents(id, name),
+          users(name)
+        `)
+        .order('created_at', { ascending: false })
+        .limit(20);
+
+      if (error) {
+        throw error;
+      }
+
+      const transformedActivities: Activity[] = activitiesData?.map(activity => ({
+        ...activity,
+        document: activity.documents ? {
+          id: activity.documents.id,
+          name: activity.documents.name,
+        } : null,
+        user: activity.users ? {
+          name: activity.users.name,
+        } : null,
+      })) || [];
+
+      setRecentActivities(transformedActivities);
+    } catch (error: any) {
+      console.error('Error loading activities:', error);
+    }
+  };
+
+  const getCategoryFromName = (name: string): DocumentCategory => {
+    const nameLower = name.toLowerCase();
+    if (nameLower.includes('cmct')) return 'SAP CMCT';
+    if (nameLower.includes('fi')) return 'SAP FI';
+    if (nameLower.includes('qm')) return 'SAP QM';
+    return 'SAP CMCT'; // Default category
+  };
+
+  const addActivity = async (type: string, documentId: string) => {
+    if (!currentUser) return;
+
+    try {
+      await supabase
+        .from('activities')
+        .insert([{
+          type,
+          document_id: documentId,
+          user_id: currentUser.id,
+          created_at: new Date().toISOString(),
+        }]);
+
+      // Refresh activities
+      await loadActivities();
+    } catch (error: any) {
+      console.error('Error adding activity:', error);
+    }
+  };
+
   const uploadDocument = async (documentData: any, file: File): Promise<void> => {
-    const newDocument: Document = {
-      id: uuidv4(),
-      name: file.name,
-      type: file.name.split('.').pop() || '',
-      size: file.size,
-      uploadDate: new Date().toISOString(),
-      category: documentData.category || 'SAP CMCT',
-      uploader: {
-        id: currentUser?.id || '',
-        name: currentUser?.name || '',
-        email: currentUser?.email || '',
-      },
-      access: documentData.access || [],
-    };
-    
-    setDocuments(prev => [newDocument, ...prev]);
-    addActivity('upload', newDocument);
-    
-    toast.success(`Document "${newDocument.name}" uploaded successfully`);
-    return Promise.resolve();
-  };
-  
-  const moveToArchive = (documentId: string) => {
-    const documentToArchive = documents.find(doc => doc.id === documentId);
-    
-    if (!documentToArchive) {
-      toast.error('Document not found');
-      return;
+    if (!currentUser) {
+      throw new Error('User not authenticated');
     }
-    
-    setDocuments(prev => prev.filter(doc => doc.id !== documentId));
-    setArchivedDocuments(prev => [documentToArchive, ...prev]);
-    addActivity('archive', documentToArchive);
-    
-    toast.success(`Document "${documentToArchive.name}" moved to archive`);
-  };
-  
-  const restoreDocument = (documentId: string) => {
-    const documentToRestore = archivedDocuments.find(doc => doc.id === documentId);
-    
-    if (!documentToRestore) {
-      toast.error('Document not found in archive');
-      return;
+
+    try {
+      setLoading(true);
+
+      // Generate unique file path
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const filePath = `${currentUser.id}/${fileName}`;
+
+      // Upload file to Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from('documents')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      // Insert document record
+      const { data: newDocument, error: insertError } = await supabase
+        .from('documents')
+        .insert([{
+          name: file.name,
+          type: file.name.split('.').pop() || '',
+          size: file.size,
+          uploader_id: currentUser.id,
+          storage_path: filePath,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        }])
+        .select()
+        .single();
+
+      if (insertError) {
+        // Clean up uploaded file if document creation fails
+        await supabase.storage.from('documents').remove([filePath]);
+        throw insertError;
+      }
+
+      // Add document access for shared users
+      if (documentData.access && documentData.access.length > 0) {
+        const accessRecords = documentData.access
+          .filter((user: any) => user.id !== currentUser.id)
+          .map((user: any) => ({
+            document_id: newDocument.id,
+            user_id: user.id,
+          }));
+
+        if (accessRecords.length > 0) {
+          await supabase
+            .from('document_access')
+            .insert(accessRecords);
+        }
+      }
+
+      // Add activity
+      await addActivity('upload', newDocument.id);
+
+      // Refresh documents
+      await refreshDocuments();
+
+      toast.success(`Document "${file.name}" uploaded successfully`);
+    } catch (error: any) {
+      console.error('Upload error:', error);
+      toast.error('Failed to upload document');
+      throw error;
+    } finally {
+      setLoading(false);
     }
-    
-    setArchivedDocuments(prev => prev.filter(doc => doc.id !== documentId));
-    setDocuments(prev => [documentToRestore, ...prev]);
-    addActivity('restore', documentToRestore);
-    
-    toast.success(`Document "${documentToRestore.name}" restored from archive`);
   };
-  
-  const deleteDocument = (documentId: string) => {
-    const documentToDelete = archivedDocuments.find(doc => doc.id === documentId);
-    
-    if (!documentToDelete) {
-      toast.error('Document not found in archive');
-      return;
+
+  const moveToArchive = async (documentId: string): Promise<void> => {
+    try {
+      const { error } = await supabase
+        .from('documents')
+        .update({
+          archived_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', documentId);
+
+      if (error) {
+        throw error;
+      }
+
+      await addActivity('archive', documentId);
+      await refreshDocuments();
+
+      toast.success('Document moved to archive');
+    } catch (error: any) {
+      console.error('Error archiving document:', error);
+      toast.error('Failed to archive document');
     }
-    
-    setArchivedDocuments(prev => prev.filter(doc => doc.id !== documentId));
-    addActivity('delete', documentToDelete);
-    
-    toast.success(`Document "${documentToDelete.name}" permanently deleted`);
+  };
+
+  const restoreDocument = async (documentId: string): Promise<void> => {
+    try {
+      const { error } = await supabase
+        .from('documents')
+        .update({
+          archived_at: null,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', documentId);
+
+      if (error) {
+        throw error;
+      }
+
+      await addActivity('restore', documentId);
+      await refreshDocuments();
+
+      toast.success('Document restored from archive');
+    } catch (error: any) {
+      console.error('Error restoring document:', error);
+      toast.error('Failed to restore document');
+    }
+  };
+
+  const deleteDocument = async (documentId: string): Promise<void> => {
+    try {
+      // Get document info first
+      const { data: document, error: fetchError } = await supabase
+        .from('documents')
+        .select('storage_path')
+        .eq('id', documentId)
+        .single();
+
+      if (fetchError) {
+        throw fetchError;
+      }
+
+      // Delete from storage if storage_path exists
+      if (document.storage_path) {
+        await supabase.storage
+          .from('documents')
+          .remove([document.storage_path]);
+      }
+
+      // Delete document record (this will cascade delete access and activities)
+      const { error: deleteError } = await supabase
+        .from('documents')
+        .delete()
+        .eq('id', documentId);
+
+      if (deleteError) {
+        throw deleteError;
+      }
+
+      await refreshDocuments();
+
+      toast.success('Document permanently deleted');
+    } catch (error: any) {
+      console.error('Error deleting document:', error);
+      toast.error('Failed to delete document');
+    }
   };
 
   const viewDocument = async (documentId: string): Promise<string> => {
-    const document = documents.find(doc => doc.id === documentId);
-    
-    if (!document) {
-      toast.error('Document not found');
-      throw new Error('Document not found');
-    }
-    
-    addActivity('view', document);
-    // In a real app, this would return a URL to view the document
-    return Promise.resolve('#');
-  };
+    try {
+      // Get document storage path
+      const { data: document, error } = await supabase
+        .from('documents')
+        .select('storage_path, name')
+        .eq('id', documentId)
+        .single();
 
-  const downloadDocument = (documentId: string) => {
-    const document = documents.find(doc => doc.id === documentId);
-    
-    if (!document) {
-      toast.error('Document not found');
-      return;
-    }
-    
-    addActivity('download', document);
-    toast.success(`Document "${document.name}" downloaded`);
-  };
-
-  const shareDocument = (documentId: string, userIds: string[]) => {
-    setDocuments(prev => prev.map(doc => {
-      if (doc.id === documentId) {
-        return {
-          ...doc,
-          access: [
-            ...doc.access,
-            ...userIds.map(id => ({
-              id,
-              name: `User ${id}`,
-              email: `user${id}@example.com`,
-            })),
-          ],
-        };
+      if (error || !document.storage_path) {
+        throw new Error('Document not found');
       }
-      return doc;
-    }));
-    
-    toast.success('Document shared successfully');
+
+      // Get signed URL for viewing
+      const { data: signedUrlData, error: urlError } = await supabase.storage
+        .from('documents')
+        .createSignedUrl(document.storage_path, 3600); // 1 hour expiry
+
+      if (urlError) {
+        throw urlError;
+      }
+
+      await addActivity('view', documentId);
+
+      return signedUrlData.signedUrl;
+    } catch (error: any) {
+      console.error('Error viewing document:', error);
+      toast.error('Failed to view document');
+      throw error;
+    }
   };
-  
+
+  const downloadDocument = async (documentId: string): Promise<void> => {
+    try {
+      // Get document info
+      const { data: document, error } = await supabase
+        .from('documents')
+        .select('storage_path, name')
+        .eq('id', documentId)
+        .single();
+
+      if (error || !document.storage_path) {
+        throw new Error('Document not found');
+      }
+
+      // Get signed URL for download
+      const { data: signedUrlData, error: urlError } = await supabase.storage
+        .from('documents')
+        .createSignedUrl(document.storage_path, 300); // 5 minutes expiry
+
+      if (urlError) {
+        throw urlError;
+      }
+
+      // Trigger download
+      const link = document.createElement('a');
+      link.href = signedUrlData.signedUrl;
+      link.download = document.name;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      await addActivity('download', documentId);
+
+      toast.success(`Document "${document.name}" downloaded`);
+    } catch (error: any) {
+      console.error('Error downloading document:', error);
+      toast.error('Failed to download document');
+    }
+  };
+
+  const shareDocument = async (documentId: string, userIds: string[]): Promise<void> => {
+    try {
+      // Remove existing access for these users
+      await supabase
+        .from('document_access')
+        .delete()
+        .eq('document_id', documentId)
+        .in('user_id', userIds);
+
+      // Add new access records
+      const accessRecords = userIds.map(userId => ({
+        document_id: documentId,
+        user_id: userId,
+      }));
+
+      const { error } = await supabase
+        .from('document_access')
+        .insert(accessRecords);
+
+      if (error) {
+        throw error;
+      }
+
+      await refreshDocuments();
+
+      toast.success('Document shared successfully');
+    } catch (error: any) {
+      console.error('Error sharing document:', error);
+      toast.error('Failed to share document');
+    }
+  };
+
+  const value = {
+    documents,
+    archivedDocuments,
+    recentActivities,
+    categories,
+    loading,
+    uploadDocument,
+    moveToArchive,
+    restoreDocument,
+    deleteDocument,
+    viewDocument,
+    downloadDocument,
+    shareDocument,
+    refreshDocuments,
+  };
+
   return (
-    <DocumentContext.Provider
-      value={{
-        documents,
-        archivedDocuments,
-        recentActivities,
-        categories,
-        uploadDocument,
-        moveToArchive,
-        restoreDocument,
-        deleteDocument,
-        viewDocument,
-        downloadDocument,
-        shareDocument,
-      }}
-    >
+    <DocumentContext.Provider value={value}>
       {children}
     </DocumentContext.Provider>
-  );
-};
-
-// Helper function to generate sample documents
-const generateSampleDocuments = (currentUser: any): Document[] => {
-  if (!currentUser) return [];
-  
-  return [
-    {
-      id: '1',
-      name: 'SAP CMCT Implementation Guide.pdf',
-      type: 'pdf',
-      size: 2500000,
-      uploadDate: '2025-04-15T10:30:00Z',
-      category: 'SAP CMCT' as DocumentCategory,
-      uploader: {
-        id: currentUser.id,
-        name: currentUser.name,
-        email: currentUser.email,
-      },
-      access: [
-        {
-          id: currentUser.id,
-          name: currentUser.name,
-          email: currentUser.email,
-        },
-        {
-          id: '2',
-          name: 'Editor User',
-          email: 'editor@pln.com',
-        },
-      ],
-    },
-    {
-      id: '2',
-      name: 'SAP FI Configuration Manual.docx',
-      type: 'docx',
-      size: 1800000,
-      uploadDate: '2025-04-14T14:20:00Z',
-      category: 'SAP FI' as DocumentCategory,
-      uploader: {
-        id: currentUser.id,
-        name: currentUser.name,
-        email: currentUser.email,
-      },
-      access: [
-        {
-          id: currentUser.id,
-          name: currentUser.name,
-          email: currentUser.email,
-        },
-      ],
-    },
-    {
-      id: '3',
-      name: 'SAP QM Quality Planning.pptx',
-      type: 'pptx',
-      size: 3200000,
-      uploadDate: '2025-04-13T09:15:00Z',
-      category: 'SAP QM' as DocumentCategory,
-      uploader: {
-        id: currentUser.id,
-        name: currentUser.name,
-        email: currentUser.email,
-      },
-      access: [
-        {
-          id: currentUser.id,
-          name: currentUser.name,
-          email: currentUser.email,
-        },
-        {
-          id: '3',
-          name: 'Viewer User',
-          email: 'viewer@pln.com',
-        },
-      ],
-    },
-    {
-      id: '4',
-      name: 'SAP CMCT Best Practices.pdf',
-      type: 'pdf',
-      size: 2100000,
-      uploadDate: '2025-04-12T16:45:00Z',
-      category: 'SAP CMCT' as DocumentCategory,
-      uploader: {
-        id: '2',
-        name: 'Editor User',
-        email: 'editor@pln.com',
-      },
-      access: [
-        {
-          id: currentUser.id,
-          name: currentUser.name,
-          email: currentUser.email,
-        },
-        {
-          id: '2',
-          name: 'Editor User',
-          email: 'editor@pln.com',
-        },
-      ],
-    },
-    {
-      id: '5',
-      name: 'SAP FI Accounting Procedures.docx',
-      type: 'docx',
-      size: 1600000,
-      uploadDate: '2025-04-11T11:30:00Z',
-      category: 'SAP FI' as DocumentCategory,
-      uploader: {
-        id: '4',
-        name: 'Budi Santoso',
-        email: 'budi@pln.com',
-      },
-      access: [
-        {
-          id: currentUser.id,
-          name: currentUser.name,
-          email: currentUser.email,
-        },
-        {
-          id: '4',
-          name: 'Budi Santoso',
-          email: 'budi@pln.com',
-        },
-      ],
-    },
-    {
-      id: '6',
-      name: 'SAP QM Inspection Process.pdf',
-      type: 'pdf',
-      size: 2800000,
-      uploadDate: '2025-04-10T13:20:00Z',
-      category: 'SAP QM' as DocumentCategory,
-      uploader: {
-        id: '2',
-        name: 'Editor User',
-        email: 'editor@pln.com',
-      },
-      access: [
-        {
-          id: currentUser.id,
-          name: currentUser.name,
-          email: currentUser.email,
-        },
-        {
-          id: '2',
-          name: 'Editor User',
-          email: 'editor@pln.com',
-        },
-        {
-          id: '3',
-          name: 'Viewer User',
-          email: 'viewer@pln.com',
-        },
-      ],
-    },
-  ];
-};
-
-// Helper function to generate sample archived documents
-const generateSampleArchivedDocuments = (currentUser: any): Document[] => {
-  if (!currentUser) return [];
-  
-  return [
-    {
-      id: '7',
-      name: 'Outdated SAP CMCT Research.pdf',
-      type: 'pdf',
-      size: 1900000,
-      uploadDate: '2025-02-15T08:30:00Z',
-      category: 'SAP CMCT' as DocumentCategory,
-      uploader: {
-        id: currentUser.id,
-        name: currentUser.name,
-        email: currentUser.email,
-      },
-      access: [
-        {
-          id: currentUser.id,
-          name: currentUser.name,
-          email: currentUser.email,
-        },
-      ],
-    },
-    {
-      id: '8',
-      name: 'Old SAP FI Guidelines.docx',
-      type: 'docx',
-      size: 1400000,
-      uploadDate: '2025-01-20T14:15:00Z',
-      category: 'SAP FI' as DocumentCategory,
-      uploader: {
-        id: '2',
-        name: 'Editor User',
-        email: 'editor@pln.com',
-      },
-      access: [
-        {
-          id: currentUser.id,
-          name: currentUser.name,
-          email: currentUser.email,
-        },
-        {
-          id: '2',
-          name: 'Editor User',
-          email: 'editor@pln.com',
-        },
-      ],
-    },
-  ];
-};
-
-// Helper function to generate sample activities
-const generateSampleActivities = (documents: Document[], archivedDocuments: Document[]): Activity[] => {
-  const allDocs = [...documents, ...archivedDocuments];
-  
-  const activities: Activity[] = [
-    {
-      id: '1',
-      type: 'upload',
-      document: {
-        id: documents[0]?.id || '1',
-        name: documents[0]?.name || 'Unknown Document',
-      },
-      user: {
-        name: documents[0]?.uploader.name || 'Unknown User',
-      },
-      timestamp: new Date(Date.now() - 3600000).toISOString(), // 1 hour ago
-    },
-    {
-      id: '2',
-      type: 'view',
-      document: {
-        id: documents[1]?.id || '2',
-        name: documents[1]?.name || 'Unknown Document',
-      },
-      user: {
-        name: 'Editor User',
-      },
-      timestamp: new Date(Date.now() - 7200000).toISOString(), // 2 hours ago
-    },
-    {
-      id: '3',
-      type: 'download',
-      document: {
-        id: documents[2]?.id || '3',
-        name: documents[2]?.name || 'Unknown Document',
-      },
-      user: {
-        name: 'Viewer User',
-      },
-      timestamp: new Date(Date.now() - 10800000).toISOString(), // 3 hours ago
-    },
-  ];
-  
-  return activities.sort((a, b) => 
-    new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
   );
 };

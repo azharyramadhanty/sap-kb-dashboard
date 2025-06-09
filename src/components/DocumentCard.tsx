@@ -67,7 +67,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document, isArchived = fals
             <div className="flex-1 min-w-0">
               <h3 className="text-base font-semibold text-slate-900 line-clamp-2 leading-tight">{document.name}</h3>
               <p className="text-sm text-slate-500 mt-1">
-                Uploaded by <span className="font-medium">{document.uploader.name}</span> on {formatDate(document.uploadDate)}
+                Uploaded by <span className="font-medium">{document.uploader.name}</span> on {formatDate(document.updated_at)}
               </p>
             </div>
           </div>

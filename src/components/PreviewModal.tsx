@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon, FileTextIcon, FileIcon, PresentationIcon, DownloadIcon } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useDocument } from '../contexts/DocumentContext';
 
 interface PreviewModalProps {
   isOpen: boolean;
@@ -11,10 +12,39 @@ interface PreviewModalProps {
 
 const PreviewModal: React.FC<PreviewModalProps> = ({ isOpen, setIsOpen, document }) => {
   const { currentUser } = useAuth();
+  const { viewDocument, downloadDocument } = useDocument();
+  const [previewUrl, setPreviewUrl] = useState<string>('');
+  const [loading, setLoading] = useState(false);
 
   // Check if user has access to the document
   const hasAccess = document.uploader.id === currentUser?.id || 
     document.access.some((user: any) => user.id === currentUser?.id);
+
+  useEffect(() => {
+    if (isOpen && hasAccess && document.id) {
+      loadPreview();
+    }
+  }, [isOpen, document.id, hasAccess]);
+
+  const loadPreview = async () => {
+    try {
+      setLoading(true);
+      const url = await viewDocument(document.id);
+      setPreviewUrl(url);
+    } catch (error) {
+      console.error('Error loading preview:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDownload = async () => {
+    try {
+      await downloadDocument(document.id);
+    } catch (error) {
+      console.error('Error downloading document:', error);
+    }
+  };
 
   if (!hasAccess) {
     return null;
@@ -32,6 +62,25 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ isOpen, setIsOpen, document
   };
 
   const renderPreview = () => {
+    if (loading) {
+      return (
+        <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border border-gray-200 bg-white p-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <p className="mt-4 text-sm text-gray-500">Loading preview...</p>
+        </div>
+      );
+    }
+
+    if (document.type === 'pdf' && previewUrl) {
+      return (
+        <iframe
+          src={previewUrl}
+          className="h-full w-full rounded-lg border border-gray-200"
+          title={document.name}
+        />
+      );
+    }
+
     return (
       <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border border-gray-200 bg-white p-8">
         {getDocumentIcon()}
@@ -39,17 +88,13 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ isOpen, setIsOpen, document
         <p className="mt-1 text-sm text-gray-500">
           Preview not available for {document.type.toUpperCase()} files
         </p>
-        <a
-          href="#"
+        <button
+          onClick={handleDownload}
           className="btn-primary mt-6 inline-flex items-center"
-          onClick={(e) => {
-            e.preventDefault();
-            // Handle download here
-          }}
         >
           <DownloadIcon className="mr-2 h-5 w-5" />
           Download Document
-        </a>
+        </button>
       </div>
     );
   };

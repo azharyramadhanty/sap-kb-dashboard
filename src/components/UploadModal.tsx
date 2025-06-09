@@ -88,36 +88,23 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, setIsOpen }) => {
   };
 
   const handleUpload = async () => {
-    if (!file) return;
+    if (!file || !currentUser) return;
     
     setLoading(true);
     
     try {
-      // Determine file type from extension
-      const extension = file.name.split('.').pop()?.toLowerCase() || '';
+      // Create document data with selected users
+      const selectedUserObjects = allUsers.filter(user => accessUsers.includes(user.id));
       
-      // Create a document object
-      const newDoc = {
-        name: file.name,
-        type: extension,
-        size: file.size,
-        uploadDate: new Date().toISOString(),
+      const documentData = {
         category: selectedCategory,
-        uploader: currentUser,
-        access: [
-          currentUser, 
-          ...allUsers.filter(user => accessUsers.includes(user.email))
-        ],
+        access: [currentUser, ...selectedUserObjects],
       };
       
-      // In a real app, you would upload the file to storage here
-      // This is a simplified example
-      await uploadDocument(newDoc, file);
-      
+      await uploadDocument(documentData, file);
       closeModal();
     } catch (error) {
       console.error('Upload failed:', error);
-      alert('Failed to upload file. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -170,8 +157,8 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, setIsOpen }) => {
                   <div
                     className={`flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-6 transition-colors ${
                       dragging 
-                        ? 'border-[rgb(var(--pln-blue))] bg-[rgb(var(--pln-blue))]/10' 
-                        : 'border-gray-300 hover:border-[rgb(var(--pln-blue))]'
+                        ? 'border-blue-600 bg-blue-50' 
+                        : 'border-gray-300 hover:border-blue-600'
                     }`}
                     onDragEnter={handleDragEnter}
                     onDragLeave={handleDragLeave}
@@ -181,13 +168,13 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, setIsOpen }) => {
                     {file ? (
                       <div className="text-center">
                         <div className="mt-2 flex items-center justify-center">
-                          <Upload className="h-8 w-8 text-[rgb(var(--pln-blue))]" />
+                          <Upload className="h-8 w-8 text-blue-600" />
                         </div>
                         <p className="mt-2 text-sm font-medium text-gray-900">{file.name}</p>
                         <p className="text-xs text-gray-500">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
                         <button
                           type="button"
-                          className="mt-2 text-xs text-[rgb(var(--pln-blue))] hover:underline"
+                          className="mt-2 text-xs text-blue-600 hover:underline"
                           onClick={() => setFile(null)}
                         >
                           Change file
@@ -195,8 +182,8 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, setIsOpen }) => {
                       </div>
                     ) : (
                       <>
-                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[rgb(var(--pln-blue))]/10">
-                          <Upload className="h-6 w-6 text-[rgb(var(--pln-blue))]" />
+                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-50">
+                          <Upload className="h-6 w-6 text-blue-600" />
                         </div>
                         <p className="mt-2 text-sm font-medium text-gray-900">
                           Drag and drop your file here
@@ -230,7 +217,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, setIsOpen }) => {
                         <select
                           id="category"
                           name="category"
-                          className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-[rgb(var(--pln-blue))] focus:outline-none focus:ring-[rgb(var(--pln-blue))] sm:text-sm"
+                          className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-blue-600 focus:outline-none focus:ring-blue-600 sm:text-sm"
                           value={selectedCategory}
                           onChange={(e) => setSelectedCategory(e.target.value)}
                         >
@@ -249,15 +236,15 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, setIsOpen }) => {
                         <select
                           id="access"
                           name="access"
-                          className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-[rgb(var(--pln-blue))] focus:outline-none focus:ring-[rgb(var(--pln-blue))] sm:text-sm"
+                          className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-blue-600 focus:outline-none focus:ring-blue-600 sm:text-sm"
                           multiple
                           value={accessUsers}
                           onChange={handleAccessChange}
                         >
                           {allUsers
-                            .filter(user => user.email !== currentUser.email)
+                            .filter(user => user.id !== currentUser?.id)
                             .map(user => (
-                              <option key={user.email} value={user.email}>
+                              <option key={user.id} value={user.id}>
                                 {user.name} ({user.role})
                               </option>
                             ))

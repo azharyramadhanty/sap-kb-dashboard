@@ -11,7 +11,7 @@ interface Activity {
   user: {
     name: string;
   };
-  timestamp: string;
+  created_at: string;
 }
 
 interface ActivityFeedProps {
@@ -135,8 +135,8 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({ activities }) => {
                     </p>
                   </div>
                   <div className="whitespace-nowrap text-right text-sm text-gray-500">
-                    <time dateTime={activity.timestamp} title={formatDate(activity.timestamp)}>
-                      {formatTime(activity.timestamp)}
+                    <time dateTime={activity.created_at} title={formatDate(activity.created_at)}>
+                      {formatTime(activity.created_at)}
                     </time>
                   </div>
                 </div>

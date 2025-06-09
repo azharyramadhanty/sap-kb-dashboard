@@ -15,14 +15,19 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, setIsOpen, document }) 
   const { shareDocument } = useDocument();
   const { allUsers, currentUser } = useAuth();
   
-  const handleShare = () => {
-    shareDocument(document.id, selectedUsers);
-    setIsOpen(false);
-    setSelectedUsers([]);
+  const handleShare = async () => {
+    try {
+      await shareDocument(document.id, selectedUsers);
+      setIsOpen(false);
+      setSelectedUsers([]);
+    } catch (error) {
+      console.error('Error sharing document:', error);
+    }
   };
   
   const availableUsers = allUsers.filter(
-    user => !document.access.find((a: any) => a.id === user.id)
+    user => user.id !== currentUser?.id && 
+    !document.access.find((a: any) => a.id === user.id)
   );
   
   return (
@@ -84,7 +89,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, setIsOpen, document }) 
                           className="flex items-center justify-between rounded-lg border border-gray-200 p-2"
                         >
                           <div className="flex items-center">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[rgb(var(--pln-blue))] text-white">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white">
                               {user.name.charAt(0).toUpperCase()}
                             </div>
                             <div className="ml-3">
@@ -109,7 +114,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, setIsOpen, document }) 
                             className="flex items-center justify-between rounded-lg border border-gray-200 p-2"
                           >
                             <div className="flex items-center">
-                              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[rgb(var(--pln-blue))] text-white">
+                              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white">
                                 {user.name.charAt(0).toUpperCase()}
                               </div>
                               <div className="ml-3">
