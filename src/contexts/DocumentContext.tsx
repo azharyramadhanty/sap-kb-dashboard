@@ -368,7 +368,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         .single();
 
       if (error || !document.storage_path) {
-        throw new Error('Document not found');
+        throw new Error('Document not found or no storage path');
       }
 
       // Get signed URL for viewing
@@ -400,7 +400,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         .single();
 
       if (error || !document.storage_path) {
-        throw new Error('Document not found');
+        throw new Error('Document not found or no storage path');
       }
 
       // Get signed URL for download
@@ -413,16 +413,12 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       }
 
       // Trigger download
-      const link = document.createElement('a');
-      link.href = signedUrlData.signedUrl;
-      link.download = document.name;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      window.open(signedUrlData.signedUrl, '_blank', 'noopener,noreferrer')
 
       await addActivity('download', documentId);
 
       toast.success(`Document "${document.name}" downloaded`);
+      return;
     } catch (error: any) {
       console.error('Error downloading document:', error);
       toast.error('Failed to download document');
