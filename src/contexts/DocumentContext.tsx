@@ -393,31 +393,42 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const downloadDocument = async (documentId: string): Promise<void> => {
     try {
       // Get document info
-      const { data: document, error } = await supabase
+      const { data: documents, error } = await supabase
         .from('documents')
         .select('storage_path, name')
         .eq('id', documentId)
         .single();
 
-      if (error || !document.storage_path) {
+      if (error || !documents.storage_path) {
         throw new Error('Document not found or no storage path');
       }
 
       // Get signed URL for download
       const { data: signedUrlData, error: urlError } = await supabase.storage
         .from('documents')
-        .createSignedUrl(document.storage_path, 300); // 5 minutes expiry
+        .createSignedUrl(documents.storage_path, 300); // 5 minutes expiry
 
       if (urlError) {
         throw urlError;
       }
 
-      // Trigger download
-      window.open(signedUrlData.signedUrl, '_blank', 'noopener,noreferrer')
+      //Treat signedUrl as a blob to enable force download
+      const response = await fetch(signedUrlData.signedUrl);
+      const blob = await response.blob();
+
+      // Create a temporary object URL and force download
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', documents.name ?? 'file');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url); // Clean up
 
       await addActivity('download', documentId);
 
-      toast.success(`Document "${document.name}" downloaded`);
+      toast.success(`Document "${documents.name}" downloaded`);
       return;
     } catch (error: any) {
       console.error('Error downloading document:', error);
