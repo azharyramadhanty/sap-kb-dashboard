@@ -189,7 +189,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       // Manually load user profile and users after successful login
       if (authData.user) {
-        loadUserProfile(authData.user.id).then(_ => refreshUsers());
+        await loadUserProfile(authData.user.id);
+        await refreshUsers();
       }
     } catch (error: any) {
       console.error('Login error:', error);
