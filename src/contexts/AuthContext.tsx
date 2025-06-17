@@ -27,6 +27,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [allUsers, setAllUsers] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [initialized, setInitialized] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   // Initialize auth state
   useEffect(() => {
@@ -71,9 +72,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (!mounted) return;
       
+      // Prevent handling auth changes during login process
+      if (isLoggingIn && event === 'SIGNED_IN') {
+        return;
+      }
+      
       if (event === 'SIGNED_IN' && session?.user) {
         setLoading(true);
-        loadUserProfile(session.user.id).then(_ => refreshUsers().then(_ => setLoading(false)));
+        await loadUserProfile(session.user.id);
+        await refreshUsers();
+        setLoading(false);
       } else if (event === 'SIGNED_OUT') {
         setCurrentUser(null);
         localStorage.removeItem('currentUser');
@@ -87,7 +95,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       mounted = false;
       subscription.unsubscribe();
     };
-  }, []);
+  }, [isLoggingIn]);
 
   const loadUserProfile = async (userId: string) => {
     try {
@@ -163,7 +171,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const login = async (email: string, password: string): Promise<void> => {
+    // Prevent multiple simultaneous login attempts
+    if (isLoggingIn) {
+      return;
+    }
+
     try {
+      setIsLoggingIn(true);
       setLoading(true);
       
       const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
@@ -175,12 +189,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         throw new Error('Invalid email or password');
       }
 
-      // The onAuthStateChange listener will handle loading the user profile
-      // so we don't need to do it here explicitly
+      // Manually load user profile and users after successful login
+      if (authData.user) {
+        await loadUserProfile(authData.user.id);
+        await refreshUsers();
+      }
     } catch (error: any) {
       console.error('Login error:', error);
-      setLoading(false);
       throw new Error(error.message || 'Failed to sign in');
+    } finally {
+      setLoading(false);
+      setIsLoggingIn(false);
     }
   };
 

@@ -54,7 +54,7 @@ const DocumentContext = createContext<DocumentContextType>({} as DocumentContext
 export const useDocument = () => useContext(DocumentContext);
 
 export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { currentUser } = useAuth();
+  const { currentUser, userRole } = useAuth();
   const [documents, setDocuments] = useState<Document[]>([]);
   const [archivedDocuments, setArchivedDocuments] = useState<Document[]>([]);
   const [recentActivities, setRecentActivities] = useState<Activity[]>([]);
@@ -67,15 +67,14 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       refreshDocuments();
       loadActivities();
     }
-  }, [currentUser]);
+  }, [currentUser, userRole]);
 
   const refreshDocuments = async () => {
     if (!currentUser) return;
 
     setLoading(true);
     try {
-      // Load documents with uploader and access information
-      const { data: documentsData, error: documentsError } = await supabase
+      let documentsQuery = supabase
         .from('documents')
         .select(`
           *,
@@ -88,12 +87,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         .is('archived_at', null)
         .order('created_at', { ascending: false });
 
-      if (documentsError) {
-        throw documentsError;
-      }
-
-      // Load archived documents
-      const { data: archivedData, error: archivedError } = await supabase
+      let archivedQuery = supabase
         .from('documents')
         .select(`
           *,
@@ -106,8 +100,24 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         .not('archived_at', 'is', null)
         .order('archived_at', { ascending: false });
 
-      if (archivedError) {
-        throw archivedError;
+      // If user is not admin, apply access restrictions
+      if (userRole !== 'admin') {
+        const accessFilter = `uploader_id.eq.${currentUser.id},document_access.user_id.eq.${currentUser.id}`;
+        documentsQuery = documentsQuery.or(accessFilter);
+        archivedQuery = archivedQuery.or(accessFilter);
+      }
+
+      const [documentsResult, archivedResult] = await Promise.all([
+        documentsQuery,
+        archivedQuery
+      ]);
+
+      if (documentsResult.error) {
+        throw documentsResult.error;
+      }
+
+      if (archivedResult.error) {
+        throw archivedResult.error;
       }
 
       // Transform the data to match our Document type
@@ -123,8 +133,8 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         category: getCategoryFromName(doc.name),
       });
 
-      setDocuments(documentsData?.map(transformDocument) || []);
-      setArchivedDocuments(archivedData?.map(transformDocument) || []);
+      setDocuments(documentsResult.data?.map(transformDocument) || []);
+      setArchivedDocuments(archivedResult.data?.map(transformDocument) || []);
     } catch (error: any) {
       console.error('Error loading documents:', error);
       toast.error('Failed to load documents');
@@ -137,7 +147,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (!currentUser) return;
 
     try {
-      const { data: activitiesData, error } = await supabase
+      let activitiesQuery = supabase
         .from('activities')
         .select(`
           *,
@@ -146,6 +156,14 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         `)
         .order('created_at', { ascending: false })
         .limit(20);
+
+      // If user is not admin, only show activities for documents they have access to
+      if (userRole !== 'admin') {
+        // This is a simplified approach - in a real app you might want to join with document access
+        activitiesQuery = activitiesQuery.eq('user_id', currentUser.id);
+      }
+
+      const { data: activitiesData, error } = await activitiesQuery;
 
       if (error) {
         throw error;
@@ -218,15 +236,15 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         throw uploadError;
       }
 
-      // Insert document record
+      // Insert document record - explicitly set uploader_id to satisfy RLS policy
       const { data: newDocument, error: insertError } = await supabase
         .from('documents')
         .insert([{
           name: file.name,
           type: file.name.split('.').pop() || '',
           size: file.size,
-          uploader_id: currentUser.id,
           storage_path: filePath,
+          uploader_id: currentUser.id,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         }])
