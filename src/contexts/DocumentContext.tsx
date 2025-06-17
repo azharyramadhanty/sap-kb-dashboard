@@ -123,7 +123,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           email: access.users?.email || '',
           role: access.users?.role || 'viewer',
         })) || [],
-        category: getCategoryFromName(doc.name),
+        category: doc.category || 'SAP CMCT', // Use the category from database
       });
 
       setDocuments(documentsResult.data?.map(transformDocument) || []);
@@ -179,14 +179,6 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   };
 
-  const getCategoryFromName = (name: string): DocumentCategory => {
-    const nameLower = name.toLowerCase();
-    if (nameLower.includes('cmct')) return 'SAP CMCT';
-    if (nameLower.includes('fi')) return 'SAP FI';
-    if (nameLower.includes('qm')) return 'SAP QM';
-    return 'SAP CMCT'; // Default category
-  };
-
   const addActivity = async (type: string, documentId: string) => {
     if (!currentUser) return;
 
@@ -229,7 +221,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         throw uploadError;
       }
 
-      // Insert document record - explicitly set uploader_id to satisfy RLS policy
+      // Insert document record with the selected category
       const { data: newDocument, error: insertError } = await supabase
         .from('documents')
         .insert([{
@@ -238,6 +230,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           size: file.size,
           storage_path: filePath,
           uploader_id: currentUser.id,
+          category: documentData.category || 'SAP CMCT', // Use the selected category
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         }])
