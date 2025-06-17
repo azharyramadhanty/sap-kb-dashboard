@@ -74,7 +74,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     setLoading(true);
     try {
-      let documentsQuery = supabase
+      const documentsQuery = supabase
         .from('documents')
         .select(`
           *,
@@ -87,7 +87,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         .is('archived_at', null)
         .order('created_at', { ascending: false });
 
-      let archivedQuery = supabase
+      const archivedQuery = supabase
         .from('documents')
         .select(`
           *,
@@ -99,13 +99,6 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         `)
         .not('archived_at', 'is', null)
         .order('archived_at', { ascending: false });
-
-      // If user is not admin, apply access restrictions
-      if (userRole !== 'admin') {
-        const accessFilter = `uploader_id.eq.${currentUser.id},document_access.user_id.eq.${currentUser.id}`;
-        documentsQuery = documentsQuery.or(accessFilter);
-        archivedQuery = archivedQuery.or(accessFilter);
-      }
 
       const [documentsResult, archivedResult] = await Promise.all([
         documentsQuery,
