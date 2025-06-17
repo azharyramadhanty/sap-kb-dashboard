@@ -49,6 +49,7 @@ export interface Database {
           updated_at: string | null
           archived_at: string | null
           storage_path: string | null
+          category: 'SAP CMCT' | 'SAP FI' | 'SAP QM' | null
         }
         Insert: {
           id?: string
@@ -60,6 +61,7 @@ export interface Database {
           updated_at?: string | null
           archived_at?: string | null
           storage_path?: string | null
+          category?: 'SAP CMCT' | 'SAP FI' | 'SAP QM' | null
         }
         Update: {
           id?: string
@@ -71,6 +73,7 @@ export interface Database {
           updated_at?: string | null
           archived_at?: string | null
           storage_path?: string | null
+          category?: 'SAP CMCT' | 'SAP FI' | 'SAP QM' | null
         }
       }
       document_access: {

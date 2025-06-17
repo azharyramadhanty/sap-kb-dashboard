@@ -79,9 +79,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       if (event === 'SIGNED_IN' && session?.user) {
         setLoading(true);
-        await loadUserProfile(session.user.id);
-        await refreshUsers();
-        setLoading(false);
+        loadUserProfile(session.user.id).then(_ => refreshUsers().then(_ => setLoading(false)));
       } else if (event === 'SIGNED_OUT') {
         setCurrentUser(null);
         localStorage.removeItem('currentUser');
@@ -191,8 +189,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       // Manually load user profile and users after successful login
       if (authData.user) {
-        await loadUserProfile(authData.user.id);
-        await refreshUsers();
+        loadUserProfile(authData.user.id).then(_ => refreshUsers());
       }
     } catch (error: any) {
       console.error('Login error:', error);
