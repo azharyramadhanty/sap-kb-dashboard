@@ -1,225 +1,226 @@
-import { Document, Activity } from '../types';
-import { documentStore } from './storage';
-import { authService } from './auth';
+import { Document, Activity, User } from './database';
+import { Document as DocumentType, Activity as ActivityType } from '../types';
+import { cloudStorage } from './cloudStorage';
 import { v4 as uuidv4 } from 'uuid';
 
 class DocumentService {
-  // Simulated blob storage URLs
-  private generateBlobUrl(fileName: string): string {
-    return `https://plnstorage.blob.core.windows.net/documents/${uuidv4()}-${fileName}`;
+  async uploadDocument(
+    file: File, 
+    category: string, 
+    uploaderId: string, 
+    uploaderName: string,
+    accessUsers: string[] = []
+  ): Promise<DocumentType> {
+    try {
+      // Generate unique filename
+      const fileName = `${uuidv4()}-${file.name}`;
+      
+      // Upload to cloud storage
+      const blobUrl = await cloudStorage.uploadFile(file, fileName);
+
+      // Create document record
+      const document = new Document({
+        name: file.name,
+        type: file.name.split('.').pop() || '',
+        size: file.size,
+        category,
+        uploaderId,
+        uploaderName,
+        blobUrl,
+        accessUsers: [uploaderId, ...accessUsers],
+        tags: []
+      });
+
+      await document.save();
+
+      // Log activity
+      await this.logActivity('upload', document._id.toString(), document.name, uploaderId, uploaderName);
+
+      return this.documentToType(document);
+    } catch (error) {
+      console.error('Error uploading document:', error);
+      throw error;
+    }
   }
 
-  async uploadDocument(file: File, category: string, accessUsers: string[] = []): Promise<Document> {
-    const currentUser = authService.getCurrentUser();
-    if (!currentUser || !authService.hasPermission('write')) {
-      throw new Error('Insufficient permissions');
+  async getDocuments(userId: string, userRole: string): Promise<DocumentType[]> {
+    try {
+      let query: any = { archivedAt: { $exists: false } };
+
+      // Filter based on user permissions
+      if (userRole !== 'admin') {
+        query.$or = [
+          { uploaderId: userId },
+          { accessUsers: userId }
+        ];
+      }
+
+      const documents = await Document.find(query)
+        .sort({ createdAt: -1 })
+        .populate('uploaderId', 'name')
+        .populate('accessUsers', 'name email');
+
+      return documents.map(doc => this.documentToType(doc));
+    } catch (error) {
+      console.error('Error fetching documents:', error);
+      return [];
     }
+  }
 
-    // Simulate file upload to blob storage
-    const blobUrl = this.generateBlobUrl(file.name);
+  async getArchivedDocuments(userId: string, userRole: string): Promise<DocumentType[]> {
+    try {
+      let query: any = { archivedAt: { $exists: true } };
 
-    const document: Document = {
-      id: uuidv4(),
-      name: file.name,
-      type: file.name.split('.').pop() || '',
-      size: file.size,
-      category: category as any,
-      uploaderId: currentUser.id,
-      uploaderName: currentUser.name,
-      blobUrl,
-      accessUsers: [currentUser.id, ...accessUsers],
-      tags: [],
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      if (userRole !== 'admin') {
+        query.$or = [
+          { uploaderId: userId },
+          { accessUsers: userId }
+        ];
+      }
+
+      const documents = await Document.find(query)
+        .sort({ archivedAt: -1 })
+        .populate('uploaderId', 'name')
+        .populate('accessUsers', 'name email');
+
+      return documents.map(doc => this.documentToType(doc));
+    } catch (error) {
+      console.error('Error fetching archived documents:', error);
+      return [];
+    }
+  }
+
+  async archiveDocument(documentId: string, userId: string, userName: string): Promise<void> {
+    try {
+      const document = await Document.findByIdAndUpdate(
+        documentId,
+        { 
+          archivedAt: new Date(),
+          updatedAt: new Date()
+        },
+        { new: true }
+      );
+
+      if (!document) {
+        throw new Error('Document not found');
+      }
+
+      await this.logActivity('archive', documentId, document.name, userId, userName);
+    } catch (error) {
+      console.error('Error archiving document:', error);
+      throw error;
+    }
+  }
+
+  async restoreDocument(documentId: string, userId: string, userName: string): Promise<void> {
+    try {
+      const document = await Document.findByIdAndUpdate(
+        documentId,
+        { 
+          $unset: { archivedAt: 1 },
+          updatedAt: new Date()
+        },
+        { new: true }
+      );
+
+      if (!document) {
+        throw new Error('Document not found');
+      }
+
+      await this.logActivity('restore', documentId, document.name, userId, userName);
+    } catch (error) {
+      console.error('Error restoring document:', error);
+      throw error;
+    }
+  }
+
+  async deleteDocument(documentId: string, userId: string, userName: string): Promise<void> {
+    try {
+      const document = await Document.findById(documentId);
+      if (!document) {
+        throw new Error('Document not found');
+      }
+
+      // Delete from cloud storage
+      if (document.blobUrl) {
+        const fileName = document.blobUrl.split('/').pop();
+        if (fileName) {
+          await cloudStorage.deleteFile(fileName);
+        }
+      }
+
+      // Delete document record
+      await Document.findByIdAndDelete(documentId);
+
+      await this.logActivity('delete', documentId, document.name, userId, userName);
+    } catch (error) {
+      console.error('Error deleting document:', error);
+      throw error;
+    }
+  }
+
+  async getRecentActivities(limit: number = 20): Promise<ActivityType[]> {
+    try {
+      const activities = await Activity.find()
+        .sort({ timestamp: -1 })
+        .limit(limit)
+        .populate('documentId', 'name')
+        .populate('userId', 'name');
+
+      return activities.map(activity => ({
+        id: activity._id.toString(),
+        type: activity.type,
+        documentId: activity.documentId?.toString() || '',
+        documentName: activity.documentName,
+        userId: activity.userId?.toString() || '',
+        userName: activity.userName,
+        timestamp: activity.timestamp.toISOString()
+      }));
+    } catch (error) {
+      console.error('Error fetching activities:', error);
+      return [];
+    }
+  }
+
+  private async logActivity(
+    type: ActivityType['type'],
+    documentId: string,
+    documentName: string,
+    userId: string,
+    userName: string
+  ): Promise<void> {
+    try {
+      const activity = new Activity({
+        type,
+        documentId,
+        documentName,
+        userId,
+        userName,
+        timestamp: new Date()
+      });
+
+      await activity.save();
+    } catch (error) {
+      console.error('Error logging activity:', error);
+    }
+  }
+
+  private documentToType(doc: any): DocumentType {
+    return {
+      id: doc._id.toString(),
+      name: doc.name,
+      type: doc.type,
+      size: doc.size,
+      category: doc.category,
+      uploaderId: doc.uploaderId.toString(),
+      uploaderName: doc.uploaderName,
+      blobUrl: doc.blobUrl,
+      accessUsers: doc.accessUsers.map((user: any) => user._id?.toString() || user.toString()),
+      tags: doc.tags,
+      createdAt: doc.createdAt.toISOString(),
+      updatedAt: doc.updatedAt.toISOString(),
+      archivedAt: doc.archivedAt?.toISOString()
     };
-
-    documentStore.createDocument(document);
-
-    // Log activity
-    this.logActivity('upload', document.id, document.name);
-
-    return document;
-  }
-
-  getDocuments(): Document[] {
-    const currentUser = authService.getCurrentUser();
-    if (!currentUser) return [];
-
-    const allDocuments = documentStore.getAllDocuments();
-    
-    // Filter documents based on access
-    return allDocuments.filter(doc => 
-      !doc.archivedAt && (
-        doc.uploaderId === currentUser.id ||
-        doc.accessUsers.includes(currentUser.id) ||
-        authService.hasRole('admin')
-      )
-    );
-  }
-
-  getArchivedDocuments(): Document[] {
-    const currentUser = authService.getCurrentUser();
-    if (!currentUser) return [];
-
-    const allDocuments = documentStore.getAllDocuments();
-    
-    return allDocuments.filter(doc => 
-      doc.archivedAt && (
-        doc.uploaderId === currentUser.id ||
-        doc.accessUsers.includes(currentUser.id) ||
-        authService.hasRole('admin')
-      )
-    );
-  }
-
-  async archiveDocument(documentId: string): Promise<void> {
-    const currentUser = authService.getCurrentUser();
-    if (!currentUser || !authService.hasPermission('write')) {
-      throw new Error('Insufficient permissions');
-    }
-
-    const document = documentStore.get(`document:${documentId}`);
-    if (!document) {
-      throw new Error('Document not found');
-    }
-
-    if (document.uploaderId !== currentUser.id && !authService.hasRole('admin')) {
-      throw new Error('Insufficient permissions');
-    }
-
-    document.archivedAt = new Date().toISOString();
-    document.updatedAt = new Date().toISOString();
-    
-    documentStore.updateDocument(document);
-    this.logActivity('archive', documentId, document.name);
-  }
-
-  async restoreDocument(documentId: string): Promise<void> {
-    const currentUser = authService.getCurrentUser();
-    if (!currentUser || !authService.hasPermission('write')) {
-      throw new Error('Insufficient permissions');
-    }
-
-    const document = documentStore.get(`document:${documentId}`);
-    if (!document) {
-      throw new Error('Document not found');
-    }
-
-    if (document.uploaderId !== currentUser.id && !authService.hasRole('admin')) {
-      throw new Error('Insufficient permissions');
-    }
-
-    delete document.archivedAt;
-    document.updatedAt = new Date().toISOString();
-    
-    documentStore.updateDocument(document);
-    this.logActivity('restore', documentId, document.name);
-  }
-
-  async deleteDocument(documentId: string): Promise<void> {
-    const currentUser = authService.getCurrentUser();
-    if (!currentUser || !authService.hasPermission('write')) {
-      throw new Error('Insufficient permissions');
-    }
-
-    const document = documentStore.get(`document:${documentId}`);
-    if (!document) {
-      throw new Error('Document not found');
-    }
-
-    if (document.uploaderId !== currentUser.id && !authService.hasRole('admin')) {
-      throw new Error('Insufficient permissions');
-    }
-
-    documentStore.deleteDocument(documentId);
-    this.logActivity('delete', documentId, document.name);
-  }
-
-  async shareDocument(documentId: string, userIds: string[]): Promise<void> {
-    const currentUser = authService.getCurrentUser();
-    if (!currentUser || !authService.hasPermission('write')) {
-      throw new Error('Insufficient permissions');
-    }
-
-    const document = documentStore.get(`document:${documentId}`);
-    if (!document) {
-      throw new Error('Document not found');
-    }
-
-    if (document.uploaderId !== currentUser.id && !authService.hasRole('admin')) {
-      throw new Error('Insufficient permissions');
-    }
-
-    // Add new users to access list
-    const newAccessUsers = [...new Set([...document.accessUsers, ...userIds])];
-    document.accessUsers = newAccessUsers;
-    document.updatedAt = new Date().toISOString();
-    
-    documentStore.updateDocument(document);
-    this.logActivity('share', documentId, document.name);
-  }
-
-  async downloadDocument(documentId: string): Promise<string> {
-    const currentUser = authService.getCurrentUser();
-    if (!currentUser) {
-      throw new Error('Authentication required');
-    }
-
-    const document = documentStore.get(`document:${documentId}`);
-    if (!document) {
-      throw new Error('Document not found');
-    }
-
-    if (!document.accessUsers.includes(currentUser.id) && !authService.hasRole('admin')) {
-      throw new Error('Insufficient permissions');
-    }
-
-    this.logActivity('download', documentId, document.name);
-    
-    // Return blob URL for download
-    return document.blobUrl || '#';
-  }
-
-  async viewDocument(documentId: string): Promise<string> {
-    const currentUser = authService.getCurrentUser();
-    if (!currentUser) {
-      throw new Error('Authentication required');
-    }
-
-    const document = documentStore.get(`document:${documentId}`);
-    if (!document) {
-      throw new Error('Document not found');
-    }
-
-    if (!document.accessUsers.includes(currentUser.id) && !authService.hasRole('admin')) {
-      throw new Error('Insufficient permissions');
-    }
-
-    this.logActivity('view', documentId, document.name);
-    
-    // Return blob URL for viewing
-    return document.blobUrl || '#';
-  }
-
-  getRecentActivities(): Activity[] {
-    return documentStore.getRecentActivities();
-  }
-
-  private logActivity(type: Activity['type'], documentId: string, documentName: string): void {
-    const currentUser = authService.getCurrentUser();
-    if (!currentUser) return;
-
-    const activity: Activity = {
-      id: uuidv4(),
-      type,
-      documentId,
-      documentName,
-      userId: currentUser.id,
-      userName: currentUser.name,
-      timestamp: new Date().toISOString(),
-    };
-
-    documentStore.createActivity(activity);
   }
 }
 
