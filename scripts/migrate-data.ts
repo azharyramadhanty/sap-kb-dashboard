@@ -1,15 +1,20 @@
+import dotenv from 'dotenv';
 import { connectDatabase, User, Document, Activity } from '../src/lib/database';
 import { documentStore } from '../src/lib/storage';
 import bcrypt from 'bcryptjs';
 
+// Load environment variables
+dotenv.config();
+
 async function migrateData() {
   try {
-    console.log('🚀 Starting data migration...');
+    console.log('🚀 Starting data migration to Azure MongoDB...');
     
     // Connect to MongoDB
     await connectDatabase();
     
     // Clear existing data (optional - remove in production)
+    console.log('🧹 Clearing existing data...');
     await User.deleteMany({});
     await Document.deleteMany({});
     await Activity.deleteMany({});
@@ -35,18 +40,21 @@ async function migrateData() {
       
       await newUser.save();
       userIdMap.set(user.id, newUser._id.toString());
-      console.log(`✅ Migrated user: ${user.email}`);
+      console.log(`✅ Migrated user: ${user.email} (${user.role})`);
     }
     
     console.log('📄 Migrating documents...');
     
     // Migrate documents
-    const documents = documentStore.getAllDocuments();
+    const documents = documentStore.getDocuments();
     const documentIdMap = new Map<string, string>();
     
     for (const doc of documents) {
       const newUploaderId = userIdMap.get(doc.uploaderId);
-      if (!newUploaderId) continue;
+      if (!newUploaderId) {
+        console.log(`⚠️ Skipping document ${doc.name} - uploader not found`);
+        continue;
+      }
       
       const accessUserIds = doc.accessUsers
         .map(userId => userIdMap.get(userId))
@@ -61,7 +69,7 @@ async function migrateData() {
         uploaderName: doc.uploaderName,
         blobUrl: doc.blobUrl,
         accessUsers: accessUserIds,
-        tags: doc.tags,
+        tags: doc.tags || [],
         createdAt: new Date(doc.createdAt),
         updatedAt: new Date(doc.updatedAt),
         ...(doc.archivedAt && { archivedAt: new Date(doc.archivedAt) })
@@ -69,7 +77,7 @@ async function migrateData() {
       
       await newDocument.save();
       documentIdMap.set(doc.id, newDocument._id.toString());
-      console.log(`✅ Migrated document: ${doc.name}`);
+      console.log(`✅ Migrated document: ${doc.name} (${doc.category})`);
     }
     
     console.log('📊 Migrating activities...');
@@ -81,7 +89,10 @@ async function migrateData() {
       const newUserId = userIdMap.get(activity.userId);
       const newDocumentId = documentIdMap.get(activity.documentId);
       
-      if (!newUserId || !newDocumentId) continue;
+      if (!newUserId || !newDocumentId) {
+        console.log(`⚠️ Skipping activity ${activity.type} - user or document not found`);
+        continue;
+      }
       
       const newActivity = new Activity({
         type: activity.type,
@@ -96,11 +107,21 @@ async function migrateData() {
       console.log(`✅ Migrated activity: ${activity.type} - ${activity.documentName}`);
     }
     
-    console.log('🎉 Migration completed successfully!');
-    console.log(`📊 Migrated: ${users.length} users, ${documents.length} documents, ${activities.length} activities`);
+    console.log('\n🎉 Migration completed successfully!');
+    console.log(`📊 Migration Summary:`);
+    console.log(`   👥 Users: ${users.length}`);
+    console.log(`   📄 Documents: ${documents.length}`);
+    console.log(`   📊 Activities: ${activities.length}`);
+    console.log('\n💡 You can now login with:');
+    console.log('   Admin: admin@pln.com / password');
+    console.log('   Editor: editor@pln.com / password');
+    console.log('   Viewer: viewer@pln.com / password');
     
   } catch (error) {
     console.error('❌ Migration failed:', error);
+    if (error instanceof Error) {
+      console.error('Error details:', error.message);
+    }
   } finally {
     process.exit(0);
   }

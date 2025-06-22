@@ -1,6 +1,6 @@
 import { Document, User, Activity, Session } from '../types';
 
-// Simulated CosmosDB-style key-value storage
+// Enhanced CosmosDB-style key-value storage with MongoDB integration
 class DocumentStore {
   private storage: Map<string, any> = new Map();
   private indexes: Map<string, Set<string>> = new Map();
@@ -76,6 +76,19 @@ class DocumentStore {
         createdAt: new Date(Date.now() - 172800000).toISOString(),
         updatedAt: new Date(Date.now() - 172800000).toISOString(),
       },
+      {
+        id: 'doc-3',
+        name: 'Quality Management Procedures.pptx',
+        type: 'pptx',
+        size: 3072000,
+        category: 'SAP QM',
+        uploaderId: 'user-admin-1',
+        uploaderName: 'Admin User',
+        accessUsers: ['user-admin-1', 'user-viewer-1'],
+        tags: ['quality', 'management', 'procedures'],
+        createdAt: new Date(Date.now() - 259200000).toISOString(),
+        updatedAt: new Date(Date.now() - 259200000).toISOString(),
+      },
     ];
 
     documents.forEach(doc => {
@@ -83,6 +96,42 @@ class DocumentStore {
       this.addToIndex('documents', doc.id);
       this.addToIndex(`documents-category:${doc.category}`, doc.id);
       this.addToIndex(`documents-uploader:${doc.uploaderId}`, doc.id);
+    });
+
+    // Sample activities
+    const activities: Activity[] = [
+      {
+        id: 'activity-1',
+        type: 'upload',
+        documentId: 'doc-1',
+        documentName: 'SAP CMCT Implementation Guide.pdf',
+        userId: 'user-admin-1',
+        userName: 'Admin User',
+        timestamp: new Date(Date.now() - 86400000).toISOString(),
+      },
+      {
+        id: 'activity-2',
+        type: 'view',
+        documentId: 'doc-1',
+        documentName: 'SAP CMCT Implementation Guide.pdf',
+        userId: 'user-editor-1',
+        userName: 'Editor User',
+        timestamp: new Date(Date.now() - 43200000).toISOString(),
+      },
+      {
+        id: 'activity-3',
+        type: 'upload',
+        documentId: 'doc-2',
+        documentName: 'Financial Reporting Standards.docx',
+        userId: 'user-editor-1',
+        userName: 'Editor User',
+        timestamp: new Date(Date.now() - 172800000).toISOString(),
+      },
+    ];
+
+    activities.forEach(activity => {
+      this.storage.set(`activity:${activity.id}`, activity);
+      this.addToIndex('activities', activity.id);
     });
   }
 
@@ -138,30 +187,24 @@ class DocumentStore {
   }
 
   // Document operations
-  getAllDocuments(): Document[] {
+  getDocuments(): Document[] {
     const docIds = this.query('documents');
     return docIds.map(id => this.get(`document:${id}`)).filter(Boolean);
   }
 
-  getDocumentsByCategory(category: string): Document[] {
-    const docIds = this.query(`documents-category:${category}`);
-    return docIds.map(id => this.get(`document:${id}`)).filter(Boolean);
+  getDocument(id: string): Document | null {
+    return this.get(`document:${id}`);
   }
 
-  getDocumentsByUploader(uploaderId: string): Document[] {
-    const docIds = this.query(`documents-uploader:${uploaderId}`);
-    return docIds.map(id => this.get(`document:${id}`)).filter(Boolean);
-  }
-
-  createDocument(document: Document): void {
+  addDocument(document: Document): void {
     this.set(`document:${document.id}`, document);
     this.addToIndex('documents', document.id);
     this.addToIndex(`documents-category:${document.category}`, document.id);
     this.addToIndex(`documents-uploader:${document.uploaderId}`, document.id);
   }
 
-  updateDocument(document: Document): void {
-    this.set(`document:${document.id}`, document);
+  updateDocument(id: string, document: Document): void {
+    this.set(`document:${id}`, document);
   }
 
   deleteDocument(id: string): void {
@@ -172,6 +215,16 @@ class DocumentStore {
       this.removeFromIndex(`documents-uploader:${doc.uploaderId}`, id);
       this.delete(`document:${id}`);
     }
+  }
+
+  getDocumentsByCategory(category: string): Document[] {
+    const docIds = this.query(`documents-category:${category}`);
+    return docIds.map(id => this.get(`document:${id}`)).filter(Boolean);
+  }
+
+  getDocumentsByUploader(uploaderId: string): Document[] {
+    const docIds = this.query(`documents-uploader:${uploaderId}`);
+    return docIds.map(id => this.get(`document:${id}`)).filter(Boolean);
   }
 
   // Activity operations
