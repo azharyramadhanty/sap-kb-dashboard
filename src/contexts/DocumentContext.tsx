@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { documentService } from '../lib/documentService.client';
-import { activityStore } from '../lib/storage';
+import { documentStore } from '../lib/storage';
 import toast from 'react-hot-toast';
 import { useAuth } from './AuthContext';
 
@@ -126,7 +126,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (!currentUser) return;
 
     try {
-      const activities = activityStore.getActivities();
+      const activities = documentStore.getRecentActivities();
       
       // Filter activities based on user role
       const filteredActivities = activities.filter(activity => {
@@ -141,6 +141,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         
         return {
           ...activity,
+          createdAt: activity.timestamp, // Map timestamp to createdAt for consistency
           document: document ? {
             id: document.id,
             name: document.name
@@ -166,10 +167,10 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         type,
         documentId,
         userId: currentUser.id,
-        createdAt: new Date().toISOString()
+        timestamp: new Date().toISOString()
       };
 
-      activityStore.addActivity(activity);
+      documentStore.createActivity(activity);
       await loadActivities();
     } catch (error: any) {
       console.error('Error adding activity:', error);
