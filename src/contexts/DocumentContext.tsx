@@ -1,474 +1,124 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
-import { Database } from '../types/database';
-import toast from 'react-hot-toast';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { Document, Activity } from '../types';
+import { documentService } from '../lib/documentService';
 import { useAuth } from './AuthContext';
+import toast from 'react-hot-toast';
 
-type DocumentRow = Database['public']['Tables']['documents']['Row'];
-type ActivityRow = Database['public']['Tables']['activities']['Row'];
-type DocumentCategory = 'SAP CMCT' | 'SAP FI' | 'SAP QM';
-
-type Document = DocumentRow & {
-  uploader: {
-    id: string;
-    name: string;
-    email: string;
-  };
-  access: Array<{
-    id: string;
-    name: string;
-    email: string;
-    role?: string;
-  }>;
-  category: DocumentCategory;
-};
-
-type Activity = ActivityRow & {
-  document: {
-    id: string;
-    name: string;
-  } | null;
-  user: {
-    name: string;
-  } | null;
-};
-
-type DocumentContextType = {
+interface DocumentContextType {
   documents: Document[];
   archivedDocuments: Document[];
   recentActivities: Activity[];
-  categories: DocumentCategory[];
   loading: boolean;
-  uploadDocument: (document: any, file: File) => Promise<void>;
-  moveToArchive: (documentId: string) => Promise<void>;
+  uploadDocument: (file: File, category: string, accessUsers?: string[]) => Promise<void>;
+  archiveDocument: (documentId: string) => Promise<void>;
   restoreDocument: (documentId: string) => Promise<void>;
   deleteDocument: (documentId: string) => Promise<void>;
-  viewDocument: (documentId: string) => Promise<string>;
-  downloadDocument: (documentId: string) => Promise<void>;
   shareDocument: (documentId: string, userIds: string[]) => Promise<void>;
-  refreshDocuments: () => Promise<void>;
-};
+  downloadDocument: (documentId: string) => Promise<void>;
+  viewDocument: (documentId: string) => Promise<string>;
+  refreshDocuments: () => void;
+}
 
 const DocumentContext = createContext<DocumentContextType>({} as DocumentContextType);
 
 export const useDocument = () => useContext(DocumentContext);
 
 export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { currentUser, userRole } = useAuth();
+  const { currentUser } = useAuth();
   const [documents, setDocuments] = useState<Document[]>([]);
   const [archivedDocuments, setArchivedDocuments] = useState<Document[]>([]);
   const [recentActivities, setRecentActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const categories: DocumentCategory[] = ['SAP CMCT', 'SAP FI', 'SAP QM'];
+  const refreshDocuments = () => {
+    if (!currentUser) return;
+    
+    setDocuments(documentService.getDocuments());
+    setArchivedDocuments(documentService.getArchivedDocuments());
+    setRecentActivities(documentService.getRecentActivities());
+  };
 
   useEffect(() => {
-    if (currentUser) {
-      refreshDocuments();
-      loadActivities();
-    }
-  }, [currentUser, userRole]);
+    refreshDocuments();
+  }, [currentUser]);
 
-  const refreshDocuments = async () => {
-    if (!currentUser) return;
-
-    setLoading(true);
-    try {
-      const documentsQuery = supabase
-        .from('documents')
-        .select(`
-          *,
-          uploader:users!documents_uploader_id_fkey(id, name, email),
-          document_access(
-            user_id,
-            users(id, name, email, role)
-          )
-        `)
-        .is('archived_at', null)
-        .order('created_at', { ascending: false });
-
-      const archivedQuery = supabase
-        .from('documents')
-        .select(`
-          *,
-          uploader:users!documents_uploader_id_fkey(id, name, email),
-          document_access(
-            user_id,
-            users(id, name, email, role)
-          )
-        `)
-        .not('archived_at', 'is', null)
-        .order('archived_at', { ascending: false });
-
-      const [documentsResult, archivedResult] = await Promise.all([
-        documentsQuery,
-        archivedQuery
-      ]);
-
-      if (documentsResult.error) {
-        throw documentsResult.error;
-      }
-
-      if (archivedResult.error) {
-        throw archivedResult.error;
-      }
-
-      // Transform the data to match our Document type
-      const transformDocument = (doc: any): Document => ({
-        ...doc,
-        uploader: doc.uploader || { id: '', name: 'Unknown', email: '' },
-        access: doc.document_access?.map((access: any) => ({
-          id: access.users?.id || '',
-          name: access.users?.name || 'Unknown',
-          email: access.users?.email || '',
-          role: access.users?.role || 'viewer',
-        })) || [],
-        category: doc.category || 'SAP CMCT', // Use the category from database
-      });
-
-      setDocuments(documentsResult.data?.map(transformDocument) || []);
-      setArchivedDocuments(archivedResult.data?.map(transformDocument) || []);
-    } catch (error: any) {
-      console.error('Error loading documents:', error);
-      toast.error('Failed to load documents');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadActivities = async () => {
-    if (!currentUser) return;
-
-    try {
-      let activitiesQuery = supabase
-        .from('activities')
-        .select(`
-          *,
-          documents(id, name),
-          users(name)
-        `)
-        .order('created_at', { ascending: false })
-        .limit(20);
-
-      // If user is not admin, only show activities for documents they have access to
-      if (userRole !== 'admin') {
-        // This is a simplified approach - in a real app you might want to join with document access
-        activitiesQuery = activitiesQuery.eq('user_id', currentUser.id);
-      }
-
-      const { data: activitiesData, error } = await activitiesQuery;
-
-      if (error) {
-        throw error;
-      }
-
-      const transformedActivities: Activity[] = activitiesData?.map(activity => ({
-        ...activity,
-        document: activity.documents ? {
-          id: activity.documents.id,
-          name: activity.documents.name,
-        } : null,
-        user: activity.users ? {
-          name: activity.users.name,
-        } : null,
-      })) || [];
-
-      setRecentActivities(transformedActivities);
-    } catch (error: any) {
-      console.error('Error loading activities:', error);
-    }
-  };
-
-  const addActivity = async (type: string, documentId: string) => {
-    if (!currentUser) return;
-
-    try {
-      await supabase
-        .from('activities')
-        .insert([{
-          type,
-          document_id: documentId,
-          user_id: currentUser.id,
-          created_at: new Date().toISOString(),
-        }]);
-
-      // Refresh activities
-      await loadActivities();
-    } catch (error: any) {
-      console.error('Error adding activity:', error);
-    }
-  };
-
-  const uploadDocument = async (documentData: any, file: File): Promise<void> => {
-    if (!currentUser) {
-      throw new Error('User not authenticated');
-    }
-
+  const uploadDocument = async (file: File, category: string, accessUsers: string[] = []): Promise<void> => {
     try {
       setLoading(true);
-
-      // Generate unique file path
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-      const filePath = `${currentUser.id}/${fileName}`;
-
-      // Upload file to Supabase Storage
-      const { error: uploadError } = await supabase.storage
-        .from('documents')
-        .upload(filePath, file);
-
-      if (uploadError) {
-        throw uploadError;
-      }
-
-      // Insert document record with the selected category
-      const { data: newDocument, error: insertError } = await supabase
-        .from('documents')
-        .insert([{
-          name: file.name,
-          type: file.name.split('.').pop() || '',
-          size: file.size,
-          storage_path: filePath,
-          uploader_id: currentUser.id,
-          category: documentData.category || 'SAP CMCT', // Use the selected category
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        }])
-        .select()
-        .single();
-
-      if (insertError) {
-        // Clean up uploaded file if document creation fails
-        await supabase.storage.from('documents').remove([filePath]);
-        throw insertError;
-      }
-
-      // Add document access for shared users
-      if (documentData.access && documentData.access.length > 0) {
-        const accessRecords = documentData.access
-          .filter((user: any) => user.id !== currentUser.id)
-          .map((user: any) => ({
-            document_id: newDocument.id,
-            user_id: user.id,
-          }));
-
-        if (accessRecords.length > 0) {
-          await supabase
-            .from('document_access')
-            .insert(accessRecords);
-        }
-      }
-
-      // Add activity
-      await addActivity('upload', newDocument.id);
-
-      // Refresh documents
-      await refreshDocuments();
-
+      await documentService.uploadDocument(file, category, accessUsers);
+      refreshDocuments();
       toast.success(`Document "${file.name}" uploaded successfully`);
     } catch (error: any) {
-      console.error('Upload error:', error);
-      toast.error('Failed to upload document');
+      toast.error(error.message || 'Upload failed');
       throw error;
     } finally {
       setLoading(false);
     }
   };
 
-  const moveToArchive = async (documentId: string): Promise<void> => {
+  const archiveDocument = async (documentId: string): Promise<void> => {
     try {
-      const { error } = await supabase
-        .from('documents')
-        .update({
-          archived_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', documentId);
-
-      if (error) {
-        throw error;
-      }
-
-      await addActivity('archive', documentId);
-      await refreshDocuments();
-
-      toast.success('Document moved to archive');
+      await documentService.archiveDocument(documentId);
+      refreshDocuments();
+      toast.success('Document archived successfully');
     } catch (error: any) {
-      console.error('Error archiving document:', error);
-      toast.error('Failed to archive document');
+      toast.error(error.message || 'Archive failed');
     }
   };
 
   const restoreDocument = async (documentId: string): Promise<void> => {
     try {
-      const { error } = await supabase
-        .from('documents')
-        .update({
-          archived_at: null,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', documentId);
-
-      if (error) {
-        throw error;
-      }
-
-      await addActivity('restore', documentId);
-      await refreshDocuments();
-
-      toast.success('Document restored from archive');
+      await documentService.restoreDocument(documentId);
+      refreshDocuments();
+      toast.success('Document restored successfully');
     } catch (error: any) {
-      console.error('Error restoring document:', error);
-      toast.error('Failed to restore document');
+      toast.error(error.message || 'Restore failed');
     }
   };
 
   const deleteDocument = async (documentId: string): Promise<void> => {
     try {
-      // Get document info first
-      const { data: document, error: fetchError } = await supabase
-        .from('documents')
-        .select('storage_path')
-        .eq('id', documentId)
-        .single();
-
-      if (fetchError) {
-        throw fetchError;
-      }
-
-      // Delete from storage if storage_path exists
-      if (document.storage_path) {
-        await supabase.storage
-          .from('documents')
-          .remove([document.storage_path]);
-      }
-
-      // Delete document record (this will cascade delete access and activities)
-      const { error: deleteError } = await supabase
-        .from('documents')
-        .delete()
-        .eq('id', documentId);
-
-      if (deleteError) {
-        throw deleteError;
-      }
-
-      await refreshDocuments();
-
-      toast.success('Document permanently deleted');
+      await documentService.deleteDocument(documentId);
+      refreshDocuments();
+      toast.success('Document deleted permanently');
     } catch (error: any) {
-      console.error('Error deleting document:', error);
-      toast.error('Failed to delete document');
-    }
-  };
-
-  const viewDocument = async (documentId: string): Promise<string> => {
-    try {
-      // Get document storage path
-      const { data: document, error } = await supabase
-        .from('documents')
-        .select('storage_path, name')
-        .eq('id', documentId)
-        .single();
-
-      if (error || !document.storage_path) {
-        throw new Error('Document not found or no storage path');
-      }
-
-      // Get signed URL for viewing
-      const { data: signedUrlData, error: urlError } = await supabase.storage
-        .from('documents')
-        .createSignedUrl(document.storage_path, 3600); // 1 hour expiry
-
-      if (urlError) {
-        throw urlError;
-      }
-
-      await addActivity('view', documentId);
-
-      return signedUrlData.signedUrl;
-    } catch (error: any) {
-      console.error('Error viewing document:', error);
-      toast.error('Failed to view document');
-      throw error;
-    }
-  };
-
-  const downloadDocument = async (documentId: string): Promise<void> => {
-    try {
-      // Get document info
-      const { data: documents, error } = await supabase
-        .from('documents')
-        .select('storage_path, name')
-        .eq('id', documentId)
-        .single();
-
-      if (error || !documents.storage_path) {
-        throw new Error('Document not found or no storage path');
-      }
-
-      // Get signed URL for download
-      const { data: signedUrlData, error: urlError } = await supabase.storage
-        .from('documents')
-        .createSignedUrl(documents.storage_path, 300); // 5 minutes expiry
-
-      if (urlError) {
-        throw urlError;
-      }
-
-      //Treat signedUrl as a blob to enable force download
-      const response = await fetch(signedUrlData.signedUrl);
-      const blob = await response.blob();
-
-      // Create a temporary object URL and force download
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', documents.name ?? 'file');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url); // Clean up
-
-      await addActivity('download', documentId);
-
-      toast.success(`Document "${documents.name}" downloaded`);
-      return;
-    } catch (error: any) {
-      console.error('Error downloading document:', error);
-      toast.error('Failed to download document');
+      toast.error(error.message || 'Delete failed');
     }
   };
 
   const shareDocument = async (documentId: string, userIds: string[]): Promise<void> => {
     try {
-      // Remove existing access for these users
-      await supabase
-        .from('document_access')
-        .delete()
-        .eq('document_id', documentId)
-        .in('user_id', userIds);
-
-      // Add new access records
-      const accessRecords = userIds.map(userId => ({
-        document_id: documentId,
-        user_id: userId,
-      }));
-
-      const { error } = await supabase
-        .from('document_access')
-        .insert(accessRecords);
-
-      if (error) {
-        throw error;
-      }
-
-      await refreshDocuments();
-
+      await documentService.shareDocument(documentId, userIds);
+      refreshDocuments();
       toast.success('Document shared successfully');
     } catch (error: any) {
-      console.error('Error sharing document:', error);
-      toast.error('Failed to share document');
+      toast.error(error.message || 'Share failed');
+    }
+  };
+
+  const downloadDocument = async (documentId: string): Promise<void> => {
+    try {
+      const url = await documentService.downloadDocument(documentId);
+      // Simulate download
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'document';
+      link.click();
+      refreshDocuments();
+      toast.success('Download started');
+    } catch (error: any) {
+      toast.error(error.message || 'Download failed');
+    }
+  };
+
+  const viewDocument = async (documentId: string): Promise<string> => {
+    try {
+      const url = await documentService.viewDocument(documentId);
+      refreshDocuments();
+      return url;
+    } catch (error: any) {
+      toast.error(error.message || 'View failed');
+      throw error;
     }
   };
 
@@ -476,21 +126,16 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     documents,
     archivedDocuments,
     recentActivities,
-    categories,
     loading,
     uploadDocument,
-    moveToArchive,
+    archiveDocument,
     restoreDocument,
     deleteDocument,
-    viewDocument,
-    downloadDocument,
     shareDocument,
+    downloadDocument,
+    viewDocument,
     refreshDocuments,
   };
 
-  return (
-    <DocumentContext.Provider value={value}>
-      {children}
-    </DocumentContext.Provider>
-  );
+  return <DocumentContext.Provider value={value}>{children}</DocumentContext.Provider>;
 };

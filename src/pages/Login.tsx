@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Database } from 'lucide-react';
+import { Database, Sparkles, Shield, Edit, Eye } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   
   const { login } = useAuth();
@@ -14,70 +13,61 @@ const Login: React.FC = () => {
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
     setLoading(true);
     
     try {
       await login(email, password);
       navigate('/dashboard');
     } catch (error) {
-      setError('Failed to sign in. Please check your credentials.');
+      // Error is handled by the auth context
     } finally {
       setLoading(false);
     }
   };
   
+  const quickLogin = (userEmail: string) => {
+    setEmail(userEmail);
+    setPassword('password');
+  };
+  
   return (
-    <div className="flex min-h-screen flex-col justify-center bg-slate-50 py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+    <div className="flex min-h-screen flex-col justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 py-12 sm:px-6 lg:px-8">
+      {/* Background decoration */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-blue-500/20 blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-purple-500/20 blur-3xl"></div>
+      </div>
+      
+      <div className="relative sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
           <div className="flex items-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 shadow-lg">
-              <Database className="h-7 w-7 text-white" />
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-2xl">
+              <Database className="h-8 w-8 text-white" />
             </div>
-            <span className="ml-3 text-2xl font-bold text-slate-900">
-              PLN SAP Knowledge
-            </span>
+            <div className="ml-4">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                PLN Knowledge
+              </h1>
+              <div className="flex items-center space-x-1">
+                <Sparkles className="h-4 w-4 text-blue-400" />
+                <span className="text-sm text-slate-300 font-medium">CosmosDB Style</span>
+              </div>
+            </div>
           </div>
         </div>
-        <h2 className="mt-6 text-center text-3xl font-bold text-slate-900">
+        <h2 className="mt-8 text-center text-3xl font-bold text-white">
           Sign in to your account
         </h2>
-        <p className="mt-2 text-center text-sm text-slate-600">
+        <p className="mt-2 text-center text-sm text-slate-300">
           Access your knowledge management system
         </p>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-6 shadow-lg sm:rounded-xl border border-slate-200">
+      <div className="relative mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-white/10 backdrop-blur-xl py-8 px-6 shadow-2xl sm:rounded-2xl border border-white/20">
           <form className="space-y-6" onSubmit={handleSubmit}>
-            {error && (
-              <div className="rounded-lg bg-red-50 p-4 border border-red-200">
-                <div className="flex">
-                  <div className="flex-shrink-0">
-                    <svg
-                      className="h-5 w-5 text-red-400"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                  <div className="ml-3">
-                    <h3 className="text-sm font-medium text-red-800">{error}</h3>
-                  </div>
-                </div>
-              </div>
-            )}
-
             <div>
-              <label htmlFor="email" className="form-label">
+              <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
                 Email address
               </label>
               <input
@@ -88,13 +78,13 @@ const Login: React.FC = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="form-input"
+                className="block w-full rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm py-3 px-4 text-white placeholder-slate-300 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20 transition-all"
                 placeholder="Enter your email"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="form-label">
+              <label htmlFor="password" className="block text-sm font-medium text-white mb-2">
                 Password
               </label>
               <input
@@ -105,7 +95,7 @@ const Login: React.FC = () => {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="form-input"
+                className="block w-full rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm py-3 px-4 text-white placeholder-slate-300 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20 transition-all"
                 placeholder="Enter your password"
               />
             </div>
@@ -116,15 +106,15 @@ const Login: React.FC = () => {
                   id="remember_me"
                   name="remember_me"
                   type="checkbox"
-                  className="form-checkbox"
+                  className="h-4 w-4 rounded border-white/20 bg-white/10 text-blue-500 focus:ring-blue-400 focus:ring-offset-0"
                 />
-                <label htmlFor="remember_me" className="ml-2 block text-sm text-slate-700">
+                <label htmlFor="remember_me" className="ml-2 block text-sm text-slate-300">
                   Remember me
                 </label>
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
+                <a href="#" className="font-medium text-blue-400 hover:text-blue-300 transition-colors">
                   Forgot your password?
                 </a>
               </div>
@@ -134,9 +124,16 @@ const Login: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="btn-primary w-full"
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-lg text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
               >
-                {loading ? 'Signing in...' : 'Sign in'}
+                {loading ? (
+                  <div className="flex items-center">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Signing in...
+                  </div>
+                ) : (
+                  'Sign in'
+                )}
               </button>
             </div>
           </form>
@@ -144,39 +141,33 @@ const Login: React.FC = () => {
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-300" />
+                <div className="w-full border-t border-white/20" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="bg-white px-2 text-slate-500">Quick login as</span>
+                <span className="bg-transparent px-2 text-slate-300">Quick login as</span>
               </div>
             </div>
 
             <div className="mt-6 grid grid-cols-3 gap-3">
               <button
-                onClick={() => {
-                  setEmail('admin@pln.com');
-                  setPassword('password');
-                }}
-                className="btn-outline text-xs"
+                onClick={() => quickLogin('admin@pln.com')}
+                className="flex flex-col items-center justify-center rounded-xl border border-white/20 bg-white/5 backdrop-blur-sm py-3 px-2 text-xs font-medium text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-blue-400/20 transition-all"
               >
+                <Shield className="h-5 w-5 text-purple-400 mb-1" />
                 Admin
               </button>
               <button
-                onClick={() => {
-                  setEmail('editor@pln.com');
-                  setPassword('password');
-                }}
-                className="btn-outline text-xs"
+                onClick={() => quickLogin('editor@pln.com')}
+                className="flex flex-col items-center justify-center rounded-xl border border-white/20 bg-white/5 backdrop-blur-sm py-3 px-2 text-xs font-medium text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-blue-400/20 transition-all"
               >
+                <Edit className="h-5 w-5 text-blue-400 mb-1" />
                 Editor
               </button>
               <button
-                onClick={() => {
-                  setEmail('viewer@pln.com');
-                  setPassword('password');
-                }}
-                className="btn-outline text-xs"
+                onClick={() => quickLogin('viewer@pln.com')}
+                className="flex flex-col items-center justify-center rounded-xl border border-white/20 bg-white/5 backdrop-blur-sm py-3 px-2 text-xs font-medium text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-blue-400/20 transition-all"
               >
+                <Eye className="h-5 w-5 text-green-400 mb-1" />
                 Viewer
               </button>
             </div>

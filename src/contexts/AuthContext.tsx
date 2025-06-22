@@ -1,288 +1,66 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import { User } from '@supabase/supabase-js';
-import { supabase } from '../lib/supabase';
-import { Database } from '../types/database';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { User } from '../types';
+import { authService } from '../lib/auth';
+import { documentStore } from '../lib/storage';
 import toast from 'react-hot-toast';
 
-type UserProfile = Database['public']['Tables']['users']['Row'];
-
-type AuthContextType = {
-  currentUser: UserProfile | null;
-  userRole: string;
-  allUsers: UserProfile[];
+interface AuthContextType {
+  currentUser: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-  updateUser: (user: UserProfile) => Promise<void>;
-  addUser: (userData: Omit<UserProfile, 'id' | 'created_at' | 'updated_at'>) => Promise<void>;
-  refreshUsers: () => Promise<void>;
-};
+  hasPermission: (permission: 'read' | 'write' | 'admin') => boolean;
+  allUsers: User[];
+}
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
-  const [allUsers, setAllUsers] = useState<UserProfile[]>([]);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [initialized, setInitialized] = useState(false);
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [allUsers, setAllUsers] = useState<User[]>([]);
 
-  // Initialize auth state
   useEffect(() => {
-    let mounted = true;
-
-    const initializeAuth = async () => {
-      try {
-        // Get current session
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-        
-        if (sessionError) {
-          console.error('Session error:', sessionError);
-          if (mounted) {
-            setLoading(false);
-            setInitialized(true);
-          }
-          return;
-        }
-
-        // If we have a session, load the user profile
-        if (session?.user && mounted) {
-          await loadUserProfile(session.user.id);
-        }
-        
-        // Load all users regardless of session status
-        if (mounted) {
-          await refreshUsers();
-        }
-      } catch (error) {
-        console.error('Error initializing auth:', error);
-      } finally {
-        if (mounted) {
-          setLoading(false);
-          setInitialized(true);
-        }
-      }
-    };
-
-    initializeAuth();
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (!mounted) return;
-      
-      // Prevent handling auth changes during login process
-      if (isLoggingIn && event === 'SIGNED_IN') {
-        return;
-      }
-      
-      if (event === 'SIGNED_IN' && session?.user) {
-        setLoading(true);
-        loadUserProfile(session.user.id).then(_ => refreshUsers().then(_ => setLoading(false)));
-      } else if (event === 'SIGNED_OUT') {
-        setCurrentUser(null);
-        localStorage.removeItem('currentUser');
-      } else if (event === 'TOKEN_REFRESHED' && session?.user) {
-        // Don't set loading for token refresh, just ensure user profile is current
-        await loadUserProfile(session.user.id);
-      }
-    });
-
-    return () => {
-      mounted = false;
-      subscription.unsubscribe();
-    };
-  }, [isLoggingIn]);
-
-  const loadUserProfile = async (userId: string) => {
-    try {
-      const { data: profile, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', userId)
-        .maybeSingle();
-
-      if (error) {
-        console.error('Error loading user profile:', error);
-        return;
-      }
-
-      // If no profile exists, create a default one
-      if (!profile) {
-        const { data: authUser } = await supabase.auth.getUser();
-        if (authUser.user) {
-          const newProfile = {
-            id: userId,
-            email: authUser.user.email || '',
-            name: authUser.user.user_metadata?.name || authUser.user.email?.split('@')[0] || 'User',
-            role: 'viewer' as const,
-            status: 'active' as const,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          };
-
-          const { data: createdProfile, error: createError } = await supabase
-            .from('users')
-            .insert([newProfile])
-            .select()
-            .single();
-
-          if (createError) {
-            console.error('Error creating user profile:', createError);
-            return;
-          }
-
-          setCurrentUser(createdProfile);
-          localStorage.setItem('currentUser', JSON.stringify(createdProfile));
-          return;
-        }
-      }
-
-      setCurrentUser(profile);
-      if (profile) {
-        localStorage.setItem('currentUser', JSON.stringify(profile));
-      }
-      return;
-    } catch (error) {
-      console.error('Error loading user profile:', error);
-    }
-  };
-
-  const refreshUsers = async () => {
-    try {
-      const { data: users, error } = await supabase
-        .from('users')
-        .select('*')
-        .order('name');
-
-      if (error) {
-        console.error('Error fetching users:', error);
-        return;
-      }
-
-      setAllUsers(users || []);
-      return;
-    } catch (error) {
-      console.error('Error refreshing users:', error);
-    }
-  };
+    // Initialize auth state
+    const user = authService.getCurrentUser();
+    setCurrentUser(user);
+    setAllUsers(documentStore.getAllUsers());
+    setLoading(false);
+  }, []);
 
   const login = async (email: string, password: string): Promise<void> => {
-    // Prevent multiple simultaneous login attempts
-    if (isLoggingIn) {
-      return;
-    }
-
     try {
-      setIsLoggingIn(true);
       setLoading(true);
-      
-      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (authError) {
-        throw new Error('Invalid email or password');
-      }
-
-      // Manually load user profile and users after successful login
-      if (authData.user) {
-        await loadUserProfile(authData.user.id);
-        await refreshUsers();
-      }
+      const session = await authService.login(email, password);
+      setCurrentUser(session.user);
+      toast.success(`Welcome back, ${session.user.name}!`);
     } catch (error: any) {
-      console.error('Login error:', error);
-      throw new Error(error.message || 'Failed to sign in');
-    } finally {
-      setLoading(false);
-      setIsLoggingIn(false);
-    }
-  };
-
-  const logout = async () => {
-    try {
-      setLoading(true);
-      await supabase.auth.signOut();
-      setCurrentUser(null);
-      localStorage.removeItem('currentUser');
-    } catch (error) {
-      console.error('Logout error:', error);
+      toast.error(error.message || 'Login failed');
+      throw error;
     } finally {
       setLoading(false);
     }
   };
 
-  const updateUser = async (updatedUser: UserProfile): Promise<void> => {
-    try {
-      const { error } = await supabase
-        .from('users')
-        .update({
-          name: updatedUser.name,
-          role: updatedUser.role,
-          status: updatedUser.status,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', updatedUser.id);
-
-      if (error) {
-        throw error;
-      }
-
-      // Update local state
-      setAllUsers(prev => prev.map(user => 
-        user.id === updatedUser.id ? updatedUser : user
-      ));
-
-      if (currentUser && currentUser.id === updatedUser.id) {
-        setCurrentUser(updatedUser);
-        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-      }
-
-      toast.success('User updated successfully');
-    } catch (error: any) {
-      console.error('Error updating user:', error);
-      toast.error('Failed to update user');
-      throw error;
-    }
+  const logout = (): void => {
+    authService.logout();
+    setCurrentUser(null);
+    toast.success('Logged out successfully');
   };
 
-  const addUser = async (userData: Omit<UserProfile, 'id' | 'created_at' | 'updated_at'>): Promise<void> => {
-    try {
-      const { data: newUser, error } = await supabase
-        .from('users')
-        .insert([{
-          ...userData,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        }])
-        .select()
-        .single();
-
-      if (error) {
-        throw error;
-      }
-
-      setAllUsers(prev => [...prev, newUser]);
-      toast.success('User added successfully');
-    } catch (error: any) {
-      console.error('Error adding user:', error);
-      toast.error('Failed to add user');
-      throw error;
-    }
+  const hasPermission = (permission: 'read' | 'write' | 'admin'): boolean => {
+    return authService.hasPermission(permission);
   };
 
   const value = {
     currentUser,
-    userRole: currentUser?.role || '',
-    allUsers,
-    loading: loading && !initialized, // Only show loading if not initialized
+    loading,
     login,
     logout,
-    updateUser,
-    addUser,
-    refreshUsers,
+    hasPermission,
+    allUsers,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
