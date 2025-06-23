@@ -11,7 +11,7 @@ export class DocumentService {
         if (userRole === 'admin') return !doc.archivedAt;
         return (!doc.archivedAt && (
           doc.uploaderId === userId || 
-          doc.access.some(access => access.userId === userId)
+          doc.accessUsers.some(accessUserId => accessUserId === userId)
         ));
       });
 
@@ -31,7 +31,7 @@ export class DocumentService {
         if (userRole === 'admin') return !!doc.archivedAt;
         return (!!doc.archivedAt && (
           doc.uploaderId === userId || 
-          doc.access.some(access => access.userId === userId)
+          doc.accessUsers.some(accessUserId => accessUserId === userId)
         ));
       });
 
@@ -55,7 +55,7 @@ export class DocumentService {
         fileUrl,
         uploaderId: userId,
         category: documentData.category || 'SAP CMCT',
-        access: documentData.access || [],
+        accessUsers: documentData.accessUsers || [],
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         archivedAt: null
@@ -143,7 +143,7 @@ export class DocumentService {
       }
 
       const hasAccess = document.uploaderId === userId || 
-        document.access.some(access => access.userId === userId);
+        document.accessUsers.some(accessUserId => accessUserId === userId);
 
       if (!hasAccess) {
         throw new Error('Access denied');
@@ -164,10 +164,9 @@ export class DocumentService {
         throw new Error('Document not found or access denied');
       }
 
-      const newAccess = userIds.map(id => ({ userId: id }));
       const updatedDocument = {
         ...document,
-        access: [...document.access, ...newAccess],
+        accessUsers: [...document.accessUsers, ...userIds],
         updatedAt: new Date().toISOString()
       };
 
