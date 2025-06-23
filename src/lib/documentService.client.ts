@@ -1,5 +1,21 @@
 import { documentStore } from './storage';
 import { authService } from './auth';
+import { BlobServiceClient } from '@azure/storage-blob';
+
+// Azure Storage configuration
+const getAzureStorageClient = () => {
+  const connectionString = import.meta.env.VITE_AZURE_STORAGE_CONNECTION_STRING;
+  const containerName = import.meta.env.VITE_AZURE_STORAGE_CONTAINER || 'documents';
+  
+  if (!connectionString) {
+    throw new Error('Azure Storage connection string not configured');
+  }
+
+  return {
+    client: BlobServiceClient.fromConnectionString(connectionString),
+    containerName
+  };
+};
 
 export class DocumentService {
   async getDocuments(userId: string, userRole: string) {
@@ -44,15 +60,39 @@ export class DocumentService {
 
   async uploadDocument(documentData: any, file: File, userId: string) {
     try {
-      // Simulate file upload by creating a blob URL
-      const fileUrl = URL.createObjectURL(file);
+      // Upload file to Azure Storage
+      const { client, containerName } = getAzureStorageClient();
+      const containerClient = client.getContainerClient(containerName);
+      
+      // Ensure container exists
+      await containerClient.createIfNotExists({
+        access: 'blob'
+      });
+
+      // Generate unique filename
+      const timestamp = Date.now();
+      const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+      const fileName = `${userId}/${timestamp}_${sanitizedFileName}`;
+      
+      const blockBlobClient = containerClient.getBlockBlobClient(fileName);
+      
+      // Convert File to ArrayBuffer for upload
+      const arrayBuffer = await file.arrayBuffer();
+      await blockBlobClient.uploadData(arrayBuffer, {
+        blobHTTPHeaders: {
+          blobContentType: file.type
+        }
+      });
+
+      // Get the blob URL
+      const blobUrl = blockBlobClient.url;
 
       const document = {
         id: Date.now().toString(),
         name: file.name,
         type: file.name.split('.').pop() || '',
         size: file.size,
-        fileUrl,
+        blobUrl,
         uploaderId: userId,
         category: documentData.category || 'SAP CMCT',
         accessUsers: documentData.accessUsers || [],
@@ -64,8 +104,8 @@ export class DocumentService {
       documentStore.addDocument(document);
       return document;
     } catch (error) {
-      console.error('Error uploading document:', error);
-      throw error;
+      console.error('Error uploading document to Azure Storage:', error);
+      throw new Error('Failed to upload document to cloud storage');
     }
   }
 
@@ -121,9 +161,22 @@ export class DocumentService {
         throw new Error('Document not found or access denied');
       }
 
-      // Revoke blob URL to free memory
-      if (document.fileUrl && document.fileUrl.startsWith('blob:')) {
-        URL.revokeObjectURL(document.fileUrl);
+      // Delete file from Azure Storage
+      if (document.blobUrl) {
+        try {
+          const { client, containerName } = getAzureStorageClient();
+          const containerClient = client.getContainerClient(containerName);
+          
+          // Extract blob name from URL
+          const url = new URL(document.blobUrl);
+          const blobName = url.pathname.split('/').slice(2).join('/'); // Remove container name from path
+          
+          const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+          await blockBlobClient.deleteIfExists();
+        } catch (storageError) {
+          console.warn('Failed to delete file from Azure Storage:', storageError);
+          // Continue with document deletion even if storage deletion fails
+        }
       }
 
       documentStore.deleteDocument(documentId);
@@ -149,7 +202,9 @@ export class DocumentService {
         throw new Error('Access denied');
       }
 
-      return document.fileUrl;
+      // For Azure Storage, we can return the blob URL directly
+      // In production, you might want to generate a SAS token for temporary access
+      return document.blobUrl;
     } catch (error) {
       console.error('Error downloading document:', error);
       throw error;

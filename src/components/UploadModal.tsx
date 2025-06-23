@@ -80,7 +80,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, setIsOpen }) => {
     setLoading(true);
     
     try {
-      await uploadDocument(file, selectedCategory, accessUsers);
+      await uploadDocument(file, selectedCategory as any, accessUsers);
       closeModal();
     } catch (error) {
       console.error('Upload failed:', error);
@@ -247,7 +247,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, setIsOpen }) => {
                       <div className="flex items-center space-x-2 p-3 rounded-xl bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200/50">
                         <Database className="h-4 w-4 text-blue-600" />
                         <span className="text-xs text-blue-700">
-                          Document will be stored as key-value pair with automatic indexing
+                          Document will be stored in Azure Storage with automatic indexing
                         </span>
                       </div>
                     </div>
@@ -270,12 +270,12 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, setIsOpen }) => {
                       {loading ? (
                         <>
                           <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                          Uploading...
+                          Uploading to Azure...
                         </>
                       ) : (
                         <>
                           <Upload className="mr-2 h-4 w-4" />
-                          Upload
+                          Upload to Azure
                         </>
                       )}
                     </button>

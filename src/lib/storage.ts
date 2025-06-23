@@ -1,6 +1,6 @@
 import { Document, User, Activity, Session } from '../types';
 
-// Enhanced CosmosDB-style key-value storage with MongoDB integration
+// Enhanced CosmosDB-style key-value storage with Azure Storage integration
 class DocumentStore {
   private storage: Map<string, any> = new Map();
   private indexes: Map<string, Set<string>> = new Map();
@@ -48,7 +48,7 @@ class DocumentStore {
       this.addToIndex(`user-email:${user.email}`, user.id);
     });
 
-    // Sample documents
+    // Sample documents with Azure Storage URLs (these would be real URLs in production)
     const documents: Document[] = [
       {
         id: 'doc-1',
@@ -58,6 +58,7 @@ class DocumentStore {
         category: 'SAP CMCT',
         uploaderId: 'user-admin-1',
         uploaderName: 'Admin User',
+        blobUrl: 'https://plnstorage.blob.core.windows.net/documents/user-admin-1/1640995200000_SAP_CMCT_Implementation_Guide.pdf',
         accessUsers: ['user-admin-1', 'user-editor-1'],
         tags: ['implementation', 'guide', 'cmct'],
         createdAt: new Date(Date.now() - 86400000).toISOString(),
@@ -71,6 +72,7 @@ class DocumentStore {
         category: 'SAP FI',
         uploaderId: 'user-editor-1',
         uploaderName: 'Editor User',
+        blobUrl: 'https://plnstorage.blob.core.windows.net/documents/user-editor-1/1640995200001_Financial_Reporting_Standards.docx',
         accessUsers: ['user-editor-1', 'user-viewer-1'],
         tags: ['financial', 'reporting', 'standards'],
         createdAt: new Date(Date.now() - 172800000).toISOString(),
@@ -84,6 +86,7 @@ class DocumentStore {
         category: 'SAP QM',
         uploaderId: 'user-admin-1',
         uploaderName: 'Admin User',
+        blobUrl: 'https://plnstorage.blob.core.windows.net/documents/user-admin-1/1640995200002_Quality_Management_Procedures.pptx',
         accessUsers: ['user-admin-1', 'user-viewer-1'],
         tags: ['quality', 'management', 'procedures'],
         createdAt: new Date(Date.now() - 259200000).toISOString(),
