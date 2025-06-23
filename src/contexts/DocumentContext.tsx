@@ -48,7 +48,7 @@ type DocumentContextType = {
   recentActivities: Activity[];
   categories: DocumentCategory[];
   loading: boolean;
-  uploadDocument: (document: any, file: File) => Promise<void>;
+  uploadDocument: (file: File, category: DocumentCategory, accessUsers: string[]) => Promise<void>;
   moveToArchive: (documentId: string) => Promise<void>;
   restoreDocument: (documentId: string) => Promise<void>;
   deleteDocument: (documentId: string) => Promise<void>;
@@ -177,13 +177,18 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   };
 
-  const uploadDocument = async (documentData: any, file: File): Promise<void> => {
+  const uploadDocument = async (file: File, category: DocumentCategory, accessUsers: string[]): Promise<void> => {
     if (!currentUser) {
       throw new Error('User not authenticated');
     }
 
     try {
       setLoading(true);
+
+      const documentData = {
+        category,
+        accessUsers
+      };
 
       const newDocument = await documentService.uploadDocument(documentData, file, currentUser.id);
       await addActivity('upload', newDocument.id);
