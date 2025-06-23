@@ -80,11 +80,11 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const enrichDocumentWithUserData = (doc: any): Document => {
     const uploader = allUsers.find(user => user.id === doc.uploaderId);
-    const enrichedAccess = doc.access.map((access: any) => {
-      const user = allUsers.find(u => u.id === access.userId);
+    const enrichedAccess = (doc.accessUsers || []).map((userId: string) => {
+      const user = allUsers.find(u => u.id === userId);
       return {
-        ...access,
-        id: access.userId,
+        userId: userId,
+        id: userId,
         name: user?.name || 'Unknown',
         email: user?.email || '',
         role: user?.role || 'viewer'
