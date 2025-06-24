@@ -1,36 +1,7 @@
 import { User, Session } from '../types';
+import { connectDatabase, User as UserModel, Session as SessionModel } from './database';
 import { v4 as uuidv4 } from 'uuid';
-
-// Mock users for demo purposes
-const mockUsers: User[] = [
-  {
-    id: '1',
-    email: 'admin@company.com',
-    name: 'Admin User',
-    role: 'admin',
-    status: 'active',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  },
-  {
-    id: '2',
-    email: 'editor@company.com',
-    name: 'Editor User',
-    role: 'editor',
-    status: 'active',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  },
-  {
-    id: '3',
-    email: 'viewer@company.com',
-    name: 'Viewer User',
-    role: 'viewer',
-    status: 'active',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  }
-];
+import bcrypt from 'bcryptjs';
 
 class AuthService {
   private currentSession: Session | null = null;
@@ -54,8 +25,10 @@ class AuthService {
 
   async login(email: string, password: string): Promise<Session> {
     try {
-      // Find user by email in mock data
-      const userDoc = mockUsers.find(user => user.email === email && user.status === 'active');
+      await connectDatabase();
+      
+      // Find user by email
+      const userDoc = await UserModel.findOne({ email, status: 'active' });
       
       if (!userDoc) {
         throw new Error('Invalid credentials');
@@ -68,13 +41,13 @@ class AuthService {
       }
 
       const user: User = {
-        id: userDoc.id,
+        id: userDoc._id.toString(),
         email: userDoc.email,
         name: userDoc.name,
         role: userDoc.role,
         status: userDoc.status,
-        createdAt: userDoc.createdAt,
-        updatedAt: userDoc.updatedAt
+        createdAt: userDoc.createdAt.toISOString(),
+        updatedAt: userDoc.updatedAt.toISOString()
       };
 
       // Create session
@@ -85,6 +58,15 @@ class AuthService {
       };
 
       this.currentSession = session;
+      
+      // Save session to MongoDB
+      const sessionDoc = new SessionModel({
+        userId: userDoc._id,
+        token: session.token,
+        expiresAt: new Date(session.expiresAt)
+      });
+      await sessionDoc.save();
+      
       localStorage.setItem('session', JSON.stringify(session));
 
       return session;
@@ -96,6 +78,13 @@ class AuthService {
 
   async logout(): Promise<void> {
     if (this.currentSession) {
+      try {
+        await connectDatabase();
+        await SessionModel.deleteOne({ token: this.currentSession.token });
+      } catch (error) {
+        console.error('Error deleting session from database:', error);
+      }
+      
       this.currentSession = null;
       localStorage.removeItem('session');
     }
@@ -135,8 +124,18 @@ class AuthService {
 
   async getAllUsers(): Promise<User[]> {
     try {
-      // Return mock users for demo
-      return mockUsers.filter(user => user.status === 'active').sort((a, b) => a.name.localeCompare(b.name));
+      await connectDatabase();
+      const users = await UserModel.find({ status: 'active' }).sort({ name: 1 });
+      
+      return users.map(user => ({
+        id: user._id.toString(),
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        status: user.status,
+        createdAt: user.createdAt.toISOString(),
+        updatedAt: user.updatedAt.toISOString()
+      }));
     } catch (error) {
       console.error('Error fetching users:', error);
       return [];

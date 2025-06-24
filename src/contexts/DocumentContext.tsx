@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { documentService } from '../lib/documentService.client';
+import { connectDatabase, Activity } from '../lib/database';
 import toast from 'react-hot-toast';
 import { useAuth } from './AuthContext';
 
@@ -134,23 +135,40 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (!currentUser) return;
 
     try {
-      // For now, we'll use mock activities since we removed the direct database access
-      // In a real application, this would call an API endpoint
-      const mockActivities: ActivityType[] = [
-        {
-          id: '1',
-          type: 'upload',
-          documentId: 'doc1',
-          documentName: 'Sample Document.pdf',
-          userId: currentUser.id,
-          userName: currentUser.name,
-          timestamp: new Date().toISOString(),
-          document: { id: 'doc1', name: 'Sample Document.pdf' },
-          user: { name: currentUser.name }
-        }
-      ];
+      await connectDatabase();
+      
+      let query = {};
+      if (currentUser.role !== 'admin') {
+        query = { userId: currentUser.id };
+      }
 
-      setRecentActivities(mockActivities);
+      const activities = await Activity.find(query)
+        .sort({ timestamp: -1 })
+        .limit(20);
+
+      const enrichedActivities = activities.map(activity => {
+        const document = [...documents, ...archivedDocuments].find(doc => doc.id === activity.documentId.toString());
+        const user = allUsers.find(u => u.id === activity.userId.toString());
+        
+        return {
+          id: activity._id.toString(),
+          type: activity.type,
+          documentId: activity.documentId.toString(),
+          documentName: activity.documentName,
+          userId: activity.userId.toString(),
+          userName: activity.userName,
+          timestamp: activity.timestamp.toISOString(),
+          document: document ? {
+            id: document.id,
+            name: document.name
+          } : { id: '', name: activity.documentName },
+          user: user ? {
+            name: user.name
+          } : { name: activity.userName }
+        };
+      });
+
+      setRecentActivities(enrichedActivities);
     } catch (error: any) {
       console.error('Error loading activities:', error);
     }
@@ -160,21 +178,19 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (!currentUser) return;
 
     try {
-      // For now, we'll just add to local state
-      // In a real application, this would call an API endpoint
-      const newActivity: ActivityType = {
-        id: Date.now().toString(),
-        type: type as any,
+      await connectDatabase();
+      
+      const activity = new Activity({
+        type,
         documentId,
         documentName,
         userId: currentUser.id,
         userName: currentUser.name,
-        timestamp: new Date().toISOString(),
-        document: { id: documentId, name: documentName },
-        user: { name: currentUser.name }
-      };
+        timestamp: new Date()
+      });
 
-      setRecentActivities(prev => [newActivity, ...prev.slice(0, 19)]);
+      await activity.save();
+      await loadActivities();
     } catch (error: any) {
       console.error('Error adding activity:', error);
     }
