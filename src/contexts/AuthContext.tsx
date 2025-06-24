@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User } from '../types';
 import { authService } from '../lib/auth';
-import { documentStore } from '../lib/storage';
 import toast from 'react-hot-toast';
 
 interface AuthContextType {
@@ -26,15 +25,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Initialize auth state
     const user = authService.getCurrentUser();
     setCurrentUser(user);
-    setAllUsers(documentStore.getAllUsers());
+    
+    // Load all users
+    loadAllUsers();
     setLoading(false);
   }, []);
+
+  const loadAllUsers = async () => {
+    try {
+      const users = await authService.getAllUsers();
+      setAllUsers(users);
+    } catch (error) {
+      console.error('Error loading users:', error);
+    }
+  };
 
   const login = async (email: string, password: string): Promise<void> => {
     try {
       setLoading(true);
       const session = await authService.login(email, password);
       setCurrentUser(session.user);
+      await loadAllUsers(); // Refresh users list after login
       toast.success(`Welcome back, ${session.user.name}!`);
     } catch (error: any) {
       toast.error(error.message || 'Login failed');
@@ -47,6 +58,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = (): void => {
     authService.logout();
     setCurrentUser(null);
+    setAllUsers([]);
     toast.success('Logged out successfully');
   };
 

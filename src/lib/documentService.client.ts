@@ -1,4 +1,4 @@
-import { documentStore } from './storage';
+import { connectDatabase, User, Document, Activity } from './database';
 import { authService } from './auth';
 import { BlobServiceClient } from '@azure/storage-blob';
 
@@ -20,18 +20,39 @@ const getAzureStorageClient = () => {
 export class DocumentService {
   async getDocuments(userId: string, userRole: string) {
     try {
-      const allDocuments = documentStore.getDocuments();
+      await connectDatabase();
       
-      // Filter documents based on user role and access
-      const filteredDocuments = allDocuments.filter(doc => {
-        if (userRole === 'admin') return !doc.archivedAt;
-        return (!doc.archivedAt && (
-          doc.uploaderId === userId || 
-          doc.accessUsers.some(accessUserId => accessUserId === userId)
-        ));
-      });
+      let query = {};
+      
+      if (userRole !== 'admin') {
+        query = {
+          $or: [
+            { uploaderId: userId },
+            { accessUsers: { $in: [userId] } }
+          ]
+        };
+      }
 
-      return filteredDocuments;
+      const documents = await Document.find({
+        ...query,
+        archivedAt: null
+      }).sort({ createdAt: -1 });
+
+      return documents.map(doc => ({
+        id: doc._id.toString(),
+        name: doc.name,
+        type: doc.type,
+        size: doc.size,
+        category: doc.category,
+        uploaderId: doc.uploaderId,
+        uploaderName: doc.uploaderName,
+        blobUrl: doc.blobUrl,
+        accessUsers: doc.accessUsers || [],
+        tags: doc.tags || [],
+        createdAt: doc.createdAt.toISOString(),
+        updatedAt: doc.updatedAt.toISOString(),
+        archivedAt: doc.archivedAt ? doc.archivedAt.toISOString() : null
+      }));
     } catch (error) {
       console.error('Error fetching documents:', error);
       throw error;
@@ -40,18 +61,39 @@ export class DocumentService {
 
   async getArchivedDocuments(userId: string, userRole: string) {
     try {
-      const allDocuments = documentStore.getDocuments();
+      await connectDatabase();
       
-      // Filter archived documents based on user role and access
-      const filteredDocuments = allDocuments.filter(doc => {
-        if (userRole === 'admin') return !!doc.archivedAt;
-        return (!!doc.archivedAt && (
-          doc.uploaderId === userId || 
-          doc.accessUsers.some(accessUserId => accessUserId === userId)
-        ));
-      });
+      let query = {};
+      
+      if (userRole !== 'admin') {
+        query = {
+          $or: [
+            { uploaderId: userId },
+            { accessUsers: { $in: [userId] } }
+          ]
+        };
+      }
 
-      return filteredDocuments;
+      const documents = await Document.find({
+        ...query,
+        archivedAt: { $ne: null }
+      }).sort({ archivedAt: -1 });
+
+      return documents.map(doc => ({
+        id: doc._id.toString(),
+        name: doc.name,
+        type: doc.type,
+        size: doc.size,
+        category: doc.category,
+        uploaderId: doc.uploaderId,
+        uploaderName: doc.uploaderName,
+        blobUrl: doc.blobUrl,
+        accessUsers: doc.accessUsers || [],
+        tags: doc.tags || [],
+        createdAt: doc.createdAt.toISOString(),
+        updatedAt: doc.updatedAt.toISOString(),
+        archivedAt: doc.archivedAt ? doc.archivedAt.toISOString() : null
+      }));
     } catch (error) {
       console.error('Error fetching archived documents:', error);
       throw error;
@@ -60,6 +102,14 @@ export class DocumentService {
 
   async uploadDocument(documentData: any, file: File, userId: string) {
     try {
+      await connectDatabase();
+      
+      // Get user info
+      const user = await User.findById(userId);
+      if (!user) {
+        throw new Error('User not found');
+      }
+
       // Upload file to Azure Storage
       const { client, containerName } = getAzureStorageClient();
       const containerClient = client.getContainerClient(containerName);
@@ -87,22 +137,36 @@ export class DocumentService {
       // Get the blob URL
       const blobUrl = blockBlobClient.url;
 
-      const document = {
-        id: Date.now().toString(),
+      // Create document in MongoDB
+      const document = new Document({
         name: file.name,
         type: file.name.split('.').pop() || '',
         size: file.size,
         blobUrl,
         uploaderId: userId,
+        uploaderName: user.name,
         category: documentData.category || 'SAP CMCT',
         accessUsers: documentData.accessUsers || [],
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        tags: []
+      });
+
+      await document.save();
+
+      return {
+        id: document._id.toString(),
+        name: document.name,
+        type: document.type,
+        size: document.size,
+        category: document.category,
+        uploaderId: document.uploaderId,
+        uploaderName: document.uploaderName,
+        blobUrl: document.blobUrl,
+        accessUsers: document.accessUsers || [],
+        tags: document.tags || [],
+        createdAt: document.createdAt.toISOString(),
+        updatedAt: document.updatedAt.toISOString(),
         archivedAt: null
       };
-
-      documentStore.addDocument(document);
-      return document;
     } catch (error) {
       console.error('Error uploading document to Azure Storage:', error);
       throw new Error('Failed to upload document to cloud storage');
@@ -111,20 +175,36 @@ export class DocumentService {
 
   async archiveDocument(documentId: string, userId: string) {
     try {
-      const document = documentStore.getDocument(documentId);
+      await connectDatabase();
       
-      if (!document || document.uploaderId !== userId) {
+      const document = await Document.findOneAndUpdate(
+        { _id: documentId, uploaderId: userId },
+        { 
+          archivedAt: new Date(),
+          updatedAt: new Date()
+        },
+        { new: true }
+      );
+
+      if (!document) {
         throw new Error('Document not found or access denied');
       }
 
-      const updatedDocument = {
-        ...document,
-        archivedAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+      return {
+        id: document._id.toString(),
+        name: document.name,
+        type: document.type,
+        size: document.size,
+        category: document.category,
+        uploaderId: document.uploaderId,
+        uploaderName: document.uploaderName,
+        blobUrl: document.blobUrl,
+        accessUsers: document.accessUsers || [],
+        tags: document.tags || [],
+        createdAt: document.createdAt.toISOString(),
+        updatedAt: document.updatedAt.toISOString(),
+        archivedAt: document.archivedAt ? document.archivedAt.toISOString() : null
       };
-
-      documentStore.updateDocument(documentId, updatedDocument);
-      return updatedDocument;
     } catch (error) {
       console.error('Error archiving document:', error);
       throw error;
@@ -133,20 +213,36 @@ export class DocumentService {
 
   async restoreDocument(documentId: string, userId: string) {
     try {
-      const document = documentStore.getDocument(documentId);
+      await connectDatabase();
       
-      if (!document || document.uploaderId !== userId) {
+      const document = await Document.findOneAndUpdate(
+        { _id: documentId, uploaderId: userId },
+        { 
+          archivedAt: null,
+          updatedAt: new Date()
+        },
+        { new: true }
+      );
+
+      if (!document) {
         throw new Error('Document not found or access denied');
       }
 
-      const updatedDocument = {
-        ...document,
-        archivedAt: null,
-        updatedAt: new Date().toISOString()
+      return {
+        id: document._id.toString(),
+        name: document.name,
+        type: document.type,
+        size: document.size,
+        category: document.category,
+        uploaderId: document.uploaderId,
+        uploaderName: document.uploaderName,
+        blobUrl: document.blobUrl,
+        accessUsers: document.accessUsers || [],
+        tags: document.tags || [],
+        createdAt: document.createdAt.toISOString(),
+        updatedAt: document.updatedAt.toISOString(),
+        archivedAt: null
       };
-
-      documentStore.updateDocument(documentId, updatedDocument);
-      return updatedDocument;
     } catch (error) {
       console.error('Error restoring document:', error);
       throw error;
@@ -155,9 +251,11 @@ export class DocumentService {
 
   async deleteDocument(documentId: string, userId: string) {
     try {
-      const document = documentStore.getDocument(documentId);
+      await connectDatabase();
       
-      if (!document || document.uploaderId !== userId) {
+      const document = await Document.findOne({ _id: documentId, uploaderId: userId });
+      
+      if (!document) {
         throw new Error('Document not found or access denied');
       }
 
@@ -179,7 +277,7 @@ export class DocumentService {
         }
       }
 
-      documentStore.deleteDocument(documentId);
+      await Document.findByIdAndDelete(documentId);
       return { success: true };
     } catch (error) {
       console.error('Error deleting document:', error);
@@ -189,17 +287,18 @@ export class DocumentService {
 
   async downloadDocument(documentId: string, userId: string) {
     try {
-      const document = documentStore.getDocument(documentId);
+      await connectDatabase();
       
+      const document = await Document.findOne({
+        _id: documentId,
+        $or: [
+          { uploaderId: userId },
+          { accessUsers: { $in: [userId] } }
+        ]
+      });
+
       if (!document) {
-        throw new Error('Document not found');
-      }
-
-      const hasAccess = document.uploaderId === userId || 
-        document.accessUsers.some(accessUserId => accessUserId === userId);
-
-      if (!hasAccess) {
-        throw new Error('Access denied');
+        throw new Error('Document not found or access denied');
       }
 
       // For Azure Storage, we can return the blob URL directly
@@ -213,20 +312,36 @@ export class DocumentService {
 
   async shareDocument(documentId: string, userIds: string[], userId: string) {
     try {
-      const document = documentStore.getDocument(documentId);
+      await connectDatabase();
       
-      if (!document || document.uploaderId !== userId) {
+      const document = await Document.findOneAndUpdate(
+        { _id: documentId, uploaderId: userId },
+        { 
+          $addToSet: { accessUsers: { $each: userIds } },
+          updatedAt: new Date()
+        },
+        { new: true }
+      );
+
+      if (!document) {
         throw new Error('Document not found or access denied');
       }
 
-      const updatedDocument = {
-        ...document,
-        accessUsers: [...document.accessUsers, ...userIds],
-        updatedAt: new Date().toISOString()
+      return {
+        id: document._id.toString(),
+        name: document.name,
+        type: document.type,
+        size: document.size,
+        category: document.category,
+        uploaderId: document.uploaderId,
+        uploaderName: document.uploaderName,
+        blobUrl: document.blobUrl,
+        accessUsers: document.accessUsers || [],
+        tags: document.tags || [],
+        createdAt: document.createdAt.toISOString(),
+        updatedAt: document.updatedAt.toISOString(),
+        archivedAt: document.archivedAt ? document.archivedAt.toISOString() : null
       };
-
-      documentStore.updateDocument(documentId, updatedDocument);
-      return updatedDocument;
     } catch (error) {
       console.error('Error sharing document:', error);
       throw error;

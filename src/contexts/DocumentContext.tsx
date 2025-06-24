@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { documentService } from '../lib/documentService.client';
-import { documentStore } from '../lib/storage';
+import { connectDatabase, Activity } from '../lib/database';
 import toast from 'react-hot-toast';
 import { useAuth } from './AuthContext';
 
@@ -11,12 +11,12 @@ type Document = {
   name: string;
   type: string;
   size: number;
-  fileUrl: string;
+  blobUrl: string;
   uploaderId: string;
+  uploaderName: string;
   category: DocumentCategory;
-  access: Array<{
-    userId: string;
-  }>;
+  accessUsers: string[];
+  tags: string[];
   createdAt: string;
   updatedAt: string;
   archivedAt: string | null;
@@ -25,14 +25,23 @@ type Document = {
     name: string;
     email: string;
   };
+  access?: Array<{
+    userId: string;
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  }>;
 };
 
-type Activity = {
+type ActivityType = {
   id: string;
   type: 'upload' | 'view' | 'download' | 'archive' | 'restore' | 'delete';
   documentId: string;
+  documentName: string;
   userId: string;
-  createdAt: string;
+  userName: string;
+  timestamp: string;
   document?: {
     id: string;
     name: string;
@@ -45,11 +54,11 @@ type Activity = {
 type DocumentContextType = {
   documents: Document[];
   archivedDocuments: Document[];
-  recentActivities: Activity[];
+  recentActivities: ActivityType[];
   categories: DocumentCategory[];
   loading: boolean;
   uploadDocument: (file: File, category: DocumentCategory, accessUsers: string[]) => Promise<void>;
-  moveToArchive: (documentId: string) => Promise<void>;
+  archiveDocument: (documentId: string) => Promise<void>;
   restoreDocument: (documentId: string) => Promise<void>;
   deleteDocument: (documentId: string) => Promise<void>;
   viewDocument: (documentId: string) => Promise<string>;
@@ -63,10 +72,10 @@ const DocumentContext = createContext<DocumentContextType>({} as DocumentContext
 export const useDocument = () => useContext(DocumentContext);
 
 export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { currentUser, userRole, allUsers } = useAuth();
+  const { currentUser, allUsers } = useAuth();
   const [documents, setDocuments] = useState<Document[]>([]);
   const [archivedDocuments, setArchivedDocuments] = useState<Document[]>([]);
-  const [recentActivities, setRecentActivities] = useState<Activity[]>([]);
+  const [recentActivities, setRecentActivities] = useState<ActivityType[]>([]);
   const [loading, setLoading] = useState(false);
 
   const categories: DocumentCategory[] = ['SAP CMCT', 'SAP FI', 'SAP QM'];
@@ -76,7 +85,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       refreshDocuments();
       loadActivities();
     }
-  }, [currentUser, userRole]);
+  }, [currentUser]);
 
   const enrichDocumentWithUserData = (doc: any): Document => {
     const uploader = allUsers.find(user => user.id === doc.uploaderId);
@@ -108,8 +117,8 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setLoading(true);
     try {
       const [docsResult, archivedResult] = await Promise.all([
-        documentService.getDocuments(currentUser.id, userRole),
-        documentService.getArchivedDocuments(currentUser.id, userRole)
+        documentService.getDocuments(currentUser.id, currentUser.role),
+        documentService.getArchivedDocuments(currentUser.id, currentUser.role)
       ]);
 
       setDocuments(docsResult.map(enrichDocumentWithUserData));
@@ -126,51 +135,61 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (!currentUser) return;
 
     try {
-      const activities = documentStore.getRecentActivities();
+      await connectDatabase();
       
-      // Filter activities based on user role
-      const filteredActivities = activities.filter(activity => {
-        if (userRole === 'admin') return true;
-        return activity.userId === currentUser.id;
-      });
+      let query = {};
+      if (currentUser.role !== 'admin') {
+        query = { userId: currentUser.id };
+      }
 
-      // Enrich activities with document and user data
-      const enrichedActivities = filteredActivities.map(activity => {
-        const document = [...documents, ...archivedDocuments].find(doc => doc.id === activity.documentId);
-        const user = allUsers.find(u => u.id === activity.userId);
+      const activities = await Activity.find(query)
+        .sort({ timestamp: -1 })
+        .limit(20);
+
+      const enrichedActivities = activities.map(activity => {
+        const document = [...documents, ...archivedDocuments].find(doc => doc.id === activity.documentId.toString());
+        const user = allUsers.find(u => u.id === activity.userId.toString());
         
         return {
-          ...activity,
-          createdAt: activity.timestamp, // Map timestamp to createdAt for consistency
+          id: activity._id.toString(),
+          type: activity.type,
+          documentId: activity.documentId.toString(),
+          documentName: activity.documentName,
+          userId: activity.userId.toString(),
+          userName: activity.userName,
+          timestamp: activity.timestamp.toISOString(),
           document: document ? {
             id: document.id,
             name: document.name
-          } : null,
+          } : { id: '', name: activity.documentName },
           user: user ? {
             name: user.name
-          } : null
+          } : { name: activity.userName }
         };
-      }).filter(activity => activity.document && activity.user);
+      });
 
-      setRecentActivities(enrichedActivities.slice(0, 20));
+      setRecentActivities(enrichedActivities);
     } catch (error: any) {
       console.error('Error loading activities:', error);
     }
   };
 
-  const addActivity = async (type: string, documentId: string) => {
+  const addActivity = async (type: string, documentId: string, documentName: string) => {
     if (!currentUser) return;
 
     try {
-      const activity = {
-        id: Date.now().toString(),
+      await connectDatabase();
+      
+      const activity = new Activity({
         type,
         documentId,
+        documentName,
         userId: currentUser.id,
-        timestamp: new Date().toISOString()
-      };
+        userName: currentUser.name,
+        timestamp: new Date()
+      });
 
-      documentStore.createActivity(activity);
+      await activity.save();
       await loadActivities();
     } catch (error: any) {
       console.error('Error adding activity:', error);
@@ -191,7 +210,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       };
 
       const newDocument = await documentService.uploadDocument(documentData, file, currentUser.id);
-      await addActivity('upload', newDocument.id);
+      await addActivity('upload', newDocument.id, newDocument.name);
       await refreshDocuments();
 
       toast.success(`Document "${file.name}" uploaded successfully`);
@@ -204,10 +223,11 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   };
 
-  const moveToArchive = async (documentId: string): Promise<void> => {
+  const archiveDocument = async (documentId: string): Promise<void> => {
     try {
+      const doc = documents.find(d => d.id === documentId);
       await documentService.archiveDocument(documentId, currentUser?.id || '');
-      await addActivity('archive', documentId);
+      await addActivity('archive', documentId, doc?.name || 'Unknown');
       await refreshDocuments();
 
       toast.success('Document moved to archive');
@@ -219,8 +239,9 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const restoreDocument = async (documentId: string): Promise<void> => {
     try {
+      const doc = archivedDocuments.find(d => d.id === documentId);
       await documentService.restoreDocument(documentId, currentUser?.id || '');
-      await addActivity('restore', documentId);
+      await addActivity('restore', documentId, doc?.name || 'Unknown');
       await refreshDocuments();
 
       toast.success('Document restored from archive');
@@ -232,8 +253,9 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const deleteDocument = async (documentId: string): Promise<void> => {
     try {
+      const doc = archivedDocuments.find(d => d.id === documentId);
       await documentService.deleteDocument(documentId, currentUser?.id || '');
-      await addActivity('delete', documentId);
+      await addActivity('delete', documentId, doc?.name || 'Unknown');
       await refreshDocuments();
 
       toast.success('Document permanently deleted');
@@ -246,7 +268,8 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const viewDocument = async (documentId: string): Promise<string> => {
     try {
       const url = await documentService.downloadDocument(documentId, currentUser?.id || '');
-      await addActivity('view', documentId);
+      const doc = [...documents, ...archivedDocuments].find(d => d.id === documentId);
+      await addActivity('view', documentId, doc?.name || 'Unknown');
       return url;
     } catch (error: any) {
       console.error('Error viewing document:', error);
@@ -268,7 +291,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       link.click();
       document.body.removeChild(link);
 
-      await addActivity('download', documentId);
+      await addActivity('download', documentId, doc?.name || 'Unknown');
       toast.success('Document downloaded');
     } catch (error: any) {
       console.error('Error downloading document:', error);
@@ -295,7 +318,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     categories,
     loading,
     uploadDocument,
-    moveToArchive,
+    archiveDocument,
     restoreDocument,
     deleteDocument,
     viewDocument,
