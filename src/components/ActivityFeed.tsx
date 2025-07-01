@@ -1,37 +1,25 @@
 import React from 'react';
 import { formatDate, formatTime } from '../utils/helpers';
-
-interface Activity {
-  id: string;
-  type: 'upload' | 'view' | 'download' | 'archive' | 'restore' | 'delete';
-  document: {
-    id: string;
-    name: string;
-  };
-  user: {
-    name: string;
-  };
-  created_at: string;
-}
+import { ActivityWithRelations } from '../types/database';
 
 interface ActivityFeedProps {
-  activities: Activity[];
+  activities: ActivityWithRelations[];
 }
 
 const ActivityFeed: React.FC<ActivityFeedProps> = ({ activities }) => {
   const getActivityIcon = (type: string) => {
     switch (type) {
-      case 'upload':
+      case 'UPLOAD':
         return (
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-100">
-            <svg className="h-4 w-4 text-green-600\" xmlns="http://www.w3.org/2000/svg\" viewBox="0 0 24 24\" fill="none\" stroke="currentColor\" strokeWidth="2\" strokeLinecap="round\" strokeLinejoin="round">
+            <svg className="h-4 w-4 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
               <polyline points="17 8 12 3 7 8" />
-              <line x1="12\" y1="3\" x2="12\" y2="15" />
+              <line x1="12" y1="3" x2="12" y2="15" />
             </svg>
           </div>
         );
-      case 'view':
+      case 'VIEW':
         return (
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100">
             <svg className="h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -40,7 +28,7 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({ activities }) => {
             </svg>
           </div>
         );
-      case 'download':
+      case 'DOWNLOAD':
         return (
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-100">
             <svg className="h-4 w-4 text-indigo-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -50,7 +38,7 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({ activities }) => {
             </svg>
           </div>
         );
-      case 'archive':
+      case 'ARCHIVE':
         return (
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-yellow-100">
             <svg className="h-4 w-4 text-yellow-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -60,7 +48,7 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({ activities }) => {
             </svg>
           </div>
         );
-      case 'restore':
+      case 'RESTORE':
         return (
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-100">
             <svg className="h-4 w-4 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -70,7 +58,7 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({ activities }) => {
             </svg>
           </div>
         );
-      case 'delete':
+      case 'DELETE':
         return (
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-100">
             <svg className="h-4 w-4 text-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -94,22 +82,24 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({ activities }) => {
     }
   };
   
-  const getActivityText = (activity: Activity) => {
+  const getActivityText = (activity: ActivityWithRelations) => {
+    const documentName = activity.document?.name || 'Unknown Document';
+    
     switch (activity.type) {
-      case 'upload':
-        return `uploaded "${activity.document.name}"`;
-      case 'view':
-        return `viewed "${activity.document.name}"`;
-      case 'download':
-        return `downloaded "${activity.document.name}"`;
-      case 'archive':
-        return `archived "${activity.document.name}"`;
-      case 'restore':
-        return `restored "${activity.document.name}" from archive`;
-      case 'delete':
-        return `permanently deleted "${activity.document.name}"`;
+      case 'UPLOAD':
+        return `uploaded "${documentName}"`;
+      case 'VIEW':
+        return `viewed "${documentName}"`;
+      case 'DOWNLOAD':
+        return `downloaded "${documentName}"`;
+      case 'ARCHIVE':
+        return `archived "${documentName}"`;
+      case 'RESTORE':
+        return `restored "${documentName}" from archive`;
+      case 'DELETE':
+        return `permanently deleted "${documentName}"`;
       default:
-        return `interacted with "${activity.document.name}"`;
+        return `interacted with "${documentName}"`;
     }
   };
   
@@ -130,13 +120,13 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({ activities }) => {
                 <div className="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                   <div>
                     <p className="text-sm text-gray-900">
-                      <span className="font-medium">{activity.user.name}</span>{' '}
+                      <span className="font-medium">{activity.user?.name || 'Unknown User'}</span>{' '}
                       {getActivityText(activity)}
                     </p>
                   </div>
                   <div className="whitespace-nowrap text-right text-sm text-gray-500">
-                    <time dateTime={activity.created_at} title={formatDate(activity.created_at)}>
-                      {formatTime(activity.created_at)}
+                    <time dateTime={activity.createdAt.toString()} title={formatDate(activity.createdAt.toString())}>
+                      {formatTime(activity.createdAt.toString())}
                     </time>
                   </div>
                 </div>

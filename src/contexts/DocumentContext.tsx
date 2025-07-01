@@ -1,42 +1,13 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
-import { Database } from '../types/database';
+import { Document, User, Activity } from '@prisma/client';
+import { DocumentWithRelations, ActivityWithRelations, DocumentCategory } from '../types/database';
 import toast from 'react-hot-toast';
 import { useAuth } from './AuthContext';
 
-type DocumentRow = Database['public']['Tables']['documents']['Row'];
-type ActivityRow = Database['public']['Tables']['activities']['Row'];
-type DocumentCategory = 'SAP CMCT' | 'SAP FI' | 'SAP QM';
-
-type Document = DocumentRow & {
-  uploader: {
-    id: string;
-    name: string;
-    email: string;
-  };
-  access: Array<{
-    id: string;
-    name: string;
-    email: string;
-    role?: string;
-  }>;
-  category: DocumentCategory;
-};
-
-type Activity = ActivityRow & {
-  document: {
-    id: string;
-    name: string;
-  } | null;
-  user: {
-    name: string;
-  } | null;
-};
-
 type DocumentContextType = {
-  documents: Document[];
-  archivedDocuments: Document[];
-  recentActivities: Activity[];
+  documents: DocumentWithRelations[];
+  archivedDocuments: DocumentWithRelations[];
+  recentActivities: ActivityWithRelations[];
   categories: DocumentCategory[];
   loading: boolean;
   uploadDocument: (document: any, file: File) => Promise<void>;
@@ -55,12 +26,12 @@ export const useDocument = () => useContext(DocumentContext);
 
 export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { currentUser, userRole } = useAuth();
-  const [documents, setDocuments] = useState<Document[]>([]);
-  const [archivedDocuments, setArchivedDocuments] = useState<Document[]>([]);
-  const [recentActivities, setRecentActivities] = useState<Activity[]>([]);
+  const [documents, setDocuments] = useState<DocumentWithRelations[]>([]);
+  const [archivedDocuments, setArchivedDocuments] = useState<DocumentWithRelations[]>([]);
+  const [recentActivities, setRecentActivities] = useState<ActivityWithRelations[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const categories: DocumentCategory[] = ['SAP CMCT', 'SAP FI', 'SAP QM'];
+  const categories: DocumentCategory[] = ['SAP_CMCT', 'SAP_FI', 'SAP_QM'];
 
   useEffect(() => {
     if (currentUser) {
@@ -69,65 +40,33 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   }, [currentUser, userRole]);
 
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('authToken');
+    return {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    };
+  };
+
   const refreshDocuments = async () => {
     if (!currentUser) return;
 
     setLoading(true);
     try {
-      const documentsQuery = supabase
-        .from('documents')
-        .select(`
-          *,
-          uploader:users!documents_uploader_id_fkey(id, name, email),
-          document_access(
-            user_id,
-            users(id, name, email, role)
-          )
-        `)
-        .is('archived_at', null)
-        .order('created_at', { ascending: false });
-
-      const archivedQuery = supabase
-        .from('documents')
-        .select(`
-          *,
-          uploader:users!documents_uploader_id_fkey(id, name, email),
-          document_access(
-            user_id,
-            users(id, name, email, role)
-          )
-        `)
-        .not('archived_at', 'is', null)
-        .order('archived_at', { ascending: false });
-
-      const [documentsResult, archivedResult] = await Promise.all([
-        documentsQuery,
-        archivedQuery
+      const [documentsResponse, archivedResponse] = await Promise.all([
+        fetch('/api/documents', { headers: getAuthHeaders() }),
+        fetch('/api/documents/archived', { headers: getAuthHeaders() })
       ]);
 
-      if (documentsResult.error) {
-        throw documentsResult.error;
+      if (documentsResponse.ok) {
+        const docs = await documentsResponse.json();
+        setDocuments(docs);
       }
 
-      if (archivedResult.error) {
-        throw archivedResult.error;
+      if (archivedResponse.ok) {
+        const archived = await archivedResponse.json();
+        setArchivedDocuments(archived);
       }
-
-      // Transform the data to match our Document type
-      const transformDocument = (doc: any): Document => ({
-        ...doc,
-        uploader: doc.uploader || { id: '', name: 'Unknown', email: '' },
-        access: doc.document_access?.map((access: any) => ({
-          id: access.users?.id || '',
-          name: access.users?.name || 'Unknown',
-          email: access.users?.email || '',
-          role: access.users?.role || 'viewer',
-        })) || [],
-        category: doc.category || 'SAP CMCT', // Use the category from database
-      });
-
-      setDocuments(documentsResult.data?.map(transformDocument) || []);
-      setArchivedDocuments(archivedResult.data?.map(transformDocument) || []);
     } catch (error: any) {
       console.error('Error loading documents:', error);
       toast.error('Failed to load documents');
@@ -140,62 +79,13 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (!currentUser) return;
 
     try {
-      let activitiesQuery = supabase
-        .from('activities')
-        .select(`
-          *,
-          documents(id, name),
-          users(name)
-        `)
-        .order('created_at', { ascending: false })
-        .limit(20);
-
-      // If user is not admin, only show activities for documents they have access to
-      if (userRole !== 'admin') {
-        // This is a simplified approach - in a real app you might want to join with document access
-        activitiesQuery = activitiesQuery.eq('user_id', currentUser.id);
+      const response = await fetch('/api/activities', { headers: getAuthHeaders() });
+      if (response.ok) {
+        const activities = await response.json();
+        setRecentActivities(activities);
       }
-
-      const { data: activitiesData, error } = await activitiesQuery;
-
-      if (error) {
-        throw error;
-      }
-
-      const transformedActivities: Activity[] = activitiesData?.map(activity => ({
-        ...activity,
-        document: activity.documents ? {
-          id: activity.documents.id,
-          name: activity.documents.name,
-        } : null,
-        user: activity.users ? {
-          name: activity.users.name,
-        } : null,
-      })) || [];
-
-      setRecentActivities(transformedActivities);
     } catch (error: any) {
       console.error('Error loading activities:', error);
-    }
-  };
-
-  const addActivity = async (type: string, documentId: string) => {
-    if (!currentUser) return;
-
-    try {
-      await supabase
-        .from('activities')
-        .insert([{
-          type,
-          document_id: documentId,
-          user_id: currentUser.id,
-          created_at: new Date().toISOString(),
-        }]);
-
-      // Refresh activities
-      await loadActivities();
-    } catch (error: any) {
-      console.error('Error adding activity:', error);
     }
   };
 
@@ -207,63 +97,26 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     try {
       setLoading(true);
 
-      // Generate unique file path
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-      const filePath = `${currentUser.id}/${fileName}`;
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('category', documentData.category || 'SAP_CMCT');
+      formData.append('access', JSON.stringify(documentData.access?.map((user: User) => user.id) || []));
 
-      // Upload file to Supabase Storage
-      const { error: uploadError } = await supabase.storage
-        .from('documents')
-        .upload(filePath, file);
+      const token = localStorage.getItem('authToken');
+      const response = await fetch('/api/documents/upload', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
-      if (uploadError) {
-        throw uploadError;
+      if (!response.ok) {
+        throw new Error('Failed to upload document');
       }
 
-      // Insert document record with the selected category
-      const { data: newDocument, error: insertError } = await supabase
-        .from('documents')
-        .insert([{
-          name: file.name,
-          type: file.name.split('.').pop() || '',
-          size: file.size,
-          storage_path: filePath,
-          uploader_id: currentUser.id,
-          category: documentData.category || 'SAP CMCT', // Use the selected category
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        }])
-        .select()
-        .single();
-
-      if (insertError) {
-        // Clean up uploaded file if document creation fails
-        await supabase.storage.from('documents').remove([filePath]);
-        throw insertError;
-      }
-
-      // Add document access for shared users
-      if (documentData.access && documentData.access.length > 0) {
-        const accessRecords = documentData.access
-          .filter((user: any) => user.id !== currentUser.id)
-          .map((user: any) => ({
-            document_id: newDocument.id,
-            user_id: user.id,
-          }));
-
-        if (accessRecords.length > 0) {
-          await supabase
-            .from('document_access')
-            .insert(accessRecords);
-        }
-      }
-
-      // Add activity
-      await addActivity('upload', newDocument.id);
-
-      // Refresh documents
       await refreshDocuments();
+      await loadActivities();
 
       toast.success(`Document "${file.name}" uploaded successfully`);
     } catch (error: any) {
@@ -277,21 +130,16 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const moveToArchive = async (documentId: string): Promise<void> => {
     try {
-      const { error } = await supabase
-        .from('documents')
-        .update({
-          archived_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', documentId);
+      const response = await fetch(`/api/documents/${documentId}/archive`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+      });
 
-      if (error) {
-        throw error;
+      if (!response.ok) {
+        throw new Error('Failed to archive document');
       }
 
-      await addActivity('archive', documentId);
       await refreshDocuments();
-
       toast.success('Document moved to archive');
     } catch (error: any) {
       console.error('Error archiving document:', error);
@@ -301,21 +149,16 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const restoreDocument = async (documentId: string): Promise<void> => {
     try {
-      const { error } = await supabase
-        .from('documents')
-        .update({
-          archived_at: null,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', documentId);
+      const response = await fetch(`/api/documents/${documentId}/restore`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+      });
 
-      if (error) {
-        throw error;
+      if (!response.ok) {
+        throw new Error('Failed to restore document');
       }
 
-      await addActivity('restore', documentId);
       await refreshDocuments();
-
       toast.success('Document restored from archive');
     } catch (error: any) {
       console.error('Error restoring document:', error);
@@ -325,36 +168,16 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const deleteDocument = async (documentId: string): Promise<void> => {
     try {
-      // Get document info first
-      const { data: document, error: fetchError } = await supabase
-        .from('documents')
-        .select('storage_path')
-        .eq('id', documentId)
-        .single();
+      const response = await fetch(`/api/documents/${documentId}`, {
+        method: 'DELETE',
+        headers: getAuthHeaders(),
+      });
 
-      if (fetchError) {
-        throw fetchError;
-      }
-
-      // Delete from storage if storage_path exists
-      if (document.storage_path) {
-        await supabase.storage
-          .from('documents')
-          .remove([document.storage_path]);
-      }
-
-      // Delete document record (this will cascade delete access and activities)
-      const { error: deleteError } = await supabase
-        .from('documents')
-        .delete()
-        .eq('id', documentId);
-
-      if (deleteError) {
-        throw deleteError;
+      if (!response.ok) {
+        throw new Error('Failed to delete document');
       }
 
       await refreshDocuments();
-
       toast.success('Document permanently deleted');
     } catch (error: any) {
       console.error('Error deleting document:', error);
@@ -364,29 +187,17 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const viewDocument = async (documentId: string): Promise<string> => {
     try {
-      // Get document storage path
-      const { data: document, error } = await supabase
-        .from('documents')
-        .select('storage_path, name')
-        .eq('id', documentId)
-        .single();
+      const response = await fetch(`/api/documents/${documentId}/view`, {
+        headers: getAuthHeaders(),
+      });
 
-      if (error || !document.storage_path) {
-        throw new Error('Document not found or no storage path');
+      if (!response.ok) {
+        throw new Error('Failed to get document URL');
       }
 
-      // Get signed URL for viewing
-      const { data: signedUrlData, error: urlError } = await supabase.storage
-        .from('documents')
-        .createSignedUrl(document.storage_path, 3600); // 1 hour expiry
-
-      if (urlError) {
-        throw urlError;
-      }
-
-      await addActivity('view', documentId);
-
-      return signedUrlData.signedUrl;
+      const { url } = await response.json();
+      await loadActivities();
+      return url;
     } catch (error: any) {
       console.error('Error viewing document:', error);
       toast.error('Failed to view document');
@@ -396,44 +207,34 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const downloadDocument = async (documentId: string): Promise<void> => {
     try {
-      // Get document info
-      const { data: documents, error } = await supabase
-        .from('documents')
-        .select('storage_path, name')
-        .eq('id', documentId)
-        .single();
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`/api/documents/${documentId}/download`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
 
-      if (error || !documents.storage_path) {
-        throw new Error('Document not found or no storage path');
+      if (!response.ok) {
+        throw new Error('Failed to download document');
       }
 
-      // Get signed URL for download
-      const { data: signedUrlData, error: urlError } = await supabase.storage
-        .from('documents')
-        .createSignedUrl(documents.storage_path, 300); // 5 minutes expiry
-
-      if (urlError) {
-        throw urlError;
-      }
-
-      //Treat signedUrl as a blob to enable force download
-      const response = await fetch(signedUrlData.signedUrl);
       const blob = await response.blob();
-
-      // Create a temporary object URL and force download
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', documents.name ?? 'file');
+      
+      // Get filename from response headers
+      const contentDisposition = response.headers.get('Content-Disposition');
+      const filename = contentDisposition?.split('filename=')[1]?.replace(/"/g, '') || 'document';
+      
+      link.setAttribute('download', filename);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      window.URL.revokeObjectURL(url); // Clean up
+      window.URL.revokeObjectURL(url);
 
-      await addActivity('download', documentId);
-
-      toast.success(`Document "${documents.name}" downloaded`);
-      return;
+      await loadActivities();
+      toast.success('Document downloaded');
     } catch (error: any) {
       console.error('Error downloading document:', error);
       toast.error('Failed to download document');
@@ -442,29 +243,17 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const shareDocument = async (documentId: string, userIds: string[]): Promise<void> => {
     try {
-      // Remove existing access for these users
-      await supabase
-        .from('document_access')
-        .delete()
-        .eq('document_id', documentId)
-        .in('user_id', userIds);
+      const response = await fetch(`/api/documents/${documentId}/share`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ userIds }),
+      });
 
-      // Add new access records
-      const accessRecords = userIds.map(userId => ({
-        document_id: documentId,
-        user_id: userId,
-      }));
-
-      const { error } = await supabase
-        .from('document_access')
-        .insert(accessRecords);
-
-      if (error) {
-        throw error;
+      if (!response.ok) {
+        throw new Error('Failed to share document');
       }
 
       await refreshDocuments();
-
       toast.success('Document shared successfully');
     } catch (error: any) {
       console.error('Error sharing document:', error);

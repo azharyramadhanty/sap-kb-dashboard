@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  name      String
+  role      Role     @default(VIEWER)
+  status    Status   @default(ACTIVE)
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  uploadedDocuments Document[]      @relation("DocumentUploader")
+  documentAccess    DocumentAccess[]
+  activities        Activity[]
+
+  @@map("users")
+}
+
+model Document {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  type        String
+  size        Int
+  storagePath String?
+  uploaderId  String    @db.ObjectId
+  category    Category  @default(SAP_CMCT)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  archivedAt  DateTime?
+
+  // Relations
+  uploader       User             @relation("DocumentUploader", fields: [uploaderId], references: [id], onDelete: Cascade)
+  documentAccess DocumentAccess[]
+  activities     Activity[]
+
+  @@map("documents")
+}
+
+model DocumentAccess {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  documentId String   @db.ObjectId
+  userId     String   @db.ObjectId
+  createdAt  DateTime @default(now())
+
+  // Relations
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([documentId, userId])
+  @@map("document_access")
+}
+
+model Activity {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  type       ActivityType
+  documentId String?     @db.ObjectId
+  userId     String?     @db.ObjectId
+  createdAt  DateTime    @default(now())
+
+  // Relations
+  document Document? @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  user     User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("activities")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+}
+
+enum Category {
+  SAP_CMCT
+  SAP_FI
+  SAP_QM
+}
+
+enum ActivityType {
+  UPLOAD
+  VIEW
+  DOWNLOAD
+  ARCHIVE
+  RESTORE
+  DELETE
+}

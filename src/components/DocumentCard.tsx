@@ -3,11 +3,12 @@ import { FileIcon, FileTextIcon, PresentationIcon, MoreVerticalIcon, DownloadIco
 import { formatDate } from '../utils/helpers';
 import { useDocument } from '../contexts/DocumentContext';
 import { useAuth } from '../contexts/AuthContext';
+import { DocumentWithRelations } from '../types/database';
 import ShareModal from './ShareModal';
 import PreviewModal from './PreviewModal';
 
 interface DocumentCardProps {
-  document: any;
+  document: DocumentWithRelations;
   isArchived?: boolean;
 }
 
@@ -15,11 +16,10 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document, isArchived = fals
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState('');
   const { moveToArchive, restoreDocument, deleteDocument, downloadDocument } = useDocument();
   const { userRole } = useAuth();
   
-  const canModify = userRole === 'admin' || userRole === 'editor';
+  const canModify = userRole === 'ADMIN' || userRole === 'EDITOR';
   
   const handleToggleDropdown = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -27,7 +27,6 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document, isArchived = fals
   };
 
   const handlePreview = async () => {
-    setPreviewUrl('#');
     setIsPreviewModalOpen(true);
     setDropdownOpen(false);
   };
@@ -47,15 +46,19 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document, isArchived = fals
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case 'SAP CMCT':
+      case 'SAP_CMCT':
         return 'badge-blue';
-      case 'SAP FI':
+      case 'SAP_FI':
         return 'badge-green';
-      case 'SAP QM':
+      case 'SAP_QM':
         return 'badge-purple';
       default:
         return 'badge-gray';
     }
+  };
+
+  const formatCategoryDisplay = (category: string) => {
+    return category.replace('_', ' ');
   };
   
   return (
@@ -67,7 +70,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document, isArchived = fals
             <div className="flex-1 min-w-0">
               <h3 className="text-base font-semibold text-slate-900 line-clamp-2 leading-tight">{document.name}</h3>
               <p className="text-sm text-slate-500 mt-1">
-                Uploaded by <span className="font-medium">{document.uploader.name}</span> on {formatDate(document.updated_at)}
+                Uploaded by <span className="font-medium">{document.uploader.name}</span> on {formatDate(document.updatedAt.toString())}
               </p>
             </div>
           </div>
@@ -164,23 +167,23 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document, isArchived = fals
                 {document.type.toUpperCase()}
               </span>
               <span className={`badge ${getCategoryColor(document.category)}`}>
-                {document.category}
+                {formatCategoryDisplay(document.category)}
               </span>
             </div>
             
             <div className="flex -space-x-1">
-              {document.access.slice(0, 3).map((user, index) => (
+              {document.documentAccess.slice(0, 3).map((access, index) => (
                 <div 
                   key={index}
                   className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-white text-xs border-2 border-white"
-                  title={user.name}
+                  title={access.user.name}
                 >
-                  {user.name.charAt(0).toUpperCase()}
+                  {access.user.name.charAt(0).toUpperCase()}
                 </div>
               ))}
-              {document.access.length > 3 && (
+              {document.documentAccess.length > 3 && (
                 <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-300 text-slate-600 text-xs border-2 border-white">
-                  +{document.access.length - 3}
+                  +{document.documentAccess.length - 3}
                 </div>
               )}
             </div>
@@ -198,7 +201,6 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document, isArchived = fals
         isOpen={isPreviewModalOpen}
         setIsOpen={setIsPreviewModalOpen}
         document={document}
-        previewUrl={previewUrl}
       />
     </>
   );
