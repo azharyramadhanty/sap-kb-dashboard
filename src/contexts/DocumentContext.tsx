@@ -24,6 +24,9 @@ const DocumentContext = createContext<DocumentContextType>({} as DocumentContext
 
 export const useDocument = () => useContext(DocumentContext);
 
+// Base API URL - you can configure this in environment variables
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { currentUser, userRole } = useAuth();
   const [documents, setDocuments] = useState<DocumentWithRelations[]>([]);
@@ -44,7 +47,6 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const token = localStorage.getItem('authToken');
     return {
       'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
     };
   };
 
@@ -53,19 +55,21 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     setLoading(true);
     try {
-      const [documentsResponse, archivedResponse] = await Promise.all([
-        fetch('/api/documents', { headers: getAuthHeaders() }),
-        fetch('/api/documents/archived', { headers: getAuthHeaders() })
-      ]);
+      const response = await fetch(`${API_BASE_URL}/api/v1/documents`, {
+        headers: getAuthHeaders(),
+      });
 
-      if (documentsResponse.ok) {
-        const docs = await documentsResponse.json();
-        setDocuments(docs);
-      }
-
-      if (archivedResponse.ok) {
-        const archived = await archivedResponse.json();
+      if (response.ok) {
+        const docs = await response.json();
+        // Separate archived and active documents
+        const activeDocuments = docs.filter((doc: any) => !doc.archivedAt);
+        const archived = docs.filter((doc: any) => doc.archivedAt);
+        
+        setDocuments(activeDocuments);
         setArchivedDocuments(archived);
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.message || 'Failed to load documents');
       }
     } catch (error: any) {
       console.error('Error loading documents:', error);
@@ -79,7 +83,10 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (!currentUser) return;
 
     try {
-      const response = await fetch('/api/activities', { headers: getAuthHeaders() });
+      const response = await fetch(`${API_BASE_URL}/api/v1/activities`, {
+        headers: getAuthHeaders(),
+      });
+      
       if (response.ok) {
         const activities = await response.json();
         setRecentActivities(activities);
@@ -100,10 +107,13 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       const formData = new FormData();
       formData.append('file', file);
       formData.append('category', documentData.category || 'SAP_CMCT');
-      formData.append('access', JSON.stringify(documentData.access?.map((user: User) => user.id) || []));
+      
+      if (documentData.access && documentData.access.length > 0) {
+        formData.append('access', JSON.stringify(documentData.access.map((user: User) => user.id)));
+      }
 
       const token = localStorage.getItem('authToken');
-      const response = await fetch('/api/documents/upload', {
+      const response = await fetch(`${API_BASE_URL}/api/v1/documents/upload`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -112,7 +122,8 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       });
 
       if (!response.ok) {
-        throw new Error('Failed to upload document');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to upload document');
       }
 
       await refreshDocuments();
@@ -121,7 +132,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       toast.success(`Document "${file.name}" uploaded successfully`);
     } catch (error: any) {
       console.error('Upload error:', error);
-      toast.error('Failed to upload document');
+      toast.error(error.message || 'Failed to upload document');
       throw error;
     } finally {
       setLoading(false);
@@ -130,69 +141,82 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const moveToArchive = async (documentId: string): Promise<void> => {
     try {
-      const response = await fetch(`/api/documents/${documentId}/archive`, {
+      const response = await fetch(`${API_BASE_URL}/api/v1/documents/${documentId}/archive`, {
         method: 'PUT',
-        headers: getAuthHeaders(),
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeaders(),
+        },
       });
 
       if (!response.ok) {
-        throw new Error('Failed to archive document');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to archive document');
       }
 
       await refreshDocuments();
+      await loadActivities();
       toast.success('Document moved to archive');
     } catch (error: any) {
       console.error('Error archiving document:', error);
-      toast.error('Failed to archive document');
+      toast.error(error.message || 'Failed to archive document');
     }
   };
 
   const restoreDocument = async (documentId: string): Promise<void> => {
     try {
-      const response = await fetch(`/api/documents/${documentId}/restore`, {
+      const response = await fetch(`${API_BASE_URL}/api/v1/documents/${documentId}/restore`, {
         method: 'PUT',
-        headers: getAuthHeaders(),
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeaders(),
+        },
       });
 
       if (!response.ok) {
-        throw new Error('Failed to restore document');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to restore document');
       }
 
       await refreshDocuments();
+      await loadActivities();
       toast.success('Document restored from archive');
     } catch (error: any) {
       console.error('Error restoring document:', error);
-      toast.error('Failed to restore document');
+      toast.error(error.message || 'Failed to restore document');
     }
   };
 
   const deleteDocument = async (documentId: string): Promise<void> => {
     try {
-      const response = await fetch(`/api/documents/${documentId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/v1/documents/${documentId}`, {
         method: 'DELETE',
         headers: getAuthHeaders(),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to delete document');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete document');
       }
 
       await refreshDocuments();
+      await loadActivities();
       toast.success('Document permanently deleted');
     } catch (error: any) {
       console.error('Error deleting document:', error);
-      toast.error('Failed to delete document');
+      toast.error(error.message || 'Failed to delete document');
     }
   };
 
   const viewDocument = async (documentId: string): Promise<string> => {
     try {
-      const response = await fetch(`/api/documents/${documentId}/view`, {
+      const response = await fetch(`${API_BASE_URL}/api/v1/documents/${documentId}/view`, {
         headers: getAuthHeaders(),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to get document URL');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to get document URL');
       }
 
       const { url } = await response.json();
@@ -200,7 +224,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       return url;
     } catch (error: any) {
       console.error('Error viewing document:', error);
-      toast.error('Failed to view document');
+      toast.error(error.message || 'Failed to view document');
       throw error;
     }
   };
@@ -208,14 +232,15 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const downloadDocument = async (documentId: string): Promise<void> => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch(`/api/documents/${documentId}/download`, {
+      const response = await fetch(`${API_BASE_URL}/api/v1/documents/${documentId}/download`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
       });
 
       if (!response.ok) {
-        throw new Error('Failed to download document');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to download document');
       }
 
       const blob = await response.blob();
@@ -237,27 +262,31 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       toast.success('Document downloaded');
     } catch (error: any) {
       console.error('Error downloading document:', error);
-      toast.error('Failed to download document');
+      toast.error(error.message || 'Failed to download document');
     }
   };
 
   const shareDocument = async (documentId: string, userIds: string[]): Promise<void> => {
     try {
-      const response = await fetch(`/api/documents/${documentId}/share`, {
+      const response = await fetch(`${API_BASE_URL}/api/v1/documents/${documentId}/share`, {
         method: 'POST',
-        headers: getAuthHeaders(),
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeaders(),
+        },
         body: JSON.stringify({ userIds }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to share document');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to share document');
       }
 
       await refreshDocuments();
       toast.success('Document shared successfully');
     } catch (error: any) {
       console.error('Error sharing document:', error);
-      toast.error('Failed to share document');
+      toast.error(error.message || 'Failed to share document');
     }
   };
 

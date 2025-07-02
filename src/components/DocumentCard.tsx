@@ -19,7 +19,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document, isArchived = fals
   const { moveToArchive, restoreDocument, deleteDocument, downloadDocument } = useDocument();
   const { userRole } = useAuth();
   
-  const canModify = userRole === 'ADMIN' || userRole === 'EDITOR';
+  const canModify = userRole === 'admin' || userRole === 'editor';
   
   const handleToggleDropdown = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -70,7 +70,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document, isArchived = fals
             <div className="flex-1 min-w-0">
               <h3 className="text-base font-semibold text-slate-900 line-clamp-2 leading-tight">{document.name}</h3>
               <p className="text-sm text-slate-500 mt-1">
-                Uploaded by <span className="font-medium">{document.uploader.name}</span> on {formatDate(document.updatedAt.toString())}
+                Uploaded by <span className="font-medium">{document.uploader?.name || 'Unknown User'}</span> on {formatDate(document.updatedAt.toString())}
               </p>
             </div>
           </div>
@@ -172,18 +172,18 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document, isArchived = fals
             </div>
             
             <div className="flex -space-x-1">
-              {document.documentAccess.slice(0, 3).map((access, index) => (
+              {document.documentAccess?.slice(0, 3).map((access, index) => (
                 <div 
                   key={index}
                   className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-white text-xs border-2 border-white"
-                  title={access.user.name}
+                  title={access.user?.name || 'Unknown User'}
                 >
-                  {access.user.name.charAt(0).toUpperCase()}
+                  {(access.user?.name || 'U').charAt(0).toUpperCase()}
                 </div>
-              ))}
-              {document.documentAccess.length > 3 && (
+              )) || []}
+              {(document.documentAccess?.length || 0) > 3 && (
                 <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-300 text-slate-600 text-xs border-2 border-white">
-                  +{document.documentAccess.length - 3}
+                  +{(document.documentAccess?.length || 0) - 3}
                 </div>
               )}
             </div>

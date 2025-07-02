@@ -27,7 +27,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, setIsOpen, document }) 
   
   const availableUsers = allUsers.filter(
     user => user.id !== currentUser?.id && 
-    !document.access.find((a: any) => a.id === user.id)
+    !document.documentAccess?.find((a: any) => a.user?.id === user.id)
   );
   
   return (
@@ -83,22 +83,22 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, setIsOpen, document }) 
                       Current Access
                     </label>
                     <div className="mt-2 space-y-2">
-                      {document.access.map((user: any) => (
+                      {document.documentAccess?.map((access: any) => (
                         <div
-                          key={user.id}
+                          key={access.user?.id || access.userId}
                           className="flex items-center justify-between rounded-lg border border-gray-200 p-2"
                         >
                           <div className="flex items-center">
                             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white">
-                              {user.name.charAt(0).toUpperCase()}
+                              {(access.user?.name || 'U').charAt(0).toUpperCase()}
                             </div>
                             <div className="ml-3">
-                              <p className="text-sm font-medium text-gray-900">{user.name}</p>
-                              <p className="text-xs text-gray-500">{user.email}</p>
+                              <p className="text-sm font-medium text-gray-900">{access.user?.name || 'Unknown User'}</p>
+                              <p className="text-xs text-gray-500">{access.user?.email || 'No email'}</p>
                             </div>
                           </div>
                         </div>
-                      ))}
+                      )) || []}
                     </div>
                   </div>
                   

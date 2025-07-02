@@ -18,6 +18,9 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const useAuth = () => useContext(AuthContext);
 
+// Base API URL - you can configure this in environment variables
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [allUsers, setAllUsers] = useState<User[]>([]);
@@ -29,7 +32,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       try {
         const token = localStorage.getItem('authToken');
         if (token) {
-          const response = await fetch('/api/auth/me', {
+          const response = await fetch(`${API_BASE_URL}/api/v1/auth/me`, {
             headers: {
               'Authorization': `Bearer ${token}`,
             },
@@ -56,7 +59,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const refreshUsers = async () => {
     try {
-      const response = await fetch('/api/users');
+      const token = localStorage.getItem('authToken');
+      if (!token) return;
+
+      const response = await fetch(`${API_BASE_URL}/api/v1/users`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      
       if (response.ok) {
         const users = await response.json();
         setAllUsers(users);
@@ -70,7 +81,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       setLoading(true);
       
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(`${API_BASE_URL}/api/v1/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -79,7 +90,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
 
       if (!response.ok) {
-        throw new Error('Invalid email or password');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Invalid email or password');
       }
 
       const { user, token } = await response.json();
@@ -100,6 +112,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoading(true);
       localStorage.removeItem('authToken');
       setCurrentUser(null);
+      setAllUsers([]);
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
@@ -110,7 +123,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const updateUser = async (updatedUser: User): Promise<void> => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch(`/api/users/${updatedUser.id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/v1/users/${updatedUser.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -120,7 +133,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update user');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update user');
       }
 
       const user = await response.json();
@@ -134,7 +148,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       toast.success('User updated successfully');
     } catch (error: any) {
       console.error('Error updating user:', error);
-      toast.error('Failed to update user');
+      toast.error(error.message || 'Failed to update user');
       throw error;
     }
   };
@@ -142,7 +156,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const addUser = async (userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>): Promise<void> => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch('/api/users', {
+      const response = await fetch(`${API_BASE_URL}/api/v1/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -152,7 +166,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
 
       if (!response.ok) {
-        throw new Error('Failed to add user');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to add user');
       }
 
       const newUser = await response.json();
@@ -160,14 +175,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       toast.success('User added successfully');
     } catch (error: any) {
       console.error('Error adding user:', error);
-      toast.error('Failed to add user');
+      toast.error(error.message || 'Failed to add user');
       throw error;
     }
   };
 
   const value = {
     currentUser,
-    userRole: currentUser?.role || '',
+    userRole: currentUser?.role?.toLowerCase() || '',
     allUsers,
     loading,
     login,
