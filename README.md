@@ -1,12 +1,12 @@
 # PLN SAP Knowledge Management System
 
-A modern document management system built with React, TypeScript, and MongoDB.
+A modern document management system built with React, TypeScript, and your custom backend API.
 
 ## 🚀 Quick Start with Docker
 
 ### Prerequisites
 - Docker and Docker Compose installed
-- Your backend API running (or update docker-compose.yml with your backend image)
+- Your backend API running (update docker-compose.yml with your backend image)
 
 ### Development Environment
 ```bash
@@ -58,12 +58,11 @@ npm run docker:clean
 
 ### Development
 - **Frontend**: http://localhost:5173
-- **MongoDB**: mongodb://localhost:27017
+- **Backend**: Your backend API endpoint
 
 ### Production
 - **Frontend**: http://localhost:3000
 - **Backend**: http://localhost:3001 (if using provided docker-compose)
-- **MongoDB**: mongodb://localhost:27017
 
 ## 📁 Project Structure
 
@@ -75,8 +74,7 @@ npm run docker:clean
 ├── Dockerfile.dev         # Development Docker image
 ├── docker-compose.yml     # Production compose file
 ├── docker-compose.dev.yml # Development compose file
-├── .dockerignore          # Docker ignore file
-└── mongo-init.js          # MongoDB initialization
+└── .dockerignore          # Docker ignore file
 ```
 
 ## 🔧 Configuration
@@ -94,7 +92,12 @@ Update `docker-compose.yml` to point to your actual backend:
 ```yaml
 backend:
   image: your-backend-image:latest  # Replace with your backend image
-  # ... rest of configuration
+  ports:
+    - "3001:3001"
+  environment:
+    - NODE_ENV=production
+    - PORT=3001
+  # Add any other environment variables your backend needs
 ```
 
 ## 🛠️ Development
@@ -148,12 +151,18 @@ docker-compose logs -f frontend
 ### Health Checks
 The frontend container includes health checks that verify the application is running correctly.
 
-## 🔒 Security Notes
+## 🔗 API Integration
 
-1. Change default MongoDB credentials in production
-2. Update the default admin user password in `mongo-init.js`
-3. Use environment-specific secrets
-4. Enable MongoDB authentication in production
+This frontend is configured to work with your custom backend API endpoints:
+
+- `POST /api/v1/auth/login` - User authentication
+- `GET /api/v1/auth/me` - Get current user profile
+- `GET /api/v1/users` - List users (Admin/Editor only)
+- `POST /api/v1/users` - Create user (Admin only)
+- `POST /api/v1/documents/upload` - Upload documents
+- `GET /api/v1/documents` - List documents
+- `GET /api/v1/activities` - View activities
+- `GET /api/v1/health` - Health check
 
 ## 🤝 Contributing
 
