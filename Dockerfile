@@ -4,15 +4,11 @@ FROM node:20-slim AS base
 # Set working directory
 WORKDIR /app
 
-# Install pnpm globally for better package management
-RUN npm install -g pnpm
-
 # Copy package files
 COPY package*.json ./
-COPY pnpm-lock.yaml* ./
 
-# Install dependencies
-RUN pnpm install --frozen-lockfile
+# Install dependencies with force flag (ignore lock file)
+RUN npm install --force
 
 # Copy source code
 COPY . .
@@ -21,7 +17,7 @@ COPY . .
 FROM base AS build
 
 # Build the application
-RUN pnpm run build
+RUN npm run build
 
 # Production stage
 FROM node:20-slim AS production

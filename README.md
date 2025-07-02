@@ -104,8 +104,8 @@ backend:
 
 ### Local Development (without Docker)
 ```bash
-# Install dependencies
-npm install
+# Install dependencies (force install without lock file)
+npm install --force
 
 # Start development server
 npm run dev
@@ -163,6 +163,21 @@ This frontend is configured to work with your custom backend API endpoints:
 - `GET /api/v1/documents` - List documents
 - `GET /api/v1/activities` - View activities
 - `GET /api/v1/health` - Health check
+
+## 📦 Package Management
+
+This project uses **npm** with force installation to ensure all packages are installed regardless of lock file conflicts:
+
+```bash
+# Install dependencies
+npm install --force
+
+# Add new package
+npm install <package-name> --force
+
+# Remove package
+npm uninstall <package-name>
+```
 
 ## 🤝 Contributing
 

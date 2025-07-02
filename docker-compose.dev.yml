@@ -17,7 +17,7 @@ services:
     networks:
       - app-network
     restart: unless-stopped
-    command: pnpm run dev
+    command: npm run dev -- --host 0.0.0.0
 
 networks:
   app-network:
