@@ -41,7 +41,7 @@ function App() {
   return (
     <AuthProvider>
       <DocumentProvider>
-        <Router>
+        <Router basename="/cms">
           <Toaster position="top-right" />
           <Routes>
             <Route path="/login" element={<Login />} />
@@ -50,7 +50,7 @@ function App() {
                 <Layout />
               </ProtectedRoute>
             }>
-              <Route index element={<Navigate to="/dashboard\" replace />} />
+              <Route index element={<Navigate to="/dashboard" replace />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="documents" element={<Documents />} />
               <Route path="archive" element={<Archive />} />

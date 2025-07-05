@@ -190,3 +190,57 @@ npm uninstall <package-name>
 ## 📝 License
 
 This project is licensed under the MIT License.
+
+## 🌐 Subdirectory Deployment
+
+To deploy this app under a subdirectory (e.g., `www.mywebsite.com/cms`):
+
+### Quick Setup
+```bash
+# Build for subdirectory
+npm run build:subdirectory
+
+# Deploy with Docker and Nginx
+npm run docker:run:subdirectory
+```
+
+### Manual Setup
+
+1. **Configure Vite for subdirectory**:
+   - The app is already configured to use `/cms/` as base path in production
+
+2. **Build the application**:
+   ```bash
+   NODE_ENV=production npm run build
+   ```
+
+3. **Deploy files**:
+   ```bash
+   # Copy dist folder to your web server
+   cp -r dist/* /var/www/cms/
+   ```
+
+4. **Configure Nginx**:
+   ```bash
+   # Copy the provided nginx.conf
+   cp nginx.conf /etc/nginx/conf.d/default.conf
+   sudo nginx -t
+   sudo systemctl reload nginx
+   ```
+
+5. **Update API endpoints**:
+   - Set `VITE_API_BASE_URL=https://www.mywebsite.com/cms/api`
+   - Or configure your backend to be accessible from the subdirectory
+
+### Configuration Files
+
+- `nginx.conf` - Nginx configuration for subdirectory routing
+- `docker-compose.prod.yml` - Production deployment with Nginx
+- `scripts/deploy-subdirectory.sh` - Automated deployment script
+
+### Important Notes
+
+- All routes will be prefixed with `/cms/`
+- Static assets will be served from `/cms/assets/`
+- API calls should be configured to work with your subdirectory setup
+- The app uses React Router with `basename="/cms"`

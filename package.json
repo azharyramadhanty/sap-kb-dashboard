@@ -11,10 +11,12 @@
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
+    "build:subdirectory": "NODE_ENV=production vite build",
     "docker:build": "./scripts/docker-build.sh",
     "docker:run": "./scripts/docker-run.sh",
     "docker:run:dev": "./scripts/docker-run.sh development",
     "docker:run:prod": "./scripts/docker-run.sh production",
+    "docker:run:subdirectory": "docker-compose -f docker-compose.prod.yml up -d",
     "docker:stop": "docker-compose down",
     "docker:logs": "docker-compose logs -f",
     "docker:clean": "docker-compose down -v --remove-orphans"
