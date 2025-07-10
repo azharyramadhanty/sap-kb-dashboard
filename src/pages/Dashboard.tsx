@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { FileText, Archive, Users, Clock, TrendingUp } from 'lucide-react';
 import StatCard from '../components/StatCard';
 import ActivityFeed from '../components/ActivityFeed';
+import Pagination from '../components/Pagination';
 import { useDocument } from '../contexts/DocumentContext';
 import { useAuth } from '../contexts/AuthContext';
 
 const Dashboard: React.FC = () => {
-  const { documents, archivedDocuments, recentActivities, categories } = useDocument();
-  const { allUsers } = useAuth();
+  const [activitiesPage, setActivitiesPage] = useState(1);
+  const { documents, archivedDocuments, recentActivities, categories, activitiesMeta, loadActivities } = useDocument();
+  const { allUsers, usersMeta } = useAuth();
   
   // Last month's stats for comparison (in a real app, these would come from historical data)
   const previousStats = {
@@ -26,6 +28,14 @@ const Dashboard: React.FC = () => {
 
   const maxCount = Math.max(...categoryStats.map(stat => stat.count), 1);
   
+  const handleActivitiesPageChange = (page: number) => {
+    setActivitiesPage(page);
+    loadActivities({
+      page,
+      limit: 5,
+    });
+  };
+  
   return (
     <div className="space-y-8">
       <div>
@@ -38,7 +48,7 @@ const Dashboard: React.FC = () => {
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Total Documents"
-          value={documents.length}
+          value={activitiesMeta?.total || documents.length}
           icon={FileText}
           color="bg-blue-600"
           previousValue={previousStats.documents}
@@ -52,14 +62,14 @@ const Dashboard: React.FC = () => {
         />
         <StatCard
           title="Total Users"
-          value={allUsers.length}
+          value={usersMeta?.total || allUsers.length}
           icon={Users}
           color="bg-emerald-600"
           previousValue={previousStats.users}
         />
         <StatCard
           title="Recent Activities"
-          value={recentActivities.length}
+          value={activitiesMeta?.total || recentActivities.length}
           icon={TrendingUp}
           color="bg-purple-600"
         />
@@ -69,11 +79,22 @@ const Dashboard: React.FC = () => {
         <div className="card">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-semibold text-slate-900">Recent Activity</h2>
-            <span className="text-sm text-slate-500">{recentActivities.length} activities</span>
+            <span className="text-sm text-slate-500">{activitiesMeta?.total || recentActivities.length} activities</span>
           </div>
           <div className="space-y-4">
             {recentActivities.length > 0 ? (
-              <ActivityFeed activities={recentActivities.slice(0, 5)} />
+              <>
+                <ActivityFeed activities={recentActivities} />
+                {activitiesMeta && activitiesMeta.totalPages > 1 && (
+                  <Pagination
+                    currentPage={activitiesMeta.page}
+                    totalPages={activitiesMeta.totalPages}
+                    total={activitiesMeta.total}
+                    limit={activitiesMeta.limit}
+                    onPageChange={handleActivitiesPageChange}
+                  />
+                )}
+              </>
             ) : (
               <div className="text-center py-8">
                 <Clock className="mx-auto h-12 w-12 text-slate-300" />

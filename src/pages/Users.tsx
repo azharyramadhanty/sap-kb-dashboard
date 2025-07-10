@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import { PlusCircle } from 'lucide-react';
 import UserTable from '../components/UserTable';
 import UserModal from '../components/UserModal';
+import Pagination from '../components/Pagination';
+import { useAuth } from '../contexts/AuthContext';
 
 const Users: React.FC = () => {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const { usersMeta, refreshUsers } = useAuth();
   
   const handleAddUser = () => {
     setSelectedUser(null);
@@ -15,6 +19,14 @@ const Users: React.FC = () => {
   const handleEditUser = (user: any) => {
     setSelectedUser(user);
     setIsUserModalOpen(true);
+  };
+  
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    refreshUsers({
+      page,
+      limit: 10,
+    });
   };
   
   return (
@@ -40,6 +52,16 @@ const Users: React.FC = () => {
       </div>
       
       <UserTable onEditUser={handleEditUser} />
+      
+      {usersMeta && (
+        <Pagination
+          currentPage={usersMeta.page}
+          totalPages={usersMeta.totalPages}
+          total={usersMeta.total}
+          limit={usersMeta.limit}
+          onPageChange={handlePageChange}
+        />
+      )}
       
       <UserModal
         isOpen={isUserModalOpen}

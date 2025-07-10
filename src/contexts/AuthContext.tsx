@@ -1,17 +1,19 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { User } from '@prisma/client';
+import { ApiResponse, PaginationParams } from '../types/database';
 import toast from 'react-hot-toast';
 
 type AuthContextType = {
   currentUser: User | null;
   userRole: string;
   allUsers: User[];
+  usersMeta: { total: number; page: number; limit: number; totalPages: number } | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   updateUser: (user: User) => Promise<void>;
   addUser: (userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
-  refreshUsers: () => Promise<void>;
+  refreshUsers: (params?: PaginationParams) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -24,6 +26,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [allUsers, setAllUsers] = useState<User[]>([]);
+  const [usersMeta, setUsersMeta] = useState<{ total: number; page: number; limit: number; totalPages: number } | null>(null);
   const [loading, setLoading] = useState(true);
 
   // Initialize auth state
@@ -57,20 +60,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     initializeAuth();
   }, []);
 
-  const refreshUsers = async () => {
+  const buildQueryParams = (params?: PaginationParams): string => {
+    if (!params) return '';
+    
+    const searchParams = new URLSearchParams();
+    if (params.page) searchParams.append('page', params.page.toString());
+    if (params.limit) searchParams.append('limit', params.limit.toString());
+    if (params.search) searchParams.append('search', params.search);
+    if (params.sort) searchParams.append('sort', params.sort);
+    
+    return searchParams.toString() ? `?${searchParams.toString()}` : '';
+  };
+
+  const refreshUsers = async (params?: PaginationParams) => {
     try {
       const token = localStorage.getItem('authToken');
       if (!token) return;
 
-      const response = await fetch(`${API_BASE_URL}/api/v1/users`, {
+      const queryParams = buildQueryParams(params);
+      const response = await fetch(`${API_BASE_URL}/api/v1/users${queryParams}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
       });
       
       if (response.ok) {
-        const users = await response.json();
-        setAllUsers(users);
+        const result = await response.json();
+        setAllUsers(result.data || []);
+        setUsersMeta(result.meta || null);
       }
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -184,6 +201,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     currentUser,
     userRole: currentUser?.role?.toLowerCase() || '',
     allUsers,
+    usersMeta,
     loading,
     login,
     logout,

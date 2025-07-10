@@ -3,11 +3,13 @@ import { PlusCircle } from 'lucide-react';
 import DocumentCard from '../components/DocumentCard';
 import DocumentFilter from '../components/DocumentFilter';
 import UploadModal from '../components/UploadModal';
+import Pagination from '../components/Pagination';
 import { useDocument } from '../contexts/DocumentContext';
 import { useAuth } from '../contexts/AuthContext';
 
 const Documents: React.FC = () => {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState({
     search: '',
     type: '',
@@ -15,10 +17,29 @@ const Documents: React.FC = () => {
     sort: 'newest',
   });
   
-  const { documents } = useDocument();
+  const { documents, documentsMeta, refreshDocuments } = useDocument();
   const { userRole } = useAuth();
   
   const canUpload = userRole === 'admin' || userRole === 'editor';
+  
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    refreshDocuments({
+      page,
+      limit: 10,
+      ...filters,
+    });
+  };
+  
+  const handleFiltersChange = (newFilters: any) => {
+    setFilters(newFilters);
+    setCurrentPage(1);
+    refreshDocuments({
+      page: 1,
+      limit: 10,
+      ...newFilters,
+    });
+  };
   
   // Apply filters
   const filteredDocuments = documents
@@ -80,7 +101,7 @@ const Documents: React.FC = () => {
         )}
       </div>
       
-      <DocumentFilter filters={filters} setFilters={setFilters} />
+      <DocumentFilter filters={filters} setFilters={handleFiltersChange} />
       
       {filteredDocuments.length === 0 ? (
         <div className="rounded-lg border-2 border-dashed border-gray-300 p-12 text-center">
@@ -119,11 +140,23 @@ const Documents: React.FC = () => {
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredDocuments.map((document) => (
-            <DocumentCard key={document.id} document={document} />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {filteredDocuments.map((document) => (
+              <DocumentCard key={document.id} document={document} />
+            ))}
+          </div>
+          
+          {documentsMeta && (
+            <Pagination
+              currentPage={documentsMeta.page}
+              totalPages={documentsMeta.totalPages}
+              total={documentsMeta.total}
+              limit={documentsMeta.limit}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </>
       )}
       
       <UploadModal

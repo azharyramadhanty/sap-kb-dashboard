@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { Document, User, Activity } from '@prisma/client';
-import { DocumentWithRelations, ActivityWithRelations, DocumentCategory } from '../types/database';
+import { DocumentWithRelations, ActivityWithRelations, DocumentCategory, ApiResponse, PaginationParams } from '../types/database';
 import toast from 'react-hot-toast';
 import { useAuth } from './AuthContext';
 
@@ -10,6 +10,8 @@ type DocumentContextType = {
   recentActivities: ActivityWithRelations[];
   categories: DocumentCategory[];
   loading: boolean;
+  documentsMeta: { total: number; page: number; limit: number; totalPages: number } | null;
+  activitiesMeta: { total: number; page: number; limit: number; totalPages: number } | null;
   uploadDocument: (document: any, file: File) => Promise<void>;
   moveToArchive: (documentId: string) => Promise<void>;
   restoreDocument: (documentId: string) => Promise<void>;
@@ -17,7 +19,8 @@ type DocumentContextType = {
   viewDocument: (documentId: string) => Promise<string>;
   downloadDocument: (documentId: string) => Promise<void>;
   shareDocument: (documentId: string, userIds: string[]) => Promise<void>;
-  refreshDocuments: () => Promise<void>;
+  refreshDocuments: (params?: PaginationParams) => Promise<void>;
+  loadActivities: (params?: PaginationParams) => Promise<void>;
 };
 
 const DocumentContext = createContext<DocumentContextType>({} as DocumentContextType);
@@ -32,6 +35,8 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [documents, setDocuments] = useState<DocumentWithRelations[]>([]);
   const [archivedDocuments, setArchivedDocuments] = useState<DocumentWithRelations[]>([]);
   const [recentActivities, setRecentActivities] = useState<ActivityWithRelations[]>([]);
+  const [documentsMeta, setDocumentsMeta] = useState<{ total: number; page: number; limit: number; totalPages: number } | null>(null);
+  const [activitiesMeta, setActivitiesMeta] = useState<{ total: number; page: number; limit: number; totalPages: number } | null>(null);
   const [loading, setLoading] = useState(false);
 
   const categories: DocumentCategory[] = ['SAP_CMCT', 'SAP_FI', 'SAP_QM'];
@@ -50,17 +55,35 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     };
   };
 
-  const refreshDocuments = async () => {
+  const buildQueryParams = (params?: PaginationParams): string => {
+    if (!params) return '';
+    
+    const searchParams = new URLSearchParams();
+    if (params.page) searchParams.append('page', params.page.toString());
+    if (params.limit) searchParams.append('limit', params.limit.toString());
+    if (params.search) searchParams.append('search', params.search);
+    if (params.sort) searchParams.append('sort', params.sort);
+    if (params.category) searchParams.append('category', params.category);
+    if (params.type) searchParams.append('type', params.type);
+    
+    return searchParams.toString() ? `?${searchParams.toString()}` : '';
+  };
+
+  const refreshDocuments = async (params?: PaginationParams) => {
     if (!currentUser) return;
 
     setLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/documents`, {
+      const queryParams = buildQueryParams(params);
+      const response = await fetch(`${API_BASE_URL}/api/v1/documents${queryParams}`, {
         headers: getAuthHeaders(),
       });
 
       if (response.ok) {
-        const docs = await response.json();
+        const result = await response.json();
+        const docs = result.data || [];
+        setDocumentsMeta(result.meta || null);
+        
         // Separate archived and active documents
         const activeDocuments = docs.filter((doc: any) => !doc.archivedAt);
         const archived = docs.filter((doc: any) => doc.archivedAt);
@@ -79,17 +102,19 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   };
 
-  const loadActivities = async () => {
+  const loadActivities = async (params?: PaginationParams) => {
     if (!currentUser) return;
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/activities`, {
+      const queryParams = buildQueryParams(params);
+      const response = await fetch(`${API_BASE_URL}/api/v1/activities${queryParams}`, {
         headers: getAuthHeaders(),
       });
       
       if (response.ok) {
-        const activities = await response.json();
-        setRecentActivities(activities);
+        const result = await response.json();
+        setRecentActivities(result.data || []);
+        setActivitiesMeta(result.meta || null);
       }
     } catch (error: any) {
       console.error('Error loading activities:', error);
@@ -296,6 +321,8 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     recentActivities,
     categories,
     loading,
+    documentsMeta,
+    activitiesMeta,
     uploadDocument,
     moveToArchive,
     restoreDocument,
@@ -304,6 +331,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     downloadDocument,
     shareDocument,
     refreshDocuments,
+    loadActivities,
   };
 
   return (
