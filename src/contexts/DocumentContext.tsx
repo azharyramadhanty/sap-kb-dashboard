@@ -27,8 +27,8 @@ const DocumentContext = createContext<DocumentContextType>({} as DocumentContext
 
 export const useDocument = () => useContext(DocumentContext);
 
-// Base API URL - you can configure this in environment variables
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+// const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+const API_BASE_URL = 'https://nonprodchangecopilot.indonesiacentral.cloudapp.azure.com/cms-be';
 
 export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { currentUser, userRole } = useAuth();
@@ -75,7 +75,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setLoading(true);
     try {
       const queryParams = buildQueryParams(params);
-      const response = await fetch(`${API_BASE_URL}/api/v1/documents${queryParams}`, {
+      const response = await fetch(`${API_BASE_URL}/documents${queryParams}`, {
         headers: getAuthHeaders(),
       });
 
@@ -107,7 +107,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     try {
       const queryParams = buildQueryParams(params);
-      const response = await fetch(`${API_BASE_URL}/api/v1/activities${queryParams}`, {
+      const response = await fetch(`${API_BASE_URL}/activities${queryParams}`, {
         headers: getAuthHeaders(),
       });
       
@@ -138,7 +138,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       }
 
       const token = localStorage.getItem('authToken');
-      const response = await fetch(`${API_BASE_URL}/api/v1/documents/upload`, {
+      const response = await fetch(`${API_BASE_URL}/documents/upload`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -166,7 +166,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const moveToArchive = async (documentId: string): Promise<void> => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/documents/${documentId}/archive`, {
+      const response = await fetch(`${API_BASE_URL}/documents/${documentId}/archive`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -190,7 +190,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const restoreDocument = async (documentId: string): Promise<void> => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/documents/${documentId}/restore`, {
+      const response = await fetch(`${API_BASE_URL}/documents/${documentId}/restore`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -214,7 +214,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const deleteDocument = async (documentId: string): Promise<void> => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/documents/${documentId}`, {
+      const response = await fetch(`${API_BASE_URL}/documents/${documentId}`, {
         method: 'DELETE',
         headers: getAuthHeaders(),
       });
@@ -235,7 +235,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const viewDocument = async (documentId: string): Promise<string> => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/documents/${documentId}/view`, {
+      const response = await fetch(`${API_BASE_URL}/documents/${documentId}/view`, {
         headers: getAuthHeaders(),
       });
 
@@ -257,7 +257,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const downloadDocument = async (documentId: string): Promise<void> => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch(`${API_BASE_URL}/api/v1/documents/${documentId}/download`, {
+      const response = await fetch(`${API_BASE_URL}/documents/${documentId}/download`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -293,7 +293,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const shareDocument = async (documentId: string, userIds: string[]): Promise<void> => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/documents/${documentId}/share`, {
+      const response = await fetch(`${API_BASE_URL}/documents/${documentId}/share`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

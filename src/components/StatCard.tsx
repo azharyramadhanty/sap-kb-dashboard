@@ -1,5 +1,5 @@
 import React from 'react';
-import { DivideIcon as LucideIcon } from 'lucide-react';
+import { DivideIcon, LucideIcon } from 'lucide-react';
 
 interface StatCardProps {
   title: string;
@@ -9,7 +9,7 @@ interface StatCardProps {
   previousValue?: number;
 }
 
-const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, color, previousValue }) => {
+const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon = DivideIcon, color, previousValue }) => {
   const getPercentageChange = () => {
     if (previousValue === undefined || previousValue === 0) return null;
     
