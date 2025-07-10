@@ -14,7 +14,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, setIsOpen }) => {
   const [dragging, setDragging] = useState(false);
   const [loading, setLoading] = useState(false);
   const [accessUsers, setAccessUsers] = useState<string[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState('SAP CMCT');
+  const [selectedCategory, setSelectedCategory] = useState('SAP_CMCT');
   
   const { uploadDocument, categories } = useDocument();
   const { currentUser, allUsers } = useAuth();

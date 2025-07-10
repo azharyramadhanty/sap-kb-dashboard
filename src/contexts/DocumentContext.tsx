@@ -131,11 +131,12 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
       const formData = new FormData();
       formData.append('file', file);
+      formData.append('name', file.name);
       formData.append('category', documentData.category || 'SAP_CMCT');
       
-      if (documentData.access && documentData.access.length > 0) {
-        formData.append('access', JSON.stringify(documentData.access.map((user: User) => user.id)));
-      }
+      // if (documentData.access && documentData.access.length > 0) {
+      //   formData.append('access', JSON.stringify(documentData.access.map((user: User) => user.id)));
+      // }
 
       const token = localStorage.getItem('authToken');
       const response = await fetch(`${API_BASE_URL}/documents/upload`, {
