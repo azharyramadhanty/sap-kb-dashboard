@@ -154,8 +154,8 @@ const Login: React.FC = () => {
             <div className="mt-6 grid grid-cols-3 gap-3">
               <button
                 onClick={() => {
-                  setEmail('admin@pln.com');
-                  setPassword('password');
+                  setEmail('admin@example.com');
+                  setPassword('admin123');
                 }}
                 className="btn-outline text-xs"
               >
@@ -163,8 +163,8 @@ const Login: React.FC = () => {
               </button>
               <button
                 onClick={() => {
-                  setEmail('editor@pln.com');
-                  setPassword('password');
+                  setEmail('editor@example.com');
+                  setPassword('admin123');
                 }}
                 className="btn-outline text-xs"
               >
@@ -172,8 +172,8 @@ const Login: React.FC = () => {
               </button>
               <button
                 onClick={() => {
-                  setEmail('viewer@pln.com');
-                  setPassword('password');
+                  setEmail('viewer@example.com');
+                  setPassword('admin123');
                 }}
                 className="btn-outline text-xs"
               >
