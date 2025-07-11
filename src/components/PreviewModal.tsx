@@ -92,6 +92,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ isOpen, setIsOpen, document
     }
 
     if (document.type === 'pdf' && previewUrl) {
+    }
     if (document.type.includes('pdf') && previewUrl) {
       return (
         <iframe
