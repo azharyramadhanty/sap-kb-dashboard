@@ -1,6 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { User } from '@prisma/client';
-import { ApiResponse, PaginationParams } from '../types/database';
+import { User, ApiResponse, PaginationParams } from '../types/database';
 import toast from 'react-hot-toast';
 
 type AuthContextType = {
@@ -20,8 +19,7 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const useAuth = () => useContext(AuthContext);
 
-// const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-const API_BASE_URL = 'https://nonprodchangecopilot.indonesiacentral.cloudapp.azure.com/cms-be';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -85,7 +83,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
       
       if (response.ok) {
-        const result = await response.json();
+        const result: ApiResponse<User> = await response.json();
         setAllUsers(result.data || []);
         setUsersMeta(result.meta || null);
       }
@@ -130,6 +128,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.removeItem('authToken');
       setCurrentUser(null);
       setAllUsers([]);
+      setUsersMeta(null);
     } catch (error) {
       console.error('Logout error:', error);
     } finally {

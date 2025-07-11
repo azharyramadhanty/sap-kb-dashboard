@@ -1,13 +1,12 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { Document, User, Activity } from '@prisma/client';
-import { DocumentWithRelations, ActivityWithRelations, DocumentCategory, ApiResponse, PaginationParams } from '../types/database';
+import { Document, User, Activity, DocumentCategory, ApiResponse, PaginationParams } from '../types/database';
 import toast from 'react-hot-toast';
 import { useAuth } from './AuthContext';
 
 type DocumentContextType = {
-  documents: DocumentWithRelations[];
-  archivedDocuments: DocumentWithRelations[];
-  recentActivities: ActivityWithRelations[];
+  documents: Document[];
+  archivedDocuments: Document[];
+  recentActivities: Activity[];
   categories: DocumentCategory[];
   loading: boolean;
   documentsMeta: { total: number; page: number; limit: number; totalPages: number } | null;
@@ -27,14 +26,13 @@ const DocumentContext = createContext<DocumentContextType>({} as DocumentContext
 
 export const useDocument = () => useContext(DocumentContext);
 
-// const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-const API_BASE_URL = 'https://nonprodchangecopilot.indonesiacentral.cloudapp.azure.com/cms-be';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { currentUser, userRole } = useAuth();
-  const [documents, setDocuments] = useState<DocumentWithRelations[]>([]);
-  const [archivedDocuments, setArchivedDocuments] = useState<DocumentWithRelations[]>([]);
-  const [recentActivities, setRecentActivities] = useState<ActivityWithRelations[]>([]);
+  const [documents, setDocuments] = useState<Document[]>([]);
+  const [archivedDocuments, setArchivedDocuments] = useState<Document[]>([]);
+  const [recentActivities, setRecentActivities] = useState<Activity[]>([]);
   const [documentsMeta, setDocumentsMeta] = useState<{ total: number; page: number; limit: number; totalPages: number } | null>(null);
   const [activitiesMeta, setActivitiesMeta] = useState<{ total: number; page: number; limit: number; totalPages: number } | null>(null);
   const [loading, setLoading] = useState(false);
@@ -80,13 +78,13 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       });
 
       if (response.ok) {
-        const result = await response.json();
+        const result: ApiResponse<Document> = await response.json();
         const docs = result.data || [];
         setDocumentsMeta(result.meta || null);
         
         // Separate archived and active documents
-        const activeDocuments = docs.filter((doc: any) => !doc.archivedAt);
-        const archived = docs.filter((doc: any) => doc.archivedAt);
+        const activeDocuments = docs.filter((doc: Document) => !doc.archivedAt);
+        const archived = docs.filter((doc: Document) => doc.archivedAt);
         
         setDocuments(activeDocuments);
         setArchivedDocuments(archived);
@@ -112,7 +110,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       });
       
       if (response.ok) {
-        const result = await response.json();
+        const result: ApiResponse<Activity> = await response.json();
         setRecentActivities(result.data || []);
         setActivitiesMeta(result.meta || null);
       }
@@ -133,10 +131,6 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       formData.append('file', file);
       formData.append('name', file.name);
       formData.append('category', documentData.category || 'SAP_CMCT');
-      
-      // if (documentData.access && documentData.access.length > 0) {
-      //   formData.append('access', JSON.stringify(documentData.access.map((user: User) => user.id)));
-      // }
 
       const token = localStorage.getItem('authToken');
       const response = await fetch(`${API_BASE_URL}/documents/upload`, {

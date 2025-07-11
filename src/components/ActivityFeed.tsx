@@ -1,9 +1,9 @@
 import React from 'react';
 import { formatDate, formatTime } from '../utils/helpers';
-import { ActivityWithRelations } from '../types/database';
+import { Activity } from '../types/database';
 
 interface ActivityFeedProps {
-  activities: ActivityWithRelations[];
+  activities: Activity[];
 }
 
 const ActivityFeed: React.FC<ActivityFeedProps> = ({ activities }) => {
@@ -82,7 +82,7 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({ activities }) => {
     }
   };
   
-  const getActivityText = (activity: ActivityWithRelations) => {
+  const getActivityText = (activity: Activity) => {
     const documentName = activity.document?.name || 'Unknown Document';
     
     switch (activity.type) {

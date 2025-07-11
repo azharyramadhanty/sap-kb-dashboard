@@ -54,12 +54,12 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ isOpen, setIsOpen, document
   }
 
   const getDocumentIcon = () => {
-    switch (document.type) {
-      case 'pdf':
+    const fileType = document.type.toLowerCase();
+    if (fileType.includes('pdf')) {
         return <FileIcon className="h-16 w-16 text-red-500" />;
-      case 'pptx':
+    } else if (fileType.includes('presentation') || fileType.includes('powerpoint')) {
         return <PresentationIcon className="h-16 w-16 text-orange-500" />;
-      default:
+    } else {
         return <FileTextIcon className="h-16 w-16 text-blue-500" />;
     }
   };
@@ -92,6 +92,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ isOpen, setIsOpen, document
     }
 
     if (document.type === 'pdf' && previewUrl) {
+    if (document.type.includes('pdf') && previewUrl) {
       return (
         <iframe
           src={previewUrl}
@@ -106,7 +107,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ isOpen, setIsOpen, document
         {getDocumentIcon()}
         <h4 className="mt-4 text-lg font-medium text-gray-900">{document.name}</h4>
         <p className="mt-1 text-sm text-gray-500">
-          Preview not available for {document.type.toUpperCase()} files
+          Preview not available for this file type
         </p>
         <button
           onClick={handleDownload}

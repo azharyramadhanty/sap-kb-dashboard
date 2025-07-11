@@ -3,12 +3,12 @@ import { FileIcon, FileTextIcon, PresentationIcon, MoreVerticalIcon, DownloadIco
 import { formatDate } from '../utils/helpers';
 import { useDocument } from '../contexts/DocumentContext';
 import { useAuth } from '../contexts/AuthContext';
-import { DocumentWithRelations } from '../types/database';
+import { Document } from '../types/database';
 import ShareModal from './ShareModal';
 import PreviewModal from './PreviewModal';
 
 interface DocumentCardProps {
-  document: DocumentWithRelations;
+  document: Document;
   isArchived?: boolean;
 }
 
@@ -32,14 +32,14 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document, isArchived = fals
   };
   
   const getDocumentIcon = () => {
-    switch (document.type) {
-      case 'pdf':
+    const fileType = document.type.toLowerCase();
+    if (fileType.includes('pdf')) {
         return <FileIcon className="h-8 w-8 text-red-500" />;
-      case 'docx':
+    } else if (fileType.includes('word') || fileType.includes('document')) {
         return <FileTextIcon className="h-8 w-8 text-blue-500" />;
-      case 'pptx':
+    } else if (fileType.includes('presentation') || fileType.includes('powerpoint')) {
         return <PresentationIcon className="h-8 w-8 text-orange-500" />;
-      default:
+    } else {
         return <FileTextIcon className="h-8 w-8 text-slate-500" />;
     }
   };
@@ -59,6 +59,13 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document, isArchived = fals
 
   const formatCategoryDisplay = (category: string) => {
     return category.replace('_', ' ');
+  };
+
+  const getFileExtension = (type: string) => {
+    if (type.includes('pdf')) return 'PDF';
+    if (type.includes('word') || type.includes('document')) return 'DOCX';
+    if (type.includes('presentation') || type.includes('powerpoint')) return 'PPTX';
+    return type.split('/').pop()?.toUpperCase() || 'FILE';
   };
   
   return (
@@ -164,7 +171,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document, isArchived = fals
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <span className="badge badge-gray">
-                {document.type.toUpperCase()}
+                {getFileExtension(document.type)}
               </span>
               <span className={`badge ${getCategoryColor(document.category)}`}>
                 {formatCategoryDisplay(document.category)}
@@ -172,18 +179,13 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document, isArchived = fals
             </div>
             
             <div className="flex -space-x-1">
-              {document.documentAccess?.slice(0, 3).map((access, index) => (
+              {/* Show document access count */}
+              {document._count.documentAccess > 0 && (
                 <div 
-                  key={index}
                   className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-white text-xs border-2 border-white"
-                  title={access.user?.name || 'Unknown User'}
+                  title={`Shared with ${document._count.documentAccess} user${document._count.documentAccess > 1 ? 's' : ''}`}
                 >
-                  {(access.user?.name || 'U').charAt(0).toUpperCase()}
-                </div>
-              )) || []}
-              {(document.documentAccess?.length || 0) > 3 && (
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-300 text-slate-600 text-xs border-2 border-white">
-                  +{(document.documentAccess?.length || 0) - 3}
+                  {document._count.documentAccess}
                 </div>
               )}
             </div>

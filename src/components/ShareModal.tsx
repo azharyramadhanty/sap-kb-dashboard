@@ -82,23 +82,10 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, setIsOpen, document }) 
                     <label className="text-sm font-medium text-gray-700">
                       Current Access
                     </label>
-                    <div className="mt-2 space-y-2">
-                      {document.documentAccess?.map((access: any) => (
-                        <div
-                          key={access.user?.id || access.userId}
-                          className="flex items-center justify-between rounded-lg border border-gray-200 p-2"
-                        >
-                          <div className="flex items-center">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white">
-                              {(access.user?.name || 'U').charAt(0).toUpperCase()}
-                            </div>
-                            <div className="ml-3">
-                              <p className="text-sm font-medium text-gray-900">{access.user?.name || 'Unknown User'}</p>
-                              <p className="text-xs text-gray-500">{access.user?.email || 'No email'}</p>
-                            </div>
-                          </div>
-                        </div>
-                      )) || []}
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-600">
+                        This document is shared with {document._count.documentAccess} user{document._count.documentAccess !== 1 ? 's' : ''}
+                      </p>
                     </div>
                   </div>
                   
