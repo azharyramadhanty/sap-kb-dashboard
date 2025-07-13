@@ -26,7 +26,8 @@ const DocumentContext = createContext<DocumentContextType>({} as DocumentContext
 
 export const useDocument = () => useContext(DocumentContext);
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+// const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+const API_BASE_URL = 'https://nonprodchangecopilot.indonesiacentral.cloudapp.azure.com/cms-be';
 
 export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { currentUser, userRole } = useAuth();
@@ -131,6 +132,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       formData.append('file', file);
       formData.append('name', file.name);
       formData.append('category', documentData.category || 'SAP_CMCT');
+      formData.append('directory', 'file-upload');
 
       const token = localStorage.getItem('authToken');
       const response = await fetch(`${API_BASE_URL}/documents/upload`, {
@@ -230,7 +232,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const viewDocument = async (documentId: string): Promise<string> => {
     try {
-      const response = await fetch(`${API_BASE_URL}/documents/${documentId}/view`, {
+      const response = await fetch(`${API_BASE_URL}/documents/${documentId}/stream`, {
         headers: getAuthHeaders(),
       });
 
