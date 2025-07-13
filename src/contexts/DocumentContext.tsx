@@ -237,11 +237,13 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to get document URL');
+        throw new Error('Failed to get document stream');
       }
 
-      const { url } = await response.json();
+      // Handle direct file stream from backend
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      
       await loadActivities();
       return url;
     } catch (error: any) {
