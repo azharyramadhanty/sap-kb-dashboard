@@ -19,7 +19,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ isOpen, setIsOpen, document
 
   // Check if user has access to the document
   const hasAccess = document.uploader.id === currentUser?.id || 
-    document.access.some((user: any) => user.id === currentUser?.id);
+    document.documentAccess?.some((access: any) => access.user.id === currentUser?.id);
 
   useEffect(() => {
     if (isOpen && hasAccess && document.id) {

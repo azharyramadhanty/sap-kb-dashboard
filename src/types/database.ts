@@ -49,6 +49,9 @@ export interface Document {
   _count: {
     documentAccess: number;
   };
+  documentAccess?: Array<{
+    user: User;
+  }>;
 }
 
 // Activity Types
