@@ -255,11 +255,8 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const downloadDocument = async (documentId: string): Promise<void> => {
     try {
-      const token = localStorage.getItem('authToken');
       const response = await fetch(`${API_BASE_URL}/documents/${documentId}/download`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+        headers: getAuthHeaders(),
       });
 
       if (!response.ok) {
@@ -267,20 +264,14 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         throw new Error(errorData.message || 'Failed to download document');
       }
 
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
+      const data = await response.json();
       
-      // Get filename from response headers
-      const contentDisposition = response.headers.get('Content-Disposition');
-      const filename = contentDisposition?.split('filename=')[1]?.replace(/"/g, '') || 'document';
-      
-      link.setAttribute('download', filename);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
+      if (data.downloadUrl) {
+        // Use direct download via SAS URL
+        window.location.href = data.downloadUrl;
+      } else {
+        throw new Error('Download URL not provided');
+      }
 
       await loadActivities();
       toast.success('Document downloaded');
