@@ -18,16 +18,24 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ isOpen, setIsOpen, document
   const [error, setError] = useState<string>('');
 
   // Check if user has access to the document
-  const hasAccess = document.uploader.id === currentUser?.id || 
-    document.documentAccess?.some((access: any) => access.user.id === currentUser?.id);
+  const hasAccess = currentUser && (
+    document.uploader?.id === currentUser.id || 
+    document.documentAccess?.some((access: any) => access.user?.id === currentUser.id) ||
+    currentUser.role === 'ADMIN'
+  );
 
   useEffect(() => {
-    if (isOpen && hasAccess && document.id) {
+    if (isOpen && document?.id) {
       loadPreview();
     }
-  }, [isOpen, document.id, hasAccess]);
+  }, [isOpen, document?.id]);
 
   const loadPreview = async () => {
+    if (!hasAccess) {
+      setError('You do not have permission to view this document');
+      return;
+    }
+    
     try {
       setLoading(true);
       setError('');
@@ -49,9 +57,6 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ isOpen, setIsOpen, document
     }
   };
 
-  if (!hasAccess) {
-    return null;
-  }
 
   const getDocumentIcon = () => {
     const fileType = document.type.toLowerCase();
