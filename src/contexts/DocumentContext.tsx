@@ -255,40 +255,35 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const downloadDocument = async (documentId: string): Promise<void> => {
     try {
-      // First get the download URL from the API
-      const response = await fetch(`${API_BASE_URL}/documents/${documentId}/download`, {
+      // Download directly through the backend stream endpoint to avoid CORS issues
+      const response = await fetch(`${API_BASE_URL}/documents/${documentId}/stream`, {
         headers: {
           ...getAuthHeaders(),
         },
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to download document');
+        throw new Error('Failed to download document');
       }
 
-      // Get the response with downloadUrl
-      const { downloadUrl, name } = await response.json();
+      // Get the file blob directly from the stream
+      const blob = await response.blob();
+
+      // Get filename from Content-Disposition header or use document ID as fallback
+      const contentDisposition = response.headers.get('Content-Disposition');
+      let filename = `document-${documentId}`;
       
-      if (!downloadUrl) {
-        throw new Error('Download URL not provided');
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+        if (filenameMatch && filenameMatch[1]) {
+          filename = filenameMatch[1].replace(/['"]/g, '');
+        }
       }
 
-      // Download directly from the SAS URL
-      const downloadResponse = await fetch(downloadUrl);
-      
-      if (!downloadResponse.ok) {
-        throw new Error('Failed to download file from storage');
-      }
-
-      const blob = await downloadResponse.blob();
+      // Create download link
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      
-      // Use filename from API response or fallback to document name
-      const filename = name || 'document';
-      
       link.setAttribute('download', filename);
       document.body.appendChild(link);
       link.click();
