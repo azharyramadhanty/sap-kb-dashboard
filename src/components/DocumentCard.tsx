@@ -180,7 +180,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document, isArchived = fals
             
             <div className="flex -space-x-1">
               {/* Show document access count */}
-              {document._count.documentAccess > 0 && (
+              {document._count && document._count.documentAccess > 0 && (
                 <div 
                   className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-white text-xs border-2 border-white"
                   title={`Shared with ${document._count.documentAccess} user${document._count.documentAccess > 1 ? 's' : ''}`}

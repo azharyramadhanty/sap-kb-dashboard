@@ -27,7 +27,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, setIsOpen, document }) 
   
   const availableUsers = allUsers.filter(
     user => user.id !== currentUser?.id && 
-    !document.documentAccess?.find((a: any) => a.user?.id === user.id)
+    !document.documentAccess?.find((a: any) => a.userId === user.id)
   );
   
   return (
@@ -84,7 +84,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, setIsOpen, document }) 
                     </label>
                     <div className="mt-2">
                       <p className="text-sm text-gray-600">
-                        This document is shared with {document._count.documentAccess} user{document._count.documentAccess !== 1 ? 's' : ''}
+                        This document is shared with {document._count ? document._count.documentAccess : "-"} user{document._count && document._count.documentAccess !== 1 ? 's' : ''}
                       </p>
                     </div>
                   </div>
