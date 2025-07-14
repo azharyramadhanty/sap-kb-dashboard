@@ -43,6 +43,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   useEffect(() => {
     if (currentUser) {
       refreshDocuments();
+      refreshArchived();
       loadActivities();
     }
   }, [currentUser, userRole]);
@@ -81,14 +82,15 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       if (response.ok) {
         const result: ApiResponse<Document> = await response.json();
         const docs = result.data || [];
+        console.log("documents: ", docs);
         setDocumentsMeta(result.meta || null);
         
         // Separate archived and active documents
-        const activeDocuments = docs.filter((doc: Document) => !doc.archivedAt);
-        const archived = docs.filter((doc: Document) => doc.archivedAt);
+        // const activeDocuments = docs.filter((doc: Document) => doc.archivedAt === null);
+        // const archived = docs.filter((doc: Document) => doc.archivedAt !== null);
         
-        setDocuments(activeDocuments);
-        setArchivedDocuments(archived);
+        setDocuments(docs);
+        // setArchivedDocuments(archived);
       } else {
         const errorData = await response.json();
         toast.error(errorData.message || 'Failed to load documents');
@@ -100,6 +102,31 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       setLoading(false);
     }
   };
+
+  const refreshArchived = async (params?: PaginationParams) => {
+    if (!currentUser) return;
+
+    try {
+      const queryParams = buildQueryParams(params);
+      const response = await fetch(`${API_BASE_URL}/documents/archived${queryParams}`, {
+        headers: getAuthHeaders(),
+      })
+
+      if (response.ok) {
+        const result: ApiResponse<Document> = await response.json();
+        const docs = result.data || [];
+        console.log("archived: ", docs);
+        setDocumentsMeta(result.meta || null);
+        setArchivedDocuments(docs);
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.message || 'Failed to load archive');
+      }
+    } catch (error: any) {
+      console.error("Error loading archive:", error);
+      toast.error("Failed to load documents");
+    }
+  }
 
   const loadActivities = async (params?: PaginationParams) => {
     if (!currentUser) return;
@@ -164,7 +191,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const moveToArchive = async (documentId: string): Promise<void> => {
     try {
       const response = await fetch(`${API_BASE_URL}/documents/${documentId}/archive`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           ...getAuthHeaders(),
@@ -177,6 +204,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       }
 
       await refreshDocuments();
+      await refreshArchived();
       await loadActivities();
       toast.success('Document moved to archive');
     } catch (error: any) {
@@ -188,7 +216,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const restoreDocument = async (documentId: string): Promise<void> => {
     try {
       const response = await fetch(`${API_BASE_URL}/documents/${documentId}/restore`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           ...getAuthHeaders(),
@@ -201,6 +229,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       }
 
       await refreshDocuments();
+      await refreshArchived();
       await loadActivities();
       toast.success('Document restored from archive');
     } catch (error: any) {
@@ -222,6 +251,7 @@ export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       }
 
       await refreshDocuments();
+      await refreshArchived();
       await loadActivities();
       toast.success('Document permanently deleted');
     } catch (error: any) {

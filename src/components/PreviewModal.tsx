@@ -20,7 +20,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ isOpen, setIsOpen, document
   // Check if user has access to the document
   const hasAccess = currentUser && (
     document.uploader?.id === currentUser.id || 
-    document.documentAccess?.some((access: any) => access.user?.id === currentUser.id) ||
+    document.documentAccess?.some((access: any) => access.userId === currentUser.id) ||
     currentUser.role === 'ADMIN'
   );
 
