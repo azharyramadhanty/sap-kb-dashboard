@@ -19,6 +19,14 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon = DivideIc
   
   const percentChange = getPercentageChange();
   
+  // Format value with % symbol if it's a percentage
+  const formatValue = (val: number, title: string) => {
+    if (title.toLowerCase().includes('persentase') || title.toLowerCase().includes('relevan')) {
+      return `${val}%`;
+    }
+    return val.toLocaleString();
+  };
+  
   return (
     <div className="stat-card">
       <div className="flex items-center">
@@ -28,7 +36,7 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon = DivideIc
         <div className="ml-4 flex-1">
           <h3 className="text-sm font-medium text-slate-600">{title}</h3>
           <div className="flex items-baseline mt-1">
-            <p className="text-2xl font-semibold text-slate-900">{value.toLocaleString()}</p>
+            <p className="text-2xl font-semibold text-slate-900">{formatValue(value, title)}</p>
             {percentChange && (
               <span className={`ml-2 text-sm font-medium ${
                 Number(percentChange) >= 0 

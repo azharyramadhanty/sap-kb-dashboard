@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Dialog, Transition } from '@headlessui/react';
-import { X, LayoutDashboard, FileText, Archive, Users, Database } from 'lucide-react';
+import { X, LayoutDashboard, FileText, Archive, Users, Database, BarChart3 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 interface SidebarProps {
@@ -17,6 +17,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Documents', href: '/documents', icon: FileText },
     { name: 'Archive', href: '/archive', icon: Archive },
+    { name: 'Analytics', href: '/analytics', icon: BarChart3 },
     { name: 'Users', href: '/users', icon: Users, requireAdmin: true },
   ];
 

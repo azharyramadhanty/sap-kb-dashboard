@@ -5,6 +5,7 @@ import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Documents from './pages/Documents';
 import Archive from './pages/Archive';
+import Analytics from './pages/Analytics';
 import Users from './pages/Users';
 import Login from './pages/Login';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -54,6 +55,7 @@ function App() {
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="documents" element={<Documents />} />
               <Route path="archive" element={<Archive />} />
+              <Route path="analytics" element={<Analytics />} />
               <Route path="users" element={
                 <ProtectedRoute requiredRole="admin">
                   <Users />
