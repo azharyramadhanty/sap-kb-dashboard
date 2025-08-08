@@ -22,7 +22,7 @@ export const useAuth = () => useContext(AuthContext);
 // const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 const API_BASE_URL = 'https://nonprod-changecopilot.indonesiacentral.cloudapp.azure.com/cms-be';
 
-export constzz AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [usersMeta, setUsersMeta] = useState<{ total: number; page: number; limit: number; totalPages: number } | null>(null);
