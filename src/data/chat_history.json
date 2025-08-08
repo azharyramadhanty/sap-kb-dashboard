@@ -1,0 +1,1546 @@
+[
+  {
+    "id": "chat_1754276995363_75h7h9hpj",
+    "userId": "6",
+    "timestamp": "2025-08-04T03:09:55.363Z",
+    "messages": [
+      {
+        "id": "msg_1754276995363_gw2cvuzzv",
+        "role": "assistant",
+        "content": "Selamat datang, Eko Prasetyo! Saya Surya, asisten AI untuk Program PLN SSoT. Bagaimana saya bisa membantu Anda hari ini?",
+        "timestamp": "2025-08-04T03:09:55.348Z",
+        "type": "chat"
+      }
+    ],
+    "lastActivity": "2025-08-04T03:09:55.363Z"
+  },
+  {
+    "id": "chat_1754020513538_797crbaqe",
+    "userId": "6",
+    "timestamp": "2025-08-01T03:55:13.538Z",
+    "messages": [
+      {
+        "id": "msg_1754020513538_xq84gz8aw",
+        "role": "assistant",
+        "content": "Selamat datang, Eko Prasetyo! Saya Surya, asisten AI untuk Program PLN SSoT. Bagaimana saya bisa membantu Anda hari ini?",
+        "timestamp": "2025-08-01T03:55:13.525Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754020872759_e4v5bawek",
+        "role": "user",
+        "content": "saya enakny makan siang apa ya hari ini?",
+        "timestamp": "2025-08-01T04:01:12.714Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754020881018_e3dy5qvy8",
+        "role": "assistant",
+        "content": "Terima kasih atas pertanyaannya! Saat ini saya adalah asisten yang membantu implementasi Single Source of Truth (SSoT) di PLN, sehingga saya tidak memiliki rekomendasi khusus terkait menu makan siang. Namun, semoga makan siang Anda hari ini menyenangkan dan penuh energi! Jika ada pertanyaan seputar SSoT atau implementasinya di PLN, silakan tanyakan kapan saja.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 1 Oct 2024_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 1 Oct 2024_v100.pdf?se=2025-08-01T04%3A06%3A17Z&sp=r&sv=2025-05-05&sr=b&sig=4vHQ4hRtWd%2B3jAjDyGTUbJNv25Z3kDjJ26kXMSXXLMY%3D)\n- [Manual Book SIDITA V3 - Rev 3.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/Manual Book SIDITA V3 - Rev 3.pdf?se=2025-08-01T04%3A06%3A18Z&sp=r&sv=2025-05-05&sr=b&sig=etG8Vv/0CAT2jkTLpuBnWcvGlgHf62wXO3tmt2C2cdo%3D)\n- [softlaunch-Manual Book SIDITA V3 - Rev 3.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-Manual Book SIDITA V3 - Rev 3.pdf?se=2025-08-01T04%3A06%3A19Z&sp=r&sv=2025-05-05&sr=b&sig=NFrslK3s/TXod6UJLUmkaDBGfInCk45/PoSEQyXtCIA%3D)",
+        "timestamp": "2025-08-01T04:01:20.979Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754020965368_c5dfwgo1o",
+        "role": "user",
+        "content": "ada berapa jumlah surrounding application di ssot?",
+        "timestamp": "2025-08-01T04:02:45.329Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754020978988_0livar38q",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen terkait implementasi SSoT di PLN, jumlah surrounding application yang terintegrasi dengan ekosistem SSoT PLN bervariasi tergantung pada cakupan dan periode identifikasi aplikasi. Berikut rangkumannya: - Terdapat daftar yang menyebutkan 15 aplikasi surrounding, seperti CMD, VIP, VMS, CMS, A-PLN, Anaplan, Smarter, IBM Maximo, ELARCH, SIMPROD, SAP Signavio, Aliya, HCI Executive Dashboard, PLN Mobile, dan Employee Care Center (ECC). - Ada juga sumber yang mengidentifikasi 16 aplikasi surrounding, termasuk MAPP POWER, AP2T, P2APST, Anaplan, Cash Management Dashboard, Phyton, Aplikasi Kertas Kerja Laporan Keuangan, New e-Tax, AIR Tax, e-Meterai, PLN FIT, e-PPT, Bloomberg, ARENA, MODIV, dan VIP. - Selain itu, terdapat dokumen yang menyebutkan jumlah surrounding application di SSoT PLN telah mencapai lebih dari 90 aplikasi. Angka ini mencakup aplikasi yang memerlukan penyesuaian setelah desain end-to-end difinalisasi, dengan beberapa aplikasi utama seperti HXMS, MAXIMO, ANAPLAN, VMS, E-LARCH, CLMS, SMARTER, dan e-Proc yang terintegrasi dengan core ERP SAP S/4HANA, serta 80+ aplikasi surrounding lainnya. Jadi, jumlah surrounding application di SSoT PLN dapat bervariasi, namun secara keseluruhan telah diidentifikasi lebih dari 90 aplikasi yang terintegrasi dan mendukung proses bisnis di PLN.\n\nDokumen yang digunakan:\n- [PLN SSoT BPR - FSD Report Fase 1 (R2R, H2R, S2P) as per 20 Jun 2025.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/PLN SSoT BPR - FSD Report Fase 1 (R2R, H2R, S2P) as per 20 Jun 2025.pdf?se=2025-08-01T04%3A07%3A49Z&sp=r&sv=2025-05-05&sr=b&sig=aHaTXG%2B1NHCTS9oWel9llxqqvG/zqHF%2BFs/hoT5L0vk%3D)\n- [20250102 Pemaparan Arsitektur Aplikasi Masa Depan.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/20250102 Pemaparan Arsitektur Aplikasi Masa Depan.pdf?se=2025-08-01T04%3A07%3A52Z&sp=r&sv=2025-05-05&sr=b&sig=LVHk9J/TtceXGHE5c7oi/Tktji5r8mNgKCilM3/Xqgg%3D)\n- [softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf?se=2025-08-01T04%3A07%3A54Z&sp=r&sv=2025-05-05&sr=b&sig=F4VFzbha3DJgqz1uj0wACt1ycoSkZlbdM6kYEpGx230%3D)",
+        "timestamp": "2025-08-01T04:02:58.952Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021086047_cq7zcxocu",
+        "role": "user",
+        "content": "ada berapa workstream di ssot pln?",
+        "timestamp": "2025-08-01T04:04:45.998Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021097427_nuhzfdmpc",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen terkait implementasi SSoT di PLN, terdapat 8 workstream utama yang diidentifikasi dalam aktivitas Business Process Reengineering (BPR). Kedelapan workstream tersebut adalah: - BPfM (Budget Planning, Forecasting and Monitoring) - P2C (Plan to Construct) - S2P (Source to Pay) - A2R (Acquire to Retire) - P2M (Plan to Maintain) - R2R (Record to Report) - H2R (Hire to Retire) - GRC (Governance, Risk and Compliance) Jadi, total ada 8 workstream di SSoT PLN.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 2 Oct 2024_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 2 Oct 2024_v100.pdf?se=2025-08-01T04%3A09%3A52Z&sp=r&sv=2025-05-05&sr=b&sig=ajwlQdzLfKMwTOgHUCxE7akUnS3g3OiCcHtgi3Ro2ls%3D)\n- [[V1.0] PLN_BPR_Laporan Current State Assessment_v1.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/[V1.0] PLN_BPR_Laporan Current State Assessment_v1.pdf?se=2025-08-01T04%3A09%3A56Z&sp=r&sv=2025-05-05&sr=b&sig=9lc1s4WWfpf1WnuG2Gq%2BxeTBdCkE/t3lp196GcdQsh0%3D)",
+        "timestamp": "2025-08-01T04:04:57.389Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021135629_lfv4v0qll",
+        "role": "user",
+        "content": "kenapa ap2t tidak masuk lingkup ssot?",
+        "timestamp": "2025-08-01T04:05:35.585Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021154348_rr3fmr60b",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen yang ada, AP2T saat ini belum masuk ke dalam lingkup SSoT (Single Source of Truth) di PLN karena beberapa alasan berikut: - Masih terdapat gap integrasi data antara AP2T dengan aplikasi lain seperti Maximo, GIS, dan SAP. Data aset dan pemeliharaan masih tersebar di beberapa aplikasi, misalnya data kWh meter dikelola di AP2T, sedangkan aset distribusi lainnya dikelola di Maximo dan APKT. - Integrasi end-to-end antara AP2T dan Maximo, serta integrasi dengan GIS korporat, masih dalam tahap perencanaan atau belum terimplementasi penuh. Hal ini menyebabkan data permintaan pasang baru, pemeliharaan aset, serta master data pelanggan dan lokasi pelanggan belum terkelola secara terpusat dan akurat. - Terdapat isu integrasi AP2T dengan SAP, seperti pencatatan transaksi yang belum optimal, proses pemindahan piutang yang belum berjalan baik, dan masih adanya proses manual dalam penjurnalan transaksi tertentu. Diperlukan perbaikan dan pengembangan integrasi agar data dan transaksi dapat terpusat serta terstandarisasi sesuai prinsip SSoT. - Secara ruang lingkup, program SSoT di PLN saat ini difokuskan pada proses bisnis utama seperti Budget Planning, Forecasting, Monitoring (BPFM), Plan to Construct (P2C), Record to Report (R2R), Source to Pay (S2P), Acquire to Retire (A2R), Plan to Maintain (P2M), dan Governance, Risk and Compliance (GRC). Sementara proses Meter to Cash—yang umumnya mencakup sistem seperti AP2T—secara eksplisit berada di luar ruang lingkup program SSoT. Dengan demikian, AP2T belum masuk dalam lingkup SSoT karena integrasi yang diperlukan untuk memastikan data tunggal dan terpusat masih dalam tahap pengembangan, serta proses bisnis yang dijalankan AP2T memang belum menjadi prioritas dalam program SSoT saat ini. Implementasi SSoT baru dapat tercapai jika integrasi antar aplikasi sudah terealisasi dan berjalan dengan baik sesuai strategi perusahaan.\n\nDokumen yang digunakan:\n- [PLN SSoT BPR - FSD Report Fase 2 (P2M - Lampiran PD).pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/PLN SSoT BPR - FSD Report Fase 2 (P2M - Lampiran PD).pdf?se=2025-08-01T04%3A10%3A41Z&sp=r&sv=2025-05-05&sr=b&sig=rJQd2aFbgBryHdBUocll2hJCfQqKdah6%2BBLIjgM1jRo%3D)\n- [[V1.0] PLN_BPR_Laporan Current State Assessment_v1.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/[V1.0] PLN_BPR_Laporan Current State Assessment_v1.pdf?se=2025-08-01T04%3A10%3A46Z&sp=r&sv=2025-05-05&sr=b&sig=8eM9UsZTRUBMG6uuKCckjfB2QTGRXlaiZwti2yevOZw%3D)\n- [softlaunch-PLN_CMCT_SC_Checkpoint 2 PIC SSoT_Maret 2025_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Checkpoint 2 PIC SSoT_Maret 2025_v100.pdf?se=2025-08-01T04%3A10%3A49Z&sp=r&sv=2025-05-05&sr=b&sig=Zq8QghEyPISFjWAVWbbVEa7Wv7FrV08ZmCLLLlUQbmQ%3D)",
+        "timestamp": "2025-08-01T04:05:54.303Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021210556_t49x217mh",
+        "role": "user",
+        "content": "saya di unit induk distribusi, aplikasi apa saja yang terdampak dengan ssot?",
+        "timestamp": "2025-08-01T04:06:50.513Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021222596_6rxy72uo6",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen yang ada, implementasi SSoT di PLN, khususnya di Unit Induk Distribusi, akan berdampak pada beberapa aplikasi utama berikut: - SAP S/4HANA, yang akan didesain secara teknis sesuai kebutuhan dan proses bisnis PLN. - Ekosistem aplikasi pendukung terpilih yang akan diintegrasikan secara efektif dengan SAP S/4HANA. - Aplikasi yang mendukung transaksi self-service, approval, dan dashboard untuk pegawai. Selain itu, aplikasi-aplikasi yang berkaitan dengan 8 workstream utama SSoT juga akan terdampak, yaitu: - Source to Pay (S2P) - Plan to Construct (P2C) - Acquire to Retire (A2R) - Plan to Maintain (P2M) - Budget Planning, Forecasting, Monitoring (BPFM) - Record to Report (R2R) - Hire to Retire (H2R) - Governance, Risk and Compliance (GRC) Aplikasi yang digunakan dalam proses bisnis di atas akan mengalami integrasi dan penyesuaian terhadap sistem baru yang diimplementasikan oleh System Integrator (SI). Setiap unit, termasuk Unit Induk Distribusi, akan memiliki PIC SSoT dari fungsi-fungsi terkait workstream tersebut untuk memastikan kelancaran transisi dan komunikasi selama implementasi. Jika Anda membutuhkan daftar aplikasi spesifik di unit Anda, biasanya informasi tersebut akan diinformasikan lebih lanjut oleh PIC SSoT di unit masing-masing seiring dengan proses sosialisasi dan implementasi berjalan. Anda juga dapat menghubungi PIC SSoT di unit Anda atau mengikuti sesi koordinasi yang diadakan secara regular untuk mendapatkan informasi lebih detail.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_SC_Checkpoint 2 PIC SSoT_Maret 2025_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Checkpoint 2 PIC SSoT_Maret 2025_v100.pdf?se=2025-08-01T04%3A11%3A54Z&sp=r&sv=2025-05-05&sr=b&sig=px4WJ4842lyL4AyT/Fjoqr2QiDmuN1qqutKAvde6MIQ%3D)\n- [softlaunch-PLN_CMCT_SC_Onboarding PIC SSoT_20241017_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Onboarding PIC SSoT_20241017_v100.pdf?se=2025-08-01T04%3A11%3A57Z&sp=r&sv=2025-05-05&sr=b&sig=wnKI4iO886f1ta%2BzkFqcp8V46H9UIhI2K6BjK%2Bjhmis%3D)\n- [softlaunch-PLN_CMCT_CG010_PLN-Spesific Change Management Playbook_v200.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_CG010_PLN-Spesific Change Management Playbook_v200.pdf?se=2025-08-01T04%3A11%3A59Z&sp=r&sv=2025-05-05&sr=b&sig=Bf%2BVNM59jxrpaDr92E4%2BdHdqp4mUIxTXob3zMlbb3/g%3D)",
+        "timestamp": "2025-08-01T04:07:02.552Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021309955_or8fcbwme",
+        "role": "user",
+        "content": "saya sakit panu, aplikasi ssot apa yang bisa saya gunakan untuk mengatasiny?",
+        "timestamp": "2025-08-01T04:08:29.906Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021318315_s1s734u7v",
+        "role": "assistant",
+        "content": "Terima kasih atas pertanyaannya. Berdasarkan dokumen yang tersedia, aplikasi SSoT (Single Source of Truth) di PLN berfokus pada standardisasi, konsolidasi, digitalisasi, dan otomasi proses bisnis serta pengelolaan data perusahaan agar lebih akurat, terintegrasi, dan akuntabel. Namun, aplikasi SSoT ini tidak ditujukan untuk keperluan medis atau pengobatan penyakit seperti panu. Jika Anda membutuhkan solusi untuk masalah kesehatan, sebaiknya konsultasikan dengan tenaga medis atau gunakan aplikasi kesehatan yang sesuai. Saya siap membantu jika Anda memiliki pertanyaan terkait implementasi SSoT di PLN.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 1 Oct 2024_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 1 Oct 2024_v100.pdf?se=2025-08-01T04%3A13%3A34Z&sp=r&sv=2025-05-05&sr=b&sig=D51l3E94e3mXPCPN3ewUVEY5heAeiBMEWEwE7r9m1dQ%3D)\n- [softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf?se=2025-08-01T04%3A13%3A36Z&sp=r&sv=2025-05-05&sr=b&sig=LVbsxWCx5UofsspBMHx3FYu4qCZ8qdpZfj10QImv9jQ%3D)\n- [20250717 FAQ Program SSoT vPMQA_edited.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/20250717 FAQ Program SSoT vPMQA_edited.pdf?se=2025-08-01T04%3A13%3A37Z&sp=r&sv=2025-05-05&sr=b&sig=Jt6uN/UBG8jMPbrhY6kJfJ/Bnj9eQhQCu%2BQSqVn3btc%3D)",
+        "timestamp": "2025-08-01T04:08:38.274Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021361014_mzprp6bnr",
+        "role": "user",
+        "content": "aplikasi mims apakah masih dipakai?",
+        "timestamp": "2025-08-01T04:09:20.961Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021361094_q6ycnbqdu",
+        "role": "assistant",
+        "content": "Pegawai tetap dapat berinovasi melalui sarana yang sesuai regulasi. Inovasi yang sebelumnya membutuhkan implementasi unit, kini dapat dimulai sebagai prototype atau Proof of Concept (PoC).\n\nDokumen yang digunakan:\n- PLN_CMCT_FAQ Program SSoT.pdf",
+        "timestamp": "2025-08-01T04:09:21.057Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021385233_5xo8mqha4",
+        "role": "user",
+        "content": "daftar aplikasi yang hilang ketika ssot diterapkan",
+        "timestamp": "2025-08-01T04:09:45.181Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021400465_9z0x3tqa9",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen terkait implementasi SSoT di PLN, berikut penjelasan mengenai aplikasi yang hilang atau tidak digunakan lagi ketika SSoT diterapkan: - Salah satu tujuan utama proyek SSoT adalah menyederhanakan jumlah aplikasi di PLN dengan memanfaatkan SAP S/4HANA sebagai core aplikasi. - Di tingkat unit, jumlah aplikasi yang digunakan berkurang signifikan dari 16 aplikasi pada kondisi saat ini menjadi hanya 1 aplikasi pada kondisi future state setelah SSoT diterapkan. - Di Kantor Pusat, jumlah aplikasi berkurang dari 108 aplikasi pada kondisi saat ini menjadi 81 aplikasi pada future state, dengan 4 aplikasi masih dalam diskusi lebih lanjut (BIM, Anaplan, Dashboard Monitoring & Evaluasi Proyek, dan Aplikasi Kertas Kerja Laporan Keuangan). - Untuk sub holding, jumlah aplikasi tetap sama (12 aplikasi), karena cakupan SSoT pada sub holding hanya pada proses pemeliharaan aset. - Aplikasi SIMKP telah ditransformasikan ke SAP SuccessFactors, sehingga SIMKP tidak lagi digunakan untuk Performance Management & Goal Management (PMGM) di PLN Group. Daftar aplikasi yang benar-benar dihilangkan secara spesifik masih dalam proses finalisasi dan diskusi lebih lanjut oleh tim Design Authority Board (DAB). Jika Anda membutuhkan informasi lebih detail mengenai aplikasi yang akan dinonaktifkan atau digantikan, silakan menghubungi tim implementasi SSoT di PLN. Saya siap membantu jika ada pertanyaan lanjutan seputar implementasi SSoT di PLN.\n\nDokumen yang digunakan:\n- [20250717 FAQ Program SSoT vPMQA_edited.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/20250717 FAQ Program SSoT vPMQA_edited.pdf?se=2025-08-01T04%3A14%3A49Z&sp=r&sv=2025-05-05&sr=b&sig=ZEQAMr89v3KpJtqNbMccw4xK2u8/II7mbKbHPREmSZ8%3D)\n- [softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf?se=2025-08-01T04%3A14%3A53Z&sp=r&sv=2025-05-05&sr=b&sig=/oDlDUMP6xgCgUQ1BgGdf3p1RzDbobjCTlb9NZANzQs%3D)\n- [20250102 Pemaparan Arsitektur Aplikasi Masa Depan.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/20250102 Pemaparan Arsitektur Aplikasi Masa Depan.pdf?se=2025-08-01T04%3A14%3A57Z&sp=r&sv=2025-05-05&sr=b&sig=0tNgfmJ/fn1k67e9Gn/dsg9joCo2WhRyFIWymOk4yy4%3D)",
+        "timestamp": "2025-08-01T04:10:00.407Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021465692_m0oizlrmh",
+        "role": "user",
+        "content": "saya biasa menggunakan aplikasi simkpnas, nnt setelah ssot, pindah aplikasi apa?",
+        "timestamp": "2025-08-01T04:11:05.631Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021477312_c3g9024d0",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen terkait implementasi SSoT di PLN, setelah SSoT diterapkan, proses yang sebelumnya dilakukan di aplikasi SIMKPNAS akan berpindah dan terintegrasi ke beberapa aplikasi baru, tergantung pada jenis proses atau data yang dikelola. Berikut perubahan utamanya: - Registrasi aset properti kini dilakukan melalui integrasi antara SAP S/4HANA FI dengan GASPRO. Nomor Induk Aset (NIA) akan digunakan sebagai unique identifier pada aset properti dan dibuat di GASPRO untuk kebutuhan integrasi antar aplikasi sepanjang siklus hidup aset. - Untuk pengelolaan asuransi, aplikasi E-Insurance menjadi source of truth, mencakup survei underrating, survei risiko, klaim, dan polis. - Pembaruan progres fisik proyek dilakukan oleh kontraktor melalui aplikasi rebranding SIDITA, yang terintegrasi dengan SAP S/4HANA PS. - Sistem-sistem lain yang terintegrasi meliputi DAMS CP, E-Larch, SMARTER, VMS, aplikasi rebranding SIDITA, dan CLMS. Jadi, setelah implementasi SSoT, Anda akan menggunakan aplikasi-aplikasi seperti GASPRO, SAP S/4HANA, dan aplikasi rebranding SIDITA sesuai kebutuhan proses yang dijalankan. Silakan menyesuaikan penggunaan aplikasi dengan proses yang Anda lakukan. Jika ada pertanyaan lebih lanjut, saya siap membantu!\n\nDokumen yang digunakan:\n- [20250717 FAQ Program SSoT vPMQA_edited.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/20250717 FAQ Program SSoT vPMQA_edited.pdf?se=2025-08-01T04%3A16%3A10Z&sp=r&sv=2025-05-05&sr=b&sig=T1C30oFlZ1BDOXJZROHZuScr2CrAQg87pilDiViqd4o%3D)\n- [softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 1 Oct 2024_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 1 Oct 2024_v100.pdf?se=2025-08-01T04%3A16%3A13Z&sp=r&sv=2025-05-05&sr=b&sig=Jwu7MfZNvmaYhOW5uGmNsXCE%2Bu3PS4NwxTgrJaWLj1Q%3D)",
+        "timestamp": "2025-08-01T04:11:17.258Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021522852_g0rrh3d73",
+        "role": "user",
+        "content": "kalau aplikasi SIMKP?",
+        "timestamp": "2025-08-01T04:12:02.799Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021538863_5ijiflq79",
+        "role": "assistant",
+        "content": "Aplikasi SIMKP di PLN adalah sistem Manajemen Kinerja Pegawai yang mengelola sasaran kinerja pegawai melalui periode perencanaan, evaluasi, dan pengukuran yang dilaksanakan setiap semester. SIMKP berfungsi sebagai aplikasi inti dalam ekosistem manajemen SDM PLN, khususnya untuk pengelolaan kinerja pegawai dan mendukung integrasi data lintas proses SDM, mulai dari seleksi, penilaian kinerja, hingga pengembangan karir. SIMKP terintegrasi dengan beberapa sistem lain, seperti: - seleksi.pln.co.id (untuk proses seleksi pegawai) - Talent Report (untuk manajemen talenta dan pengembangan karir) - SAP ECC (sistem utama HR dan administrasi) - People Profile (data profil pegawai) - Portal HC (portal human capital) Dalam konteks implementasi Single Source of Truth (SSoT) di PLN, SIMKP menjadi salah satu sumber data utama yang mendukung perhitungan remunerasi pegawai. Namun, saat ini masih terdapat beberapa tantangan, seperti: - Proses pengumpulan data dari SIMKP dan aplikasi lain masih dilakukan secara manual atau semi-manual, sehingga berpotensi menimbulkan kesalahan dalam pengumpulan data dan pembayaran remunerasi pegawai. - SIMKP belum terintegrasi secara langsung dengan aplikasi pendukung proses payroll (SAP HR), sehingga menyebabkan adanya effort tambahan dan potensi ketidaksesuaian data. Untuk mengatasi tantangan tersebut, kebutuhan bisnis yang diidentifikasi meliputi: - Diperlukan proses bisnis yang memastikan keselarasan antara manajemen kinerja, manajemen kehadiran, dan proses payroll. - Diperlukan standardisasi prosedur pertukaran data antar aplikasi untuk keseluruhan proses Hire-to-Retire. - Diperlukan integrasi antara aplikasi yang memiliki data pendukung penghitungan remunerasi pegawai (seperti SIMKP) dengan aplikasi payroll (SAP HR). Dengan demikian, peran SIMKP dalam konteks SSoT adalah sebagai salah satu aplikasi sumber data yang perlu diintegrasikan dan distandarisasi pertukaran datanya agar mendukung proses bisnis yang lebih efisien dan akurat di PLN.\n\nDokumen yang digunakan:\n- [20250102 Pemaparan Arsitektur Aplikasi Masa Depan.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/20250102 Pemaparan Arsitektur Aplikasi Masa Depan.pdf?se=2025-08-01T04%3A17%3A07Z&sp=r&sv=2025-05-05&sr=b&sig=zb668a9cPKisZVJlHUWUXxJ83qgdjJjW8pDS/fJK%2BA0%3D)\n- [[V1.0] PLN_BPR_Laporan Current State Assessment_v1.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/[V1.0] PLN_BPR_Laporan Current State Assessment_v1.pdf?se=2025-08-01T04%3A17%3A10Z&sp=r&sv=2025-05-05&sr=b&sig=X8I/YtwiO%2BXPfcpQ3sjnAEur1u3vz%2B4X3fVqtZ2YDGY%3D)",
+        "timestamp": "2025-08-01T04:12:18.789Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021640640_d2vja3u4g",
+        "role": "user",
+        "content": "progress ssot saat ini?",
+        "timestamp": "2025-08-01T04:14:00.563Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021640720_gm676j2fv",
+        "role": "assistant",
+        "content": "Saat ini, aktivitas yang sedang menjadi fokus pengerjaan dalam implementasi Program SSoT adalah handover proses bisnis masa depan oleh tim Business Process Reengineering (BPR) kepada System Integrator (SI) guna memastikan desain dapat diselaraskan dengan platform ERP yang baru.\n\nDokumen yang digunakan:\n- PLN_CMCT_FAQ Program SSoT.pdf",
+        "timestamp": "2025-08-01T04:14:00.669Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021692280_bo8aw2qlx",
+        "role": "user",
+        "content": "gambarkan surrounding application dan aplikasi utama dalam arsitektur masa depan",
+        "timestamp": "2025-08-01T04:14:52.219Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021700279_jk2o4df0a",
+        "role": "assistant",
+        "content": "Berikut adalah Masa System Architecture Diagram:\n\n\n\nDiagram showing the components of the Masa system and their relationships in the future architecture.",
+        "timestamp": "2025-08-01T04:15:00.232Z",
+        "type": "chat",
+        "artifacts": [
+          {
+            "id": "ed1416bd-efa8-481e-981e-48c0ca8a1538",
+            "type": "diagram",
+            "diagramType": "reactflow",
+            "title": "Masa System Architecture Diagram",
+            "content": "{\n  \"nodes\": [\n    {\n      \"id\": \"user1\",\n      \"type\": \"cleanNode\",\n      \"position\": {\n        \"x\": 50,\n        \"y\": 50\n      },\n      \"data\": {\n        \"label\": \"User\",\n        \"subtitle\": \"End user interacting with the system\",\n        \"category\": \"user\"\n      }\n    },\n    {\n      \"id\": \"frontend1\",\n      \"type\": \"cleanNode\",\n      \"position\": {\n        \"x\": 200,\n        \"y\": 50\n      },\n      \"data\": {\n        \"label\": \"Frontend Application\",\n        \"subtitle\": \"User interface for Masa\",\n        \"category\": \"frontend\"\n      }\n    },\n    {\n      \"id\": \"api1\",\n      \"type\": \"cleanNode\",\n      \"position\": {\n        \"x\": 350,\n        \"y\": 50\n      },\n      \"data\": {\n        \"label\": \"API Gateway\",\n        \"subtitle\": \"Handles requests from the frontend\",\n        \"category\": \"api\"\n      }\n    },\n    {\n      \"id\": \"backend1\",\n      \"type\": \"cleanNode\",\n      \"position\": {\n        \"x\": 500,\n        \"y\": 50\n      },\n      \"data\": {\n        \"label\": \"Backend Service\",\n        \"subtitle\": \"Business logic and data processing\",\n        \"category\": \"backend\"\n      }\n    },\n    {\n      \"id\": \"database1\",\n      \"type\": \"cleanNode\",\n      \"position\": {\n        \"x\": 650,\n        \"y\": 50\n      },\n      \"data\": {\n        \"label\": \"Database\",\n        \"subtitle\": \"Stores application data\",\n        \"category\": \"database\"\n      }\n    },\n    {\n      \"id\": \"integration1\",\n      \"type\": \"cleanNode\",\n      \"position\": {\n        \"x\": 350,\n        \"y\": 150\n      },\n      \"data\": {\n        \"label\": \"Integration Service\",\n        \"subtitle\": \"Connects with external services\",\n        \"category\": \"integration\"\n      }\n    },\n    {\n      \"id\": \"tool1\",\n      \"type\": \"cleanNode\",\n      \"position\": {\n        \"x\": 200,\n        \"y\": 150\n      },\n      \"data\": {\n        \"label\": \"Tooling\",\n        \"subtitle\": \"Development and monitoring tools\",\n        \"category\": \"tool\"\n      }\n    }\n  ],\n  \"edges\": [\n    {\n      \"id\": \"e1-2\",\n      \"source\": \"user1\",\n      \"target\": \"frontend1\",\n      \"type\": \"smoothstep\",\n      \"style\": {\n        \"stroke\": \"#3b82f6\",\n        \"strokeWidth\": 2\n      },\n      \"animated\": true\n    },\n    {\n      \"id\": \"e2-3\",\n      \"source\": \"frontend1\",\n      \"target\": \"api1\",\n      \"type\": \"smoothstep\",\n      \"style\": {\n        \"stroke\": \"#3b82f6\",\n        \"strokeWidth\": 2\n      },\n      \"animated\": true\n    },\n    {\n      \"id\": \"e3-4\",\n      \"source\": \"api1\",\n      \"target\": \"backend1\",\n      \"type\": \"smoothstep\",\n      \"style\": {\n        \"stroke\": \"#3b82f6\",\n        \"strokeWidth\": 2\n      },\n      \"animated\": true\n    },\n    {\n      \"id\": \"e4-5\",\n      \"source\": \"backend1\",\n      \"target\": \"database1\",\n      \"type\": \"smoothstep\",\n      \"style\": {\n        \"stroke\": \"#3b82f6\",\n        \"strokeWidth\": 2\n      },\n      \"animated\": true\n    },\n    {\n      \"id\": \"e3-6\",\n      \"source\": \"api1\",\n      \"target\": \"integration1\",\n      \"type\": \"smoothstep\",\n      \"style\": {\n        \"stroke\": \"#3b82f6\",\n        \"strokeWidth\": 2\n      },\n      \"animated\": true\n    },\n    {\n      \"id\": \"e2-7\",\n      \"source\": \"frontend1\",\n      \"target\": \"tool1\",\n      \"type\": \"smoothstep\",\n      \"style\": {\n        \"stroke\": \"#3b82f6\",\n        \"strokeWidth\": 2\n      },\n      \"animated\": true\n    }\n  ]\n}",
+            "data": {
+              "nodes": [
+                {
+                  "id": "user1",
+                  "type": "cleanNode",
+                  "position": {
+                    "x": 50,
+                    "y": 50
+                  },
+                  "data": {
+                    "label": "User",
+                    "subtitle": "End user interacting with the system",
+                    "category": "user"
+                  }
+                },
+                {
+                  "id": "frontend1",
+                  "type": "cleanNode",
+                  "position": {
+                    "x": 200,
+                    "y": 50
+                  },
+                  "data": {
+                    "label": "Frontend Application",
+                    "subtitle": "User interface for Masa",
+                    "category": "frontend"
+                  }
+                },
+                {
+                  "id": "api1",
+                  "type": "cleanNode",
+                  "position": {
+                    "x": 350,
+                    "y": 50
+                  },
+                  "data": {
+                    "label": "API Gateway",
+                    "subtitle": "Handles requests from the frontend",
+                    "category": "api"
+                  }
+                },
+                {
+                  "id": "backend1",
+                  "type": "cleanNode",
+                  "position": {
+                    "x": 500,
+                    "y": 50
+                  },
+                  "data": {
+                    "label": "Backend Service",
+                    "subtitle": "Business logic and data processing",
+                    "category": "backend"
+                  }
+                },
+                {
+                  "id": "database1",
+                  "type": "cleanNode",
+                  "position": {
+                    "x": 650,
+                    "y": 50
+                  },
+                  "data": {
+                    "label": "Database",
+                    "subtitle": "Stores application data",
+                    "category": "database"
+                  }
+                },
+                {
+                  "id": "integration1",
+                  "type": "cleanNode",
+                  "position": {
+                    "x": 350,
+                    "y": 150
+                  },
+                  "data": {
+                    "label": "Integration Service",
+                    "subtitle": "Connects with external services",
+                    "category": "integration"
+                  }
+                },
+                {
+                  "id": "tool1",
+                  "type": "cleanNode",
+                  "position": {
+                    "x": 200,
+                    "y": 150
+                  },
+                  "data": {
+                    "label": "Tooling",
+                    "subtitle": "Development and monitoring tools",
+                    "category": "tool"
+                  }
+                }
+              ],
+              "edges": [
+                {
+                  "id": "e1-2",
+                  "source": "user1",
+                  "target": "frontend1",
+                  "type": "smoothstep",
+                  "style": {
+                    "stroke": "#3b82f6",
+                    "strokeWidth": 2
+                  },
+                  "animated": true
+                },
+                {
+                  "id": "e2-3",
+                  "source": "frontend1",
+                  "target": "api1",
+                  "type": "smoothstep",
+                  "style": {
+                    "stroke": "#3b82f6",
+                    "strokeWidth": 2
+                  },
+                  "animated": true
+                },
+                {
+                  "id": "e3-4",
+                  "source": "api1",
+                  "target": "backend1",
+                  "type": "smoothstep",
+                  "style": {
+                    "stroke": "#3b82f6",
+                    "strokeWidth": 2
+                  },
+                  "animated": true
+                },
+                {
+                  "id": "e4-5",
+                  "source": "backend1",
+                  "target": "database1",
+                  "type": "smoothstep",
+                  "style": {
+                    "stroke": "#3b82f6",
+                    "strokeWidth": 2
+                  },
+                  "animated": true
+                },
+                {
+                  "id": "e3-6",
+                  "source": "api1",
+                  "target": "integration1",
+                  "type": "smoothstep",
+                  "style": {
+                    "stroke": "#3b82f6",
+                    "strokeWidth": 2
+                  },
+                  "animated": true
+                },
+                {
+                  "id": "e2-7",
+                  "source": "frontend1",
+                  "target": "tool1",
+                  "type": "smoothstep",
+                  "style": {
+                    "stroke": "#3b82f6",
+                    "strokeWidth": 2
+                  },
+                  "animated": true
+                }
+              ]
+            },
+            "timestamp": "2025-08-01T04:15:00.232Z"
+          }
+        ]
+      },
+      {
+        "id": "msg_1754021730359_8vcq47tu1",
+        "role": "user",
+        "content": "tampilkan stream p2c",
+        "timestamp": "2025-08-01T04:15:30.310Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021743979_rd7eyv768",
+        "role": "assistant",
+        "content": "Berikut adalah informasi terkait stream P2C (Procure to Contract) berdasarkan dokumen implementasi SSoT di PLN: - Pada revisi dokumen versi \n0. 1 (7 Januari 2025), terdapat pembaruan pada: - Arsitektur Aplikasi High Level stream P2C (Slide 129 s/d 132) - WRICEF stream P2C (Slide 306-316) - Proposed Design stream P2C (Slide 426-519) - Pada revisi dokumen versi \n0. 4 (22 Januari 2025), dilakukan pembaruan pada: - WRICEF stream P2C (Slide 304 s/d 316) - Arsitektur aplikasi stream P2C (Slide 131 s/d 133) - Pada revisi dokumen versi \n0. 5 (3 Februari 2025), dilakukan pembaruan pada: - Dekomposisi proses bisnis stream P2C (Slide 80 s/d 121) - Arsitektur aplikasi stream P2C (Slide 136 s/d 138) - Fit Gap stream P2C (Slide 123 dan 127) - WRICEF stream P2C (Slide 310 s/d 325) - RCM stream P2C (Slide 972 s/d 1075) Beberapa requirement yang tercatat pada stream P2C: - Penambahan resources di DIV RSL untuk mendukung aktivitas Feasibility Study (P2C-PRA.03) - Penyusunan kebijakan dan penetapan SLA dalam proses bisnis perencanaan dan pelaksanaan pengadaan, serta sosialisasi menyeluruh (P2C-PRA.04 & P2C-PRA.05) - Penambahan fungsional sistem baru untuk monitoring kontrak secara terpusat dengan auto tracking dan notifikasi (P2C-PRA.06) - Integrasi dengan aplikasi pengadaan agar tidak ada input data berulang pada aplikasi berbeda (P2C-MTR.13) - Kebutuhan aplikasi progress proyek New Business Development secara detil (P2C-NON.10), namun kebutuhan ini ditiadakan karena Non-PIK bukan cakupan stream P2C. Jika Anda membutuhkan detail lebih lanjut mengenai isi stream P2C atau ingin melihat detail pada slide tertentu, silakan merujuk ke dokumen utama pada bagian yang telah disebutkan. Jangan ragu untuk menginformasikan kebutuhan spesifik Anda, saya siap membantu terkait implementasi SSoT di PLN.\n\nDokumen yang digunakan:\n- [PLN SSoT BPR - FSD Report Fase 2 (BPFM, P2C, A2R, GRC) as per 20 Jun 2025.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/PLN SSoT BPR - FSD Report Fase 2 (BPFM, P2C, A2R, GRC) as per 20 Jun 2025.pdf?se=2025-08-01T04%3A20%3A35Z&sp=r&sv=2025-05-05&sr=b&sig=64KDfq5jSmJzbkeQicHq/JD4x9GdxUY9cRQWqe6KxdU%3D)",
+        "timestamp": "2025-08-01T04:15:43.923Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021885058_4x1hwgn8c",
+        "role": "user",
+        "content": "arsitektur aplikasi masa depan ssot",
+        "timestamp": "2025-08-01T04:18:04.992Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021894026_drypduyho",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen yang tersedia, terdapat pemaparan mengenai Aplikasi Masa Depan SSoT dan Ekosistem Aplikasi Masa Depan per Stream terkait implementasi Single Source of Truth (SSoT) di PLN. Namun, detail atau penjelasan lebih lanjut mengenai arsitektur aplikasi masa depan SSoT tidak tercantum dalam dokumen yang diberikan. Jika Anda membutuhkan informasi lebih spesifik atau detail teknis mengenai arsitektur aplikasi masa depan SSoT di PLN, silakan sampaikan pertanyaan tambahan atau referensi dokumen lain yang relevan. Saya siap membantu Anda dalam mendukung implementasi SSoT di PLN.\n\nDokumen yang digunakan:\n- [20250102 Pemaparan Arsitektur Aplikasi Masa Depan.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/20250102 Pemaparan Arsitektur Aplikasi Masa Depan.pdf?se=2025-08-01T04%3A23%3A09Z&sp=r&sv=2025-05-05&sr=b&sig=5ruEDKcEdRmUTMudFm924tZt557QbxYs9FV1driSrlY%3D)",
+        "timestamp": "2025-08-01T04:18:13.981Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021925318_0ulwwy78o",
+        "role": "user",
+        "content": "arsitektur aplikasi masa depan ssot dalam bentuk gambar",
+        "timestamp": "2025-08-01T04:18:45.255Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754021931576_b0b6dms59",
+        "role": "assistant",
+        "content": "Berikut adalah PLN Single Source of Truth (SSoT) Architecture Diagram:\n\n\n\nArchitecture diagram showing components of the PLN Single Source of Truth (SSoT) system.",
+        "timestamp": "2025-08-01T04:18:51.514Z",
+        "type": "chat",
+        "artifacts": [
+          {
+            "id": "c740902e-de4e-4723-b564-0f509cfa9ec5",
+            "type": "diagram",
+            "diagramType": "reactflow",
+            "title": "PLN Single Source of Truth (SSoT) Architecture Diagram",
+            "content": "{\n  \"nodes\": [\n    {\n      \"id\": \"node1\",\n      \"type\": \"cleanNode\",\n      \"position\": {\n        \"x\": 0,\n        \"y\": 0\n      },\n      \"data\": {\n        \"label\": \"User Interface\",\n        \"subtitle\": \"Frontend for user interaction\",\n        \"category\": \"frontend\"\n      }\n    },\n    {\n      \"id\": \"node2\",\n      \"type\": \"cleanNode\",\n      \"position\": {\n        \"x\": 200,\n        \"y\": 0\n      },\n      \"data\": {\n        \"label\": \"API Gateway\",\n        \"subtitle\": \"Handles incoming requests\",\n        \"category\": \"api\"\n      }\n    },\n    {\n      \"id\": \"node3\",\n      \"type\": \"cleanNode\",\n      \"position\": {\n        \"x\": 400,\n        \"y\": 0\n      },\n      \"data\": {\n        \"label\": \"Business Logic\",\n        \"subtitle\": \"Backend processing\",\n        \"category\": \"backend\"\n      }\n    },\n    {\n      \"id\": \"node4\",\n      \"type\": \"cleanNode\",\n      \"position\": {\n        \"x\": 400,\n        \"y\": 200\n      },\n      \"data\": {\n        \"label\": \"Database\",\n        \"subtitle\": \"Data storage for SSoT\",\n        \"category\": \"database\"\n      }\n    },\n    {\n      \"id\": \"node5\",\n      \"type\": \"cleanNode\",\n      \"position\": {\n        \"x\": 600,\n        \"y\": 0\n      },\n      \"data\": {\n        \"label\": \"Integration Layer\",\n        \"subtitle\": \"Integrates with external systems\",\n        \"category\": \"integration\"\n      }\n    },\n    {\n      \"id\": \"node6\",\n      \"type\": \"cleanNode\",\n      \"position\": {\n        \"x\": 600,\n        \"y\": 200\n      },\n      \"data\": {\n        \"label\": \"Monitoring Tool\",\n        \"subtitle\": \"Tracks system performance\",\n        \"category\": \"tool\"\n      }\n    }\n  ],\n  \"edges\": [\n    {\n      \"id\": \"e1-2\",\n      \"source\": \"node1\",\n      \"target\": \"node2\",\n      \"type\": \"smoothstep\",\n      \"style\": {\n        \"stroke\": \"#3b82f6\",\n        \"strokeWidth\": 2\n      },\n      \"animated\": true\n    },\n    {\n      \"id\": \"e2-3\",\n      \"source\": \"node2\",\n      \"target\": \"node3\",\n      \"type\": \"smoothstep\",\n      \"style\": {\n        \"stroke\": \"#3b82f6\",\n        \"strokeWidth\": 2\n      },\n      \"animated\": true\n    },\n    {\n      \"id\": \"e3-4\",\n      \"source\": \"node3\",\n      \"target\": \"node4\",\n      \"type\": \"smoothstep\",\n      \"style\": {\n        \"stroke\": \"#3b82f6\",\n        \"strokeWidth\": 2\n      },\n      \"animated\": true\n    },\n    {\n      \"id\": \"e3-5\",\n      \"source\": \"node3\",\n      \"target\": \"node5\",\n      \"type\": \"smoothstep\",\n      \"style\": {\n        \"stroke\": \"#3b82f6\",\n        \"strokeWidth\": 2\n      },\n      \"animated\": true\n    },\n    {\n      \"id\": \"e5-6\",\n      \"source\": \"node5\",\n      \"target\": \"node6\",\n      \"type\": \"smoothstep\",\n      \"style\": {\n        \"stroke\": \"#3b82f6\",\n        \"strokeWidth\": 2\n      },\n      \"animated\": true\n    }\n  ]\n}",
+            "data": {
+              "nodes": [
+                {
+                  "id": "node1",
+                  "type": "cleanNode",
+                  "position": {
+                    "x": 0,
+                    "y": 0
+                  },
+                  "data": {
+                    "label": "User Interface",
+                    "subtitle": "Frontend for user interaction",
+                    "category": "frontend"
+                  }
+                },
+                {
+                  "id": "node2",
+                  "type": "cleanNode",
+                  "position": {
+                    "x": 200,
+                    "y": 0
+                  },
+                  "data": {
+                    "label": "API Gateway",
+                    "subtitle": "Handles incoming requests",
+                    "category": "api"
+                  }
+                },
+                {
+                  "id": "node3",
+                  "type": "cleanNode",
+                  "position": {
+                    "x": 400,
+                    "y": 0
+                  },
+                  "data": {
+                    "label": "Business Logic",
+                    "subtitle": "Backend processing",
+                    "category": "backend"
+                  }
+                },
+                {
+                  "id": "node4",
+                  "type": "cleanNode",
+                  "position": {
+                    "x": 400,
+                    "y": 200
+                  },
+                  "data": {
+                    "label": "Database",
+                    "subtitle": "Data storage for SSoT",
+                    "category": "database"
+                  }
+                },
+                {
+                  "id": "node5",
+                  "type": "cleanNode",
+                  "position": {
+                    "x": 600,
+                    "y": 0
+                  },
+                  "data": {
+                    "label": "Integration Layer",
+                    "subtitle": "Integrates with external systems",
+                    "category": "integration"
+                  }
+                },
+                {
+                  "id": "node6",
+                  "type": "cleanNode",
+                  "position": {
+                    "x": 600,
+                    "y": 200
+                  },
+                  "data": {
+                    "label": "Monitoring Tool",
+                    "subtitle": "Tracks system performance",
+                    "category": "tool"
+                  }
+                }
+              ],
+              "edges": [
+                {
+                  "id": "e1-2",
+                  "source": "node1",
+                  "target": "node2",
+                  "type": "smoothstep",
+                  "style": {
+                    "stroke": "#3b82f6",
+                    "strokeWidth": 2
+                  },
+                  "animated": true
+                },
+                {
+                  "id": "e2-3",
+                  "source": "node2",
+                  "target": "node3",
+                  "type": "smoothstep",
+                  "style": {
+                    "stroke": "#3b82f6",
+                    "strokeWidth": 2
+                  },
+                  "animated": true
+                },
+                {
+                  "id": "e3-4",
+                  "source": "node3",
+                  "target": "node4",
+                  "type": "smoothstep",
+                  "style": {
+                    "stroke": "#3b82f6",
+                    "strokeWidth": 2
+                  },
+                  "animated": true
+                },
+                {
+                  "id": "e3-5",
+                  "source": "node3",
+                  "target": "node5",
+                  "type": "smoothstep",
+                  "style": {
+                    "stroke": "#3b82f6",
+                    "strokeWidth": 2
+                  },
+                  "animated": true
+                },
+                {
+                  "id": "e5-6",
+                  "source": "node5",
+                  "target": "node6",
+                  "type": "smoothstep",
+                  "style": {
+                    "stroke": "#3b82f6",
+                    "strokeWidth": 2
+                  },
+                  "animated": true
+                }
+              ]
+            },
+            "timestamp": "2025-08-01T04:18:51.514Z"
+          }
+        ]
+      },
+      {
+        "id": "msg_1754022412047_5jele2y0a",
+        "role": "user",
+        "content": "Surya, kapan SSOT diimplementasikan?",
+        "timestamp": "2025-08-01T04:26:52.026Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754022421507_jjx2mtlar",
+        "role": "assistant",
+        "content": "Implementasi SSoT (Single Source of Truth) di PLN akan dimulai secara bertahap mulai tahun 2026 pada beberapa unit dan fungsi terpilih. Proses ini akan terus dikembangkan hingga mendukung operasional PLN secara menyeluruh di semua unit yang ditargetkan pada tahun \n2027. Setelah implementasi SSoT, aplikasi-aplikasi yang saat ini tersebar di PLN Holding akan dievaluasi dan disesuaikan agar mendukung proses bisnis terintegrasi sesuai arahan yang telah ditetapkan. Jika ada kebutuhan pengembangan aplikasi ke depannya, setiap permohonan perubahan sistem yang berdampak pada arsitektur aplikasi masa depan (SSoT) hanya dapat dilakukan atas arahan Direksi. Pegawai akan mendapatkan informasi lebih lanjut mengenai tahapan dan jadwal implementasi S/4HANA pada sosialisasi berikutnya. Jika membutuhkan detail tambahan, Anda dapat mengacu pada SOP Change Request SSoT yang tersedia.\n\nDokumen yang digunakan:\n- [20250717 FAQ Program SSoT vPMQA_edited.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/20250717 FAQ Program SSoT vPMQA_edited.pdf?se=2025-08-01T04%3A31%3A56Z&sp=r&sv=2025-05-05&sr=b&sig=ypWgZmtF85xAUMIoXKt7tyRwqAM5GfkncUAbokP9R9w%3D)\n- [softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf?se=2025-08-01T04%3A31%3A59Z&sp=r&sv=2025-05-05&sr=b&sig=31vRjIBOdCM7rpzopuxeJ1hmOk1ZtQC1AF0w3zNwUiY%3D)",
+        "timestamp": "2025-08-01T04:27:01.482Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754022483046_15y6bzpoh",
+        "role": "user",
+        "content": "apakah mungkin go live ssot dipercepat?",
+        "timestamp": "2025-08-01T04:28:03.024Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754022497106_wh80g0cke",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen terkait implementasi SSoT di PLN, percepatan go live SSoT pada prinsipnya mungkin saja dilakukan, namun sangat bergantung pada kesiapan di beberapa aspek penting, seperti komunikasi, partisipasi, dan adopsi oleh seluruh pihak terkait. Proses menuju go live melibatkan beberapa tahapan utama, yaitu: - Awareness: Meliputi pelaksanaan survei, distribusi materi komunikasi, penyebaran video, dan pengumuman terkait SSoT. - Understanding: Meliputi briefing, training, dan penyediaan materi pembelajaran. - Adoption: Meliputi briefing go-live, kampanye hitung mundur, dan pengumuman go-live. - Commitment: Meliputi perayaan go-live, dukungan pasca go-live, dan survei adopsi. Setiap tahapan tersebut memiliki aktivitas spesifik yang harus dijalankan untuk memastikan seluruh pihak siap dan memahami perubahan yang terjadi. Saat ini, beberapa tahapan seperti pelatihan, briefing, dan survei kesiapan masih berstatus Not Started atau In Progress, dan fokus utama masih pada tahap komunikasi untuk meningkatkan awareness. Percepatan go live dapat dipertimbangkan jika seluruh tahapan penting sudah dijalankan dengan baik dan seluruh pihak sudah siap, baik dari sisi komunikasi, partisipasi, maupun adopsi. Namun, mempercepat go live tanpa kesiapan yang matang berisiko menurunkan efektivitas implementasi SSoT dan kesiapan pengguna. Jika ada kebutuhan untuk mempercepat go live, sebaiknya dilakukan evaluasi menyeluruh terhadap status setiap tahapan dan kesiapan unit terkait, serta memastikan seluruh proses komunikasi, pelatihan, dan dukungan telah berjalan optimal agar implementasi berjalan lancar dan efektif.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_SC_Checkpoint 1 PIC SSoT_December 2024_v200.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Checkpoint 1 PIC SSoT_December 2024_v200.pdf?se=2025-08-01T04%3A33%3A08Z&sp=r&sv=2025-05-05&sr=b&sig=hpEhkbQtRPZFU6SSqDO3dGi447yjIwsk%2BtXBPVbdfRY%3D)\n- [softlaunch-PLN_CMCT_SC_Onboarding PIC SSoT_20241017_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Onboarding PIC SSoT_20241017_v100.pdf?se=2025-08-01T04%3A33%3A11Z&sp=r&sv=2025-05-05&sr=b&sig=ZtZSc8L%2BCkwR5NjvraKXLElqh6t46D35kNEU1WJgHGU%3D)\n- [softlaunch-PLN_CMCT_SC_Checkpoint 2 PIC SSoT_Maret 2025_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Checkpoint 2 PIC SSoT_Maret 2025_v100.pdf?se=2025-08-01T04%3A33%3A14Z&sp=r&sv=2025-05-05&sr=b&sig=RpZfKkcUSp4VLImZ9UgTNUcLmztg1gmhG%2B35ZT2wt7U%3D)",
+        "timestamp": "2025-08-01T04:28:17.077Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754022582484_75ryvr4qr",
+        "role": "user",
+        "content": "ID RUPTL ada diaplikasi apa?",
+        "timestamp": "2025-08-01T04:29:42.460Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754022593235_pdg79mve4",
+        "role": "assistant",
+        "content": "ID RUPTL terdapat di aplikasi E-RUPTL. Aplikasi E-RUPTL digunakan untuk mengelola data rencana usulan pengembangan proyek RUPTL, termasuk melakukan kodifikasi ID Rencana usulan proyek (ID RUPTL). ID ini berfungsi sebagai identifier masing-masing rencana usulan proyek dan dikelola di E-RUPTL. Setelah proses persetujuan, ID RUPTL yang telah di-generate di E-RUPTL juga digunakan sebagai referensi di aplikasi lain, seperti SAP S/4HANA PPM dan ArcGIS. Data dari E-RUPTL, termasuk ID RUPTL, dapat diintegrasikan secara massal ke ArcGIS untuk pengelolaan koordinat lokasi proyek dan sinkronisasi data ke dashboard Georensis. Dengan demikian, E-RUPTL menjadi sumber data utama ID RUPTL, yang kemudian digunakan lintas aplikasi sesuai kebutuhan proses bisnis di PLN.\n\nDokumen yang digunakan:\n- [PLN SSoT BPR - FSD Report Fase 2 (BPFM, P2C, A2R, GRC) as per 20 Jun 2025.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/PLN SSoT BPR - FSD Report Fase 2 (BPFM, P2C, A2R, GRC) as per 20 Jun 2025.pdf?se=2025-08-01T04%3A34%3A46Z&sp=r&sv=2025-05-05&sr=b&sig=mZP%2BGRP1pErH8VNFa%2BrlurU71IE4cXzFjrwW/KlhnkM%3D)",
+        "timestamp": "2025-08-01T04:29:53.200Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754022616565_c0vosmjg7",
+        "role": "user",
+        "content": "tahapan proyek ada apa saja?",
+        "timestamp": "2025-08-01T04:30:16.514Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754022631465_79u9tjzye",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen terkait implementasi SSoT di PLN, berikut adalah tahapan-tahapan proyek yang dijalankan: - Melakukan wawancara dengan key stakeholders untuk menggali pemahaman terkait tiga topik utama: - Visi dan ekspektasi: Mengumpulkan ekspektasi terkait implementasi sistem baru serta kontribusinya terhadap strategi bisnis PLN. - Tantangan dan risiko: Mengidentifikasi tantangan utama, area kritikal, serta potensi risiko yang perlu mendapat perhatian khusus dalam implementasi SSoT. - Faktor kesuksesan: Mengumpulkan rekomendasi dari para key stakeholder mengenai kunci keberhasilan proyek. - Tahapan aktivitas dalam proyek implementasi SSoT di PLN juga meliputi: \n1. Change Network: Membentuk jaringan individu yang mendukung, memfasilitasi, dan mempercepat implementasi perubahan, serta menjadi penghubung antara tim manajemen perubahan dan pegawai yang terdampak. \n2. Identifikasi Stakeholder: Mengidentifikasi individu atau kelompok yang memiliki kepentingan, pengaruh, atau terdampak oleh perubahan, untuk memastikan komunikasi yang efektif dan mengelola ekspektasi. \n3. Daftar Stakeholder: Membuat daftar semua pihak yang terdampak perubahan, termasuk peran, lokasi, detail kontak, serta organisasi terkait. \n4. Persona: Membuat representasi semi-fiktif dari kelompok stakeholder yang terdampak, menggambarkan karakteristik, kebutuhan, tantangan, serta manfaat yang diperoleh dari perubahan. - Selain itu, disebutkan bahwa terdapat 10 tahapan pengelolaan proyek yang menjadi bagian dari interoperabilitas master data antar aplikasi utama (seperti SAP S/4HANA dan Anaplan). Namun, dokumen tidak merinci secara spesifik nama atau urutan dari 10 tahapan tersebut. Jika Anda membutuhkan detail lebih lanjut mengenai tahapan proyek secara teknis atau urutan langkah implementasi, silakan informasikan kebutuhan Anda agar saya dapat membantu lebih spesifik sesuai implementasi SSoT di PLN.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_SC_Checkpoint 1 PIC SSoT_December 2024_v200.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Checkpoint 1 PIC SSoT_December 2024_v200.pdf?se=2025-08-01T04%3A35%3A22Z&sp=r&sv=2025-05-05&sr=b&sig=bDH7EgLs3Rp1pz2TLJxDYDW3GCJhv61O%2B1WF8tBFNLM%3D)\n- [softlaunch-PLN_CMCT_CG010_PLN-Spesific Change Management Playbook_v200.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_CG010_PLN-Spesific Change Management Playbook_v200.pdf?se=2025-08-01T04%3A35%3A26Z&sp=r&sv=2025-05-05&sr=b&sig=9ay5CLoCKWcBrjvPai0wF8AJfj46Mv3ZpSmcPWSFRhI%3D)\n- [PLN SSoT BPR - FSD Report Fase 2 (BPFM, P2C, A2R, GRC) as per 20 Jun 2025.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/PLN SSoT BPR - FSD Report Fase 2 (BPFM, P2C, A2R, GRC) as per 20 Jun 2025.pdf?se=2025-08-01T04%3A35%3A28Z&sp=r&sv=2025-05-05&sr=b&sig=kb/dbnNcMiUGngSk5dys4geGPXwxgC1m3cdH2RNyMog%3D)",
+        "timestamp": "2025-08-01T04:30:31.424Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754022656055_k82t0cv3w",
+        "role": "user",
+        "content": "tahapan proyek PIK?",
+        "timestamp": "2025-08-01T04:30:56.023Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754022670504_9qo0ki20m",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen yang tersedia, tahapan proyek PIK (Proyek Investasi Ketenagalistrikan) di PLN tidak dijabarkan secara rinci dalam bentuk urutan langkah yang eksplisit. Namun, terdapat beberapa penjelasan terkait pengelolaan dan monitoring tahapan proyek, antara lain: - Pengelolaan aktivitas dan milestone penting dalam pelaksanaan proyek dilakukan berdasarkan workflow checklist yang telah ditetapkan dalam pedoman proyek ketenagalistrikan. - Pencatatan tanggal rencana dan aktual dari masing-masing tahapan workflow dilakukan untuk memastikan monitoring yang akurat. - Integrasi dengan tanggal-tanggal pada aktivitas proyek di Project Management, di mana monitoring tanggal aktivitas dilakukan pada level milestone proyek dan diinput secara manual pada SAP PS untuk semua tahapan pelaksanaan proyek. - Pencatatan milestone hanya dilakukan untuk proyek PIK dengan tipe proyek yang telah didefinisikan pada daftar critical milestone yang tercantum dalam dokumen laporan FSD Report. Selain itu, pengelolaan isu pada proyek PIK juga mengikuti tahapan pelaksanaan proyek, dengan status isu yang dipantau dan dikelola sesuai tahapan berikut: - New (Baru) - In Progress (Sedang Berjalan) - Resolve (Terselesaikan) - Closed (Ditutup) Struktur proyek PIK yang digunakan untuk mendaftarkan isu mengacu pada WBS (Work Breakdown Structure) level 2, dan setiap isu diklasifikasikan berdasarkan kategori, prioritas, dan statusnya pada setiap tahapan proyek. Perlu dicatat, pernah diusulkan penetapan kebijakan yang mengatur persyaratan penyelesaian dari masing-masing tahapan proyek, mulai dari inisiasi hingga penyelesaian, namun usulan tersebut akhirnya ditiadakan berdasarkan hasil diskusi dengan BPO. Jika Anda membutuhkan detail lebih lanjut mengenai tahapan proyek PIK secara menyeluruh, silakan informasikan kembali agar saya dapat membantu lebih spesifik sesuai kebutuhan implementasi SSoT di PLN.\n\nDokumen yang digunakan:\n- [PLN SSoT BPR - FSD Report Fase 2 (BPFM, P2C, A2R, GRC) as per 20 Jun 2025.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/PLN SSoT BPR - FSD Report Fase 2 (BPFM, P2C, A2R, GRC) as per 20 Jun 2025.pdf?se=2025-08-01T04%3A36%3A00Z&sp=r&sv=2025-05-05&sr=b&sig=Hkv/TdEqgj5sl1gv3GRRmE%2BqxKDoKuYodOaYAbyO8dk%3D)",
+        "timestamp": "2025-08-01T04:31:10.458Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754022753374_d8jcjm57j",
+        "role": "user",
+        "content": "id rencana usaha penyediaan tenaga listrik ada diaplikasi apa?",
+        "timestamp": "2025-08-01T04:32:33.326Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754022765192_4cjn8n3ad",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen yang tersedia, informasi mengenai di aplikasi apa ID Rencana Usaha Penyediaan Tenaga Listrik (RUPTL) berada belum disebutkan secara spesifik. Dokumen hanya menjelaskan proses bisnis terkait perencanaan penyediaan tenaga listrik jangka panjang di PLN, namun tidak merinci aplikasi atau sistem yang digunakan untuk mengelola ID RUPTL tersebut. Jika Anda membutuhkan informasi lebih lanjut mengenai aplikasi spesifik yang digunakan untuk ID RUPTL, silakan hubungi tim terkait atau admin sistem di PLN. Saya siap membantu implementasi SSoT di PLN jika ada pertanyaan lain.\n\nDokumen yang digunakan:\n- [[V1.0] PLN_BPR_Laporan Current State Assessment_v1.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/[V1.0] PLN_BPR_Laporan Current State Assessment_v1.pdf?se=2025-08-01T04%3A37%3A38Z&sp=r&sv=2025-05-05&sr=b&sig=h0oPZuwQvCHQ7wt2wfgzEhBLtQI/qU/ywvCz0XTv3As%3D)",
+        "timestamp": "2025-08-01T04:32:45.151Z",
+        "type": "chat"
+      }
+    ],
+    "lastActivity": "2025-08-01T04:32:45.192Z"
+  },
+  {
+    "id": "chat_1754017731997_fb470yk1p",
+    "userId": "7",
+    "timestamp": "2025-08-01T03:08:51.997Z",
+    "messages": [
+      {
+        "id": "msg_1754017731997_m1s34pl12",
+        "role": "user",
+        "content": "apa perubahan utama yang tersebar pada 8 proses bisnis utama misalny di aspek human capital",
+        "timestamp": "2025-08-01T03:08:51.920Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754017744947_swtmrhtru",
+        "role": "assistant",
+        "content": "Perubahan utama yang tersebar pada 8 proses bisnis utama dalam implementasi SSoT di PLN, khususnya pada aspek human capital (Hire to Retire), adalah sebagai berikut: - Sebelum SSoT, data kepegawaian tersebar di berbagai aplikasi di PLN Holding, Subholding, dan Anak Perusahaan. Setelah implementasi SSoT, seluruh data kepegawaian terpusat di satu sistem, sehingga history data pegawai tersimpan dengan baik dan pengembangan pegawai dapat lebih termonitor serta terkelola. - Aktivitas pegawai untuk proses pembelajaran, asesmen, dan sertifikasi kini dilakukan di satu sistem yang sama, yaitu Portal HXMS. - Pengelolaan kinerja pegawai dilakukan secara tersentralisasi di SAP SuccessFactors yang telah ditingkatkan fungsinya, misalnya dengan adanya katalog KPI. - Dengan perubahan ini, proses-proses terkait human capital menjadi lebih terintegrasi, efisien, dan mudah dipantau dalam satu sistem utama. Perubahan serupa juga terjadi pada proses bisnis utama lain seperti financial dan asset management, di mana data yang sebelumnya tersebar kini terintegrasi dan terstandardisasi dalam satu sistem, sehingga meningkatkan efisiensi, akurasi, dan kemudahan monitoring di seluruh proses bisnis PLN.\n\nDokumen yang digunakan:\n- [knowledge-doc-PLN_CMCT_SC_Materi Komunikasi Senior Leader Unit_v200.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/knowledge-doc-PLN_CMCT_SC_Materi Komunikasi Senior Leader Unit_v200.pdf?se=2025-08-01T03%3A13%3A57Z&sp=r&sv=2025-05-05&sr=b&sig=ZeloRDuLOBY%2B5arcFfLJakV4fAI25NRdr%2Bkgv6es/cs%3D)\n- [knowledge-doc-PLN_CMCT_SC_Materi Komunikasi Senior Leader (EVP)_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/knowledge-doc-PLN_CMCT_SC_Materi Komunikasi Senior Leader (EVP)_v100.pdf?se=2025-08-01T03%3A14%3A00Z&sp=r&sv=2025-05-05&sr=b&sig=3zPjVQgWKphK%2BHpxho4JT3QDILw6EM8oGDn5B5rRJyw%3D)\n- [20250717 FAQ Program SSoT vPMQA_edited.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/20250717 FAQ Program SSoT vPMQA_edited.pdf?se=2025-08-01T03%3A14%3A02Z&sp=r&sv=2025-05-05&sr=b&sig=zRmVC1ptIbkhhc7nyYpOtCnPpwIpbvnzEt0ZWj/mMJo%3D)",
+        "timestamp": "2025-08-01T03:09:04.879Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754017787118_xywkfp84w",
+        "role": "user",
+        "content": "apa resiko utama dari implementasi ssot dan mitigasinya",
+        "timestamp": "2025-08-01T03:09:47.036Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754017804621_xsime7ew7",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen yang tersedia, risiko utama dari implementasi SSoT (Single Source of Truth) di PLN memang tidak dijabarkan secara sangat spesifik, namun beberapa potensi risiko dan mitigasinya dapat diidentifikasi dari prinsip dan kegiatan utama program SSoT, yaitu: - Risiko data tidak akurat atau tidak terintegrasi: SSoT menuntut data yang akurat dan terintegrasi. Jika data tidak dikelola dengan baik, bisa terjadi inkonsistensi atau kesalahan data. - Mitigasi: Melakukan Project Management & Quality Assurance (PMQA) untuk menjaga kualitas dan integritas data serta memastikan pengelolaan program sesuai target. - Risiko proses bisnis yang belum optimal: Proses bisnis yang belum disesuaikan dapat menghambat efektivitas SSoT. - Mitigasi: Melakukan Business Process Reengineering (BPR) untuk menyempurnakan proses bisnis agar lebih efisien dan selaras dengan tujuan SSoT. - Risiko integrasi sistem yang tidak berjalan lancar: Integrasi aplikasi dan sistem yang tidak optimal dapat menyebabkan data tidak konsisten. - Mitigasi: Melibatkan System Integrator (SI) untuk memastikan solusi teknologi yang diimplementasikan benar-benar terintegrasi dan mendukung transformasi digital. - Risiko resistensi perubahan dari pengguna: Perubahan sistem dan proses dapat menimbulkan resistensi dari karyawan atau pengguna. - Mitigasi: Melaksanakan Change Management, Communication and Training (CMC&T) untuk memastikan seluruh pihak siap menerima perubahan melalui strategi komunikasi dan pelatihan yang efektif. Selain itu, PLN juga menyoroti tantangan seperti data yang tidak standar, proses manual yang tidak efisien, dan banyaknya aplikasi terpisah. Mitigasi yang dilakukan meliputi menstandarkan dan mengotomatiskan proses bisnis, mengonsolidasikan aplikasi, serta memanfaatkan platform SAP S/4HANA untuk memastikan integrasi dan konsistensi data. Dengan langkah-langkah tersebut, PLN berupaya meminimalkan risiko dan memastikan implementasi SSoT berjalan lancar serta memberikan manfaat optimal. Jika Anda membutuhkan detail risiko teknis atau operasional secara lebih spesifik, silakan informasikan lebih lanjut. Saya siap membantu mendukung implementasi SSoT di PLN.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf?se=2025-08-01T03%3A14%3A54Z&sp=r&sv=2025-05-05&sr=b&sig=tji6o%2B/EMVkDnCBCUlIUxbGo4QkymPygxRbZV0IK/nA%3D)\n- [softlaunch-PLN_CMCT_SC_Checkpoint 1 PIC SSoT_December 2024_v200.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Checkpoint 1 PIC SSoT_December 2024_v200.pdf?se=2025-08-01T03%3A14%3A59Z&sp=r&sv=2025-05-05&sr=b&sig=KPn9GR0jvqHoMq2qQb37HNeaIy1Jc2ue1RZNQjbH%2Bx8%3D)",
+        "timestamp": "2025-08-01T03:10:04.537Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754017826659_x1qe7dm0r",
+        "role": "user",
+        "content": "Apa risiko utama dari perubahan ini dan bagaimana mitigasinya?",
+        "timestamp": "2025-08-01T03:10:26.571Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754017838908_nyrwlz7es",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen yang tersedia, risiko utama dari perubahan menuju implementasi Single Source of Truth (SSoT) di PLN meliputi tantangan dalam proses transformasi IT, khususnya dalam memahami secara tepat masalah yang dihadapi dan memastikan solusi yang diambil benar-benar menyelesaikan persoalan tersebut. Selain itu, risiko juga diidentifikasi melalui wawancara dengan key stakeholders, yang mencakup tantangan utama, area kritikal dalam proses saat ini, serta potensi hambatan selama implementasi SSoT. Mitigasi yang dilakukan meliputi: \n1. Pemetaan masalah secara menyeluruh agar setiap tantangan dapat diidentifikasi dengan jelas. \n2. Komunikasi yang intensif dan terstruktur kepada seluruh pegawai, seperti melalui forum SSoT dan publikasi internal, untuk memastikan semua pihak memahami tujuan dan langkah-langkah perubahan. \n3. Arahan langsung dari Direksi untuk memastikan setiap langkah transformasi berjalan sesuai dengan visi dan strategi perusahaan. \n4. Diskusi aktif dengan stakeholder untuk mengidentifikasi tantangan dan area kritikal, serta mengumpulkan rekomendasi sebagai faktor kesuksesan proyek. Dengan pendekatan ini, PLN berupaya memastikan bahwa setiap risiko yang muncul dapat diidentifikasi sejak awal dan ditangani secara efektif melalui kolaborasi dan komunikasi yang baik di seluruh organisasi.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_SC_Checkpoint 1 PIC SSoT_December 2024_v200.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Checkpoint 1 PIC SSoT_December 2024_v200.pdf?se=2025-08-01T03%3A15%3A31Z&sp=r&sv=2025-05-05&sr=b&sig=Z5/RMv8DFfG8lZCiZkAEGri29%2B1/YEenXK/5e%2BbenVg%3D)\n- [softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 5 Oct 2024_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 5 Oct 2024_v100.pdf?se=2025-08-01T03%3A15%3A33Z&sp=r&sv=2025-05-05&sr=b&sig=Uk%2B%2BB5g6YV8F6Uakblm0H6Rx2znphew3xNqdsXbhXkQ%3D)",
+        "timestamp": "2025-08-01T03:10:38.823Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754018215173_ur3lxmyrf",
+        "role": "user",
+        "content": "apa resiko utama dari implementasi ssot dan mitigasinya",
+        "timestamp": "2025-08-01T03:16:55.077Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754018227541_go5515290",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen yang tersedia, risiko utama dari implementasi SSoT (Single Source of Truth) di PLN memang belum dijelaskan secara spesifik. Namun, beberapa potensi risiko yang umum terjadi dalam implementasi SSoT dapat diidentifikasi dari prinsip dan kegiatan utama program, beserta langkah mitigasinya, sebagai berikut: - Risiko data tidak akurat atau tidak terintegrasi: Jika data yang dimasukkan ke dalam sistem SSoT tidak akurat atau tidak terintegrasi dengan baik, maka keputusan yang diambil bisa salah. - Mitigasi: Melakukan quality assurance secara berkala dan memastikan proses integrasi data berjalan sesuai standar. - Risiko kegagalan integrasi aplikasi: Integrasi aplikasi yang tidak berjalan mulus dapat menyebabkan data tidak konsisten atau terputusnya alur informasi. - Mitigasi: Melibatkan System Integrator yang berpengalaman dan melakukan pengujian sistem secara menyeluruh sebelum implementasi penuh. - Risiko resistensi perubahan dari pengguna: Perubahan sistem dan proses bisnis seringkali menimbulkan resistensi dari karyawan atau pengguna. - Mitigasi: Melaksanakan program Change Management, Communication and Training (CMC&T) untuk memastikan seluruh pihak memahami manfaat dan cara kerja sistem baru. - Risiko tidak selaras dengan transformasi perusahaan: Jika implementasi SSoT tidak sejalan dengan arah transformasi PLN, maka manfaatnya tidak akan optimal. - Mitigasi: Menyelaraskan setiap langkah implementasi dengan strategi transformasi PLN dan melakukan evaluasi secara berkala. Secara umum, mitigasi risiko dilakukan melalui pengelolaan proyek yang baik, quality assurance, penyempurnaan proses bisnis, integrasi sistem yang optimal, serta manajemen perubahan dan pelatihan yang memadai. Jika Anda membutuhkan informasi lebih detail atau spesifik, silakan ajukan pertanyaan lanjutan. Saya siap membantu Anda dalam mendukung implementasi SSoT di PLN.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf?se=2025-08-01T03%3A22%3A00Z&sp=r&sv=2025-05-05&sr=b&sig=8WS2gQ0c9qoQoPR3D95joZ4RB4Mdi1ww5T4ccs1CSho%3D)\n- [softlaunch-PLN_CMCT_SC_Checkpoint 1 PIC SSoT_December 2024_v200.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Checkpoint 1 PIC SSoT_December 2024_v200.pdf?se=2025-08-01T03%3A22%3A04Z&sp=r&sv=2025-05-05&sr=b&sig=%2B9Xw0NRntk8XoPQixcFz/NU6Gfin/76jPmEfH7q2YoA%3D)",
+        "timestamp": "2025-08-01T03:17:07.479Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754018309452_gk2te1vax",
+        "role": "user",
+        "content": "kapan ssot mulai dimplementasikan di PLN",
+        "timestamp": "2025-08-01T03:18:29.357Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754018332481_7wcmkwed4",
+        "role": "assistant",
+        "content": "Implementasi SSoT (Single Source of Truth) di PLN akan dimulai secara bertahap mulai tahun 2026. Proses ini akan dilakukan pada beberapa unit dan fungsi terpilih, dan akan terus dikembangkan hingga dapat mendukung operasional PLN secara menyeluruh di semua unit yang ditargetkan pada tahun 2027. Pegawai akan mendapatkan informasi lebih lanjut mengenai tahapan dan jadwal implementasi S/4HANA dalam sosialisasi berikutnya (Dokumen 1).\n\nDokumen yang digunakan:\n- 20250717 FAQ Program SSoT vPMQA_edited_slide_13.json\n- PLN SSoT BPR - FSD Report Fase 2 (BPFM, P2C, A2R, GRC) as per 20 Jun 2025_slide_238.txt\n- softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS_slide_50.txt",
+        "timestamp": "2025-08-01T03:18:52.398Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754018409330_a148d34pj",
+        "role": "user",
+        "content": "berapa banyak aplikasi yang menjadi cakupan dalam ekosistem ssot",
+        "timestamp": "2025-08-01T03:20:09.232Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754018420981_gkqbhnccc",
+        "role": "assistant",
+        "content": "Berdasarkan hasil pencarian dokumen, jumlah aplikasi yang menjadi cakupan dalam ekosistem SSoT di PLN telah disederhanakan dari sebelumnya sekitar 800 aplikasi menjadi 98 aplikasi. Jumlah ini sudah termasuk aplikasi utama sumber data seperti SAP S/4HANA (aplikasi ERP), Maximo (pengelolaan aset), dan Anaplan (sumber financial anggaran). Selain itu, dalam proses Source to Pay (S2P) dan workstream lainnya, terdapat lebih dari 25 aplikasi utama yang teridentifikasi, seperti SAP S/4HANA (modul MM, FI, PS, PPM, Payroll), Digiproc, ePROC, VMS, CLMS, E-guarantee, APBA, SMAR, E-lab, IBM Maximo, BBO, AIRTax, CMS, VIP, Bank E-Tax, Bank, GBMO, Cash Management Dashboard, PADI, Anaplan, APKT, PLN-FIT, MMNENEON, DSA, Aplikasi Meterai Digital, ALIYA, E-ATK, AP2T, dan ELARCH. Aplikasi-aplikasi ini tersebar pada berbagai proses bisnis, mulai dari perencanaan permintaan, pengadaan, pengelolaan kontrak, penyedia barang/jasa, pembelian, logistik & pergudangan, hingga pembayaran. Secara keseluruhan, ekosistem SSoT PLN mencakup aplikasi utama dan aplikasi surrounding yang mendukung 8 workstreams hasil Business Process Reengineering, yaitu Hire-to-Retire, Record-to-Report, Source-to-Pay, Acquire-to-Retire, Budget, Planning, Forecast and Monitoring, Plan-to-Maintain, Plan-to-Construct, serta Governance, Risk & Compliance. Jumlah aplikasi dapat bertambah atau berkurang sesuai dengan perkembangan dan integrasi aplikasi di masa mendatang.\n\nDokumen yang digunakan:\n- [20250717 FAQ Program SSoT vPMQA_edited.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/20250717 FAQ Program SSoT vPMQA_edited.pdf?se=2025-08-01T03%3A25%3A12Z&sp=r&sv=2025-05-05&sr=b&sig=IoLyRmu3IyLkPLomnqvgMaejz1seCi/KdZ4SlInQK24%3D)\n- [PLN SSoT BPR_IV Kondisi Masa Depan_Aplikasi.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/PLN SSoT BPR_IV Kondisi Masa Depan_Aplikasi.pdf?se=2025-08-01T03%3A25%3A15Z&sp=r&sv=2025-05-05&sr=b&sig=xxRUuxixQE%2Bn35QaCFrRcsWFVz0aaTSYEtRwY1NJ2xk%3D)\n- [knowledge-doc-PLN_CMCT_SC_Materi Komunikasi Senior Leader Unit_v200.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/knowledge-doc-PLN_CMCT_SC_Materi Komunikasi Senior Leader Unit_v200.pdf?se=2025-08-01T03%3A25%3A17Z&sp=r&sv=2025-05-05&sr=b&sig=P1KL/MiuUZVcA9EzkJa0dkTvEjNvbHhGPaPoNoQ/ZrA%3D)",
+        "timestamp": "2025-08-01T03:20:20.885Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754018496992_skubbvqgu",
+        "role": "user",
+        "content": "apa saja modul yang dikembangkan pada SAP S/4hana di pln",
+        "timestamp": "2025-08-01T03:21:36.891Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754018497121_0cyflnnbh",
+        "role": "assistant",
+        "content": "Berikut merupakan cakupan modul SAP S/4HANA pada System Integrator (SI):\n\na. Finance (FI) – Mengelola keuangan perusahaan, termasuk pencatatan transaksi, laporan keuangan, pelaporan pajak, dan rekonsiliasi keuangan.\nb. Controlling (CO) – Memantau dan menganalisis biaya operasional, anggaran, profitabilitas, dan perencanaan keuangan.\nc. Project System (PS) – Mengelola proyek mulai dari perencanaan hingga kontrol biaya.\nd. Material Management (MM) – Mengelola pengadaan barang, stok, dan kontrol inventaris.\ne. Enterprise Portfolio & Project Management (EPPM) – Untuk perencanaan strategis dan eksekusi proyek.\nf. Human Resources (HR) & SuccessFactors (SF) – Administrasi SDM, penggajian, rekrutmen, absensi, dan pengembangan karyawan.\n\nDokumen yang digunakan:\n- PLN_CMCT_FAQ Program SSoT.pdf",
+        "timestamp": "2025-08-01T03:21:37.052Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754018560041_5rkz9c17f",
+        "role": "user",
+        "content": "setelah program ssot di implementasikan pada tahun 2027 bagaimana perlakuan terhadap aplikasi yang saat ini tersebat di pln holding?",
+        "timestamp": "2025-08-01T03:22:39.955Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754018560192_fy75q027r",
+        "role": "assistant",
+        "content": "Aplikasi eksisting akan dievaluasi dengan ketentuan:\na. Jika fungsinya tergantikan oleh ERP, maka aplikasi dihentikan.\nb. Jika ada fitur tambahan dan dinyatakan dalam proses baru, dilakukan penyelarasan.\nc. Jika tidak dinyatakan, dilakukan asesmen tambahan.\n\nDokumen yang digunakan:\n- PLN_CMCT_FAQ Program SSoT.pdf",
+        "timestamp": "2025-08-01T03:22:40.109Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754018662013_vk372bw8g",
+        "role": "user",
+        "content": "setelah program ssot di implementasikan pada tahun 2027 bagaimana perlakuan terhadap aplikasi yang saat ini tersebat di pln holding?",
+        "timestamp": "2025-08-01T03:24:21.987Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754018673273_2hrz794oy",
+        "role": "assistant",
+        "content": "Setelah Program SSoT diimplementasikan pada tahun 2027, perlakuan terhadap aplikasi yang saat ini tersebar di PLN Holding akan dilakukan sebagai berikut: - Aplikasi eksisting akan dievaluasi agar dapat mendukung proses bisnis terintegrasi di PLN. - Jika fungsi aplikasi eksisting sudah tergantikan oleh ERP sesuai hasil proses bisnis baru, maka aplikasi tersebut akan dihentikan atau diatur sesuai kebutuhan. - Jika aplikasi eksisting memiliki fitur tambahan di luar solusi standar ERP dan fitur tersebut sudah dinyatakan dalam proses bisnis baru, maka akan dilakukan penyelarasan lebih lanjut terhadap aplikasi tersebut. - Jika aplikasi memiliki fitur tambahan di luar solusi ERP, tetapi belum dinyatakan dalam proses bisnis baru, maka akan dilakukan asesmen lebih lanjut. Selain itu, pengelolaan dan integrasi aplikasi akan melibatkan beberapa pihak: - Icon Plus akan mengelola aplikasi setelah masa garansi Go-Live untuk memastikan aplikasi berjalan sesuai kebutuhan operasional. - Tim Konsultan bersama PLN DIV STI (bidang ERP) dan Business Process Owner (BPO) akan melakukan analisis kebutuhan bisnis, desain sistem, serta implementasi teknis agar aplikasi yang ada terintegrasi dengan sistem SSoT. - Pegawai PLN sebagai end user akan mendapatkan sosialisasi dan pelatihan terkait aplikasi baru maupun aplikasi yang telah diintegrasikan, sehingga transisi berjalan lancar. - Terdapat sesi workshop dan dukungan dari Change Agent serta Tim Support untuk membantu pegawai memahami dan beradaptasi dengan sistem yang baru. Dengan demikian, setiap aplikasi akan dievaluasi dan diperlakukan sesuai dengan perannya dalam mendukung proses bisnis terintegrasi di PLN setelah implementasi SSoT, serta didukung oleh tim yang kompeten untuk memastikan kelancaran operasional.\n\nDokumen yang digunakan:\n- [20250717 FAQ Program SSoT vPMQA_edited.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/20250717 FAQ Program SSoT vPMQA_edited.pdf?se=2025-08-01T03%3A29%3A25Z&sp=r&sv=2025-05-05&sr=b&sig=uBzkCnc01Hmm7asJ1oKxmFOB3WGa%2BUwQinVyRXheJa0%3D)\n- [softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf?se=2025-08-01T03%3A29%3A27Z&sp=r&sv=2025-05-05&sr=b&sig=/lY5IUkDCeoJQ6T7ESZMx8lQv8xq8fFv96/n8m84f%2BM%3D)",
+        "timestamp": "2025-08-01T03:24:33.257Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754018732165_1nnwq746p",
+        "role": "user",
+        "content": "bagaimana bila terdapatt selisih aset antara pencatatan sap s4/hana dengan pencatatan fisik",
+        "timestamp": "2025-08-01T03:25:32.118Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754018746325_m6og98rhd",
+        "role": "assistant",
+        "content": "Jika terdapat selisih aset antara pencatatan di SAP S/4HANA dengan pencatatan fisik, berikut langkah-langkah dan hal-hal yang perlu diperhatikan berdasarkan dokumen terkait implementasi SSoT di PLN: - Selisih aset akan dikoordinasikan oleh DIVAKT dan Divisi pembina melalui program inventarisasi, rekonsiliasi, cleansing, dan mapping. Proses ini mengacu pada Surat Direktur Keuangan No. 22177/KEU.\n04. 03/F01070000/2025 tanggal 2 Mei \n2025. - Diperlukan penyelarasan tingkat kedetailan pencatatan aset antara akuntansi (SAP S/4HANA) dan operasional di unit pembangkit agar data di sistem sesuai dengan kondisi fisik di lapangan. - Implementasi Nomor Induk Aset (NIA) pada SAP S/4HANA FI harus mengikuti regulasi yang berlaku di masing-masing area (Pembangkit, Transmisi, Distribusi) untuk memastikan identitas aset di sistem sama dengan fisik. - Standardisasi struktur data aset, penamaan, dan identitas fungsi di seluruh unit perlu dilakukan agar pencatatan di SAP S/4HANA optimal dan selaras dengan kondisi fisik. - Seluruh proses bisnis dan data transaksi historikal aset (akuisisi, transfer/mutasi, disposisi/penghapusan) dapat diakses di SAP S/4HANA, sehingga proses rekonsiliasi dan penelusuran selisih dapat dilakukan secara sistematis. - Data SAP terkait nilai akan dimigrasikan seluruhnya, dan perlu dipastikan bahwa data aset sudah tercatat seluruhnya di Maximo (oleh Tim Teknik/Tim Maximo/DIVRSD). Dengan demikian, jika ditemukan selisih, lakukan rekonsiliasi data antara SAP S/4HANA dan kondisi fisik, pastikan implementasi NIA dan standardisasi data aset sudah berjalan sesuai ketentuan, serta lakukan penyesuaian di sistem maupun di lapangan agar data aset menjadi satu sumber kebenaran (Single Source of Truth/SSoT).\n\nDokumen yang digunakan:\n- [20250717 FAQ Program SSoT vPMQA_edited.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/20250717 FAQ Program SSoT vPMQA_edited.pdf?se=2025-08-01T03%3A30%3A35Z&sp=r&sv=2025-05-05&sr=b&sig=3Gq7l7Bb7CaI15wk0NTAv0ind%2BSYUN2QSajiEAiYXlw%3D)\n- [PLN SSoT BPR - FSD Report Fase 2 (BPFM, P2C, A2R, GRC) as per 20 Jun 2025.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/PLN SSoT BPR - FSD Report Fase 2 (BPFM, P2C, A2R, GRC) as per 20 Jun 2025.pdf?se=2025-08-01T03%3A30%3A41Z&sp=r&sv=2025-05-05&sr=b&sig=ND8RR5AGPLkEC9bI97Wwt7S%2BrIU3G4PFY67RucTr8Js%3D)",
+        "timestamp": "2025-08-01T03:25:46.295Z",
+        "type": "chat"
+      }
+    ],
+    "lastActivity": "2025-08-01T03:25:46.325Z"
+  },
+  {
+    "id": "chat_1754013836560_nmsrr1dtp",
+    "userId": "7",
+    "timestamp": "2025-08-01T02:03:56.560Z",
+    "messages": [
+      {
+        "id": "msg_1754013836560_q18njafba",
+        "role": "assistant",
+        "content": "Selamat datang, System Administrator! Saya Surya, asisten AI untuk Program PLN SSoT. Bagaimana saya bisa membantu Anda hari ini?",
+        "timestamp": "2025-08-01T02:03:56.546Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754014911506_1638tylsb",
+        "role": "user",
+        "content": "Bagaimana jika muncul perbedaan saat memeriksa syarat pembayaran kontrak vendor?",
+        "timestamp": "2025-08-01T02:21:51.472Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754014912366_zf1zt7f7v",
+        "role": "assistant",
+        "content": "Dengan SSoT, pembayaran kepada Mitra PLN lebih transparan. Proses dan dokumen distandardisasi dengan SLA yang terukur, sehingga meningkatkan kepercayaan Mitra terhadap PLN. PLN juga memiliki data vendor terpusat dan penilaian vendor yang akurat, sehingga kualitas pekerjaan dan proyek makin baik.\n\nDokumen yang digunakan:\n- PLN_CMCT_FAQ Program SSoT.pdf\n\n*Catatan: Jawaban ini mungkin tidak sepenuhnya sesuai dengan pertanyaan Anda. Silakan ajukan pertanyaan yang lebih spesifik.*",
+        "timestamp": "2025-08-01T02:21:52.341Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754015385279_acywwozz1",
+        "role": "user",
+        "content": "sebutkan aplikasi masa depan ssot",
+        "timestamp": "2025-08-01T02:29:45.236Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754015392397_i46u7us1z",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen yang tersedia, disebutkan adanya Aplikasi Masa Depan SSoT dan Ekosistem Aplikasi Masa Depan per Stream. Namun, dokumen tersebut tidak merinci daftar atau nama aplikasi masa depan SSoT secara spesifik. Jika Anda membutuhkan informasi lebih detail mengenai aplikasi masa depan SSoT di PLN, silakan sampaikan pertanyaan lebih lanjut atau lampirkan dokumen yang lebih lengkap. Saya siap membantu implementasi SSoT di PLN sesuai kebutuhan Anda.\n\nDokumen yang digunakan:\n- [20250102 Pemaparan Arsitektur Aplikasi Masa Depan.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/20250102 Pemaparan Arsitektur Aplikasi Masa Depan.pdf?se=2025-08-01T02%3A34%3A48Z&sp=r&sv=2025-05-05&sr=b&sig=MeHQb1vQGpquUDyfgZjDbl77iHIsFtHKWXknhRUvwqs%3D)",
+        "timestamp": "2025-08-01T02:29:52.373Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754015427606_m9sa3i8h5",
+        "role": "user",
+        "content": "Daftar aplikasi masa depan SSoT PLN ada apa saja",
+        "timestamp": "2025-08-01T02:30:27.584Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754015437418_lk57x8zbm",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen terkait, aplikasi masa depan SSoT PLN akan berfokus pada implementasi System Integrator (SI) yang selaras dengan hasil Business Process Reengineering (BPR). Berikut adalah poin-poin utama terkait aplikasi dan fitur yang akan diimplementasikan: - SAP S/4HANA yang didesain sesuai kebutuhan dan proses bisnis PLN sebagai platform utama SSoT. - Integrasi dengan ekosistem aplikasi pendukung terpilih untuk memastikan tata kelola data yang baik dan konsolidasi aplikasi-aplikasi yang ada. - Fitur kemudahan akses bagi pegawai, seperti transaksi self-service, approval, dan dashboard. - Penambahan fungsi dan fitur terbaru yang mengikuti kebutuhan serta proses bisnis PLN. - Pengembangan kapabilitas pegawai dalam penggunaan SAP S/4HANA dan pengelolaan aplikasi setelah masa garansi Go-Live. - Mendukung standarisasi dan otomasi proses bisnis di 8 workstream utama PLN. Implementasi aplikasi-aplikasi ini akan dilakukan secara bertahap di seluruh Unit PLN Holding, dimulai dari fase desain, pengembangan, testing, hingga deployment, dan ditargetkan selesai pada tahun 2026–\n2027. Jika Anda membutuhkan daftar aplikasi secara lebih spesifik, informasi tersebut kemungkinan akan tersedia seiring dengan perkembangan program SSoT di PLN. Saya siap membantu jika ada pertanyaan lanjutan terkait implementasi SSoT di PLN.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_SC_Checkpoint 2 PIC SSoT_Maret 2025_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Checkpoint 2 PIC SSoT_Maret 2025_v100.pdf?se=2025-08-01T02%3A35%3A31Z&sp=r&sv=2025-05-05&sr=b&sig=wvWNx7C1kYXeH0s3XpxuhcJ7RPM4CwRpt/IEMerjOnI%3D)\n- [20250102 Pemaparan Arsitektur Aplikasi Masa Depan.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/20250102 Pemaparan Arsitektur Aplikasi Masa Depan.pdf?se=2025-08-01T02%3A35%3A32Z&sp=r&sv=2025-05-05&sr=b&sig=HLnzqjGjH2Ydg4J2kgwlZZyJZxFQaIZUwtKpdSEJ7jY%3D)\n- [softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf?se=2025-08-01T02%3A35%3A35Z&sp=r&sv=2025-05-05&sr=b&sig=DK53bDqsQaEfB11IcZb%2BdRMGe1cL9FXFvCBM7BX6IUg%3D)",
+        "timestamp": "2025-08-01T02:30:37.391Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754015477418_wqc4fnhgn",
+        "role": "user",
+        "content": "sebutkan semua list Daftar aplikasi masa depan SSoT PLN",
+        "timestamp": "2025-08-01T02:31:17.382Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754015485397_oj1035kzm",
+        "role": "assistant",
+        "content": "Berikut adalah daftar aplikasi masa depan SSoT PLN yang direncanakan untuk terintegrasi, khususnya dengan aplikasi ELARCH sebagai repositori dan pengarsipan dokumen digital: - ELARCH - DAMS TVV/KI - SAP S/4 HANA (CLM) - IBM Maximo - Portal HXMS - SIMPUS - PLN e-Insurance - VIP - APBA - Power Inspect & New Sringtami - AMS - LIS - Digiproc - Ebiddoc - E-guarantee - E-lab - AIRTax - BBO Aplikasi-aplikasi ini akan saling terintegrasi untuk mendukung pengelolaan dokumen digital dan proses bisnis PLN secara terpusat dan efisien.\n\nDokumen yang digunakan:\n- [20250102 Pemaparan Arsitektur Aplikasi Masa Depan.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/20250102 Pemaparan Arsitektur Aplikasi Masa Depan.pdf?se=2025-08-01T02%3A36%3A20Z&sp=r&sv=2025-05-05&sr=b&sig=x6SzQk1WtAWVTmjN7uqQKAwBf7KA57ovJWaZR6C/zjs%3D)",
+        "timestamp": "2025-08-01T02:31:25.347Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754015530407_vaa9a3w4d",
+        "role": "user",
+        "content": "Daftar aplikasi masa depan SSoT PLN ada berapa?",
+        "timestamp": "2025-08-01T02:32:10.365Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754015538939_dj1fsv87l",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen, terdapat 17 aplikasi masa depan SSoT PLN yang akan terintegrasi dengan ELARCH sebagai repositori dan pengarsipan dokumen digital. Berikut daftar aplikasinya: - DAMS TVV/KI - SAP S/4 HANA (CLM) - IBM Maximo - Portal HXMS - SIMPUS - PLN e-Insurance - VIP - APBA - Power Inspect & New Sringtami - AMS - LIS - Digiproc - Ebiddoc - E-guarantee - E-lab - AIRTax - BBO Jadi, total ada 17 aplikasi masa depan SSoT PLN yang direncanakan akan terintegrasi.\n\nDokumen yang digunakan:\n- [20250102 Pemaparan Arsitektur Aplikasi Masa Depan.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/20250102 Pemaparan Arsitektur Aplikasi Masa Depan.pdf?se=2025-08-01T02%3A37%3A13Z&sp=r&sv=2025-05-05&sr=b&sig=lw5qP7WM8S392t3u0cypIVFbUmhhZieD5WAzEwUjscI%3D)",
+        "timestamp": "2025-08-01T02:32:18.908Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754015581529_yr2ajpaup",
+        "role": "user",
+        "content": "apa saja Ekosistem aplikasi masa depan Record to Report (R2R)",
+        "timestamp": "2025-08-01T02:33:01.478Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754015593097_hjbvcenj5",
+        "role": "assistant",
+        "content": "Ekosistem aplikasi masa depan untuk Record to Report (R2R) dalam implementasi SSoT di PLN dirancang untuk mendukung proses bisnis secara terintegrasi dan efisien. Berikut adalah gambaran ekosistem tersebut: - SAP S/4HANA akan menjadi inti sistem, didesain secara teknis agar sesuai dengan kebutuhan dan proses bisnis PLN. - Integrasi dengan aplikasi pendukung terpilih, memastikan seluruh aplikasi yang digunakan dapat saling terhubung dan mendukung proses R2R. - Fitur kemudahan akses bagi pegawai, seperti transaksi self-service, approval, dan dashboard untuk monitoring serta pengambilan keputusan. - Penambahan fungsi dan fitur terbaru yang selalu mengikuti perkembangan kebutuhan dan proses bisnis PLN. - Pengembangan kapabilitas pegawai dalam penggunaan SAP S/4HANA serta pengelolaan aplikasi, termasuk setelah masa garansi Go-Live. - Ekosistem ini juga mencakup aktivitas konsolidasi, pelaporan keuangan, serta perpajakan, dan akan terintegrasi dengan platform ERP baru untuk memastikan proses pelaporan keuangan dan perpajakan berjalan lebih efisien dan terstandarisasi di seluruh perusahaan. Dengan ekosistem ini, PLN akan memiliki sistem yang terintegrasi, mudah diakses, dan adaptif terhadap perubahan kebutuhan bisnis di masa depan. Jika Anda membutuhkan rincian lebih lanjut mengenai aplikasi spesifik yang digunakan, Anda dapat merujuk ke dokumen utama pada bagian III. Proses Bisnis, Ekosistem Aplikasi, dan Master Data Masa Depan, subbagian A. Record to Report (R2R). Saya siap membantu jika Anda memerlukan panduan lebih lanjut terkait implementasi SSoT di PLN.\n\nDokumen yang digunakan:\n- [PLN SSoT BPR - FSD Report Fase 1 (R2R, H2R, S2P) as per 20 Jun 2025.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/PLN SSoT BPR - FSD Report Fase 1 (R2R, H2R, S2P) as per 20 Jun 2025.pdf?se=2025-08-01T02%3A38%3A05Z&sp=r&sv=2025-05-05&sr=b&sig=VZHBxh51BP1ro0HfJvqWUIaf1uaBzEtyEjb5b/roqk8%3D)\n- [softlaunch-PLN_CMCT_SC_Checkpoint 2 PIC SSoT_Maret 2025_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Checkpoint 2 PIC SSoT_Maret 2025_v100.pdf?se=2025-08-01T02%3A38%3A08Z&sp=r&sv=2025-05-05&sr=b&sig=vzB1GyletMwq7xY4C%2B8UfP8d9U0x0ntuG/Zo5lm29ck%3D)\n- [softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf?se=2025-08-01T02%3A38%3A09Z&sp=r&sv=2025-05-05&sr=b&sig=D3MLPBjWkbcZwdYBamh1j0rsrGhuAlboUbzfBQ12fn4%3D)",
+        "timestamp": "2025-08-01T02:33:13.062Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754015931138_qutzf7rhf",
+        "role": "user",
+        "content": "Bagaimana gambaran SSoT 5 tahun mendatang?",
+        "timestamp": "2025-08-01T02:38:51.102Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754015944170_vb401laio",
+        "role": "assistant",
+        "content": "Gambaran SSoT (Single Source of Truth) PLN dalam 5 tahun mendatang adalah terwujudnya sistem informasi yang terintegrasi, di mana seluruh data dan proses bisnis PLN dikelola secara lebih akurat, efisien, dan terarah untuk mendukung pengambilan keputusan yang lebih baik. Transformasi ini bertujuan agar PLN dapat memahami permasalahan secara tepat dan menyusun solusi yang efektif. Roadmap SSoT PLN telah dirancang sejak 2020 dan ditargetkan selesai pada 2027, dengan tahapan sebagai berikut: - Tahun 2023: Pembentukan Tim Project Management and Quality Assurance (PMQA) serta pelaksanaan Quick Win Performance Management & Goal Management (PMGM). - Tahun 2024: Go-Live untuk Performance Management & Goal Management (PMGM) dan Integrated Payment Management System (IPMS Pilot), pendefinisian Future State Business Process Reengineering (BPR), serta pembentukan Tim Change Management, Communication, and Training (CMC&T) dan Tim System Integrator (SI). - Tahun 2025: Go-Live IPMS untuk gelombang 2 hingga 6, serta pengembangan implementasi System Integrator (SI) Fase \n1. - Tahun 2026-2027: Fokus pada pengembangan dan penyelesaian implementasi System Integrator Fase 1 dan 2, yang menjadi fondasi utama PLN menuju SSoT. Pada tahun 2027, PLN menargetkan terciptanya satu sistem terintegrasi yang mampu menyediakan data berkualitas dan konsisten, memastikan proses bisnis berjalan komprehensif, teratur, dan transparan. Program SSoT ini juga merupakan bagian dari Moonshot Launchpad Transformasi PLN \n2. 0, yang mencakup pengembangan proses, SDM, dan teknologi untuk membangun manajemen sistem yang terintegrasi secara menyeluruh.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 5 Oct 2024_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 5 Oct 2024_v100.pdf?se=2025-08-01T02%3A43%3A54Z&sp=r&sv=2025-05-05&sr=b&sig=XlbNlnkAibT5jnGqByFcwb52Lgx0sCwdPZaGwXeWyv8%3D)\n- [softlaunch-PLN_CMCT_SC_Checkpoint 2 PIC SSoT_Maret 2025_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Checkpoint 2 PIC SSoT_Maret 2025_v100.pdf?se=2025-08-01T02%3A43%3A58Z&sp=r&sv=2025-05-05&sr=b&sig=hz1dEUBrWT7sQkkJq5%2BzyVbRQMKqpt58MmVcqUdiNVI%3D)\n- [softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 1 Oct 2024_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 1 Oct 2024_v100.pdf?se=2025-08-01T02%3A44%3A00Z&sp=r&sv=2025-05-05&sr=b&sig=P94j8MkxzyIpwiGoYhXOZE1tUpFqt/JHMBfgAI4vW/U%3D)",
+        "timestamp": "2025-08-01T02:39:04.151Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016093921_pp21rlg7v",
+        "role": "user",
+        "content": "Bagaimana saya tahu transaksi SAP apa yang harus saya pelajari dan gunakan?",
+        "timestamp": "2025-08-01T02:41:33.898Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016109610_sladeqhmo",
+        "role": "assistant",
+        "content": "Terima kasih atas pertanyaannya. Untuk mengetahui transaksi SAP apa yang perlu Anda pelajari dan gunakan dalam mendukung implementasi Single Source of Truth (SSoT) di PLN, Anda dapat mengikuti langkah-langkah berikut: \n1. Identifikasi terlebih dahulu kebutuhan atau masalah bisnis yang ingin Anda selesaikan. \n2. Pahami proses bisnis utama di PLN yang terintegrasi dengan SSoT, seperti: - Source to Pay (S2P): perencanaan pengadaan, pelaksanaan pengadaan, manajemen kontrak, manajemen persediaan, pembayaran, logistik & pergudangan, serta pengelolaan pendapatan. - Hire to Retire (H2R): manajemen organisasi, kinerja, pembelajaran, administrasi human capital, rekrutmen, pengembangan karir, kompensasi, dan manfaat. - Plan to Maintain: pengolahan data aset dan inventory. - Record to Report: penyajian informasi keuangan. - Governance, Risk, & Compliance (GRC): pengelolaan risiko, kebijakan, dan tata kelola. \n3. Cocokkan area kerja Anda dengan cakupan proses bisnis di atas untuk mengetahui area mana yang relevan. \n4. Pelajari transaksi SAP yang sesuai dengan proses bisnis tersebut. Misalnya, jika Anda terlibat di pengadaan, fokus pada transaksi SAP terkait S2P seperti pengadaan, manajemen kontrak, dan pembayaran. \n5. Anda juga dapat mengakses materi flyer dan video PLN1 terkait SSoT yang telah disebarkan, untuk mendapatkan gambaran lebih detail mengenai proses dan transaksi yang digunakan. Materi tersebut dapat ditemukan di bit.ly/Materi-SSoT pada folder 06 PLN. \n6. Jika membutuhkan panduan lebih spesifik terkait transaksi SAP tertentu, Anda dapat berkonsultasi dengan tim IT atau referensi internal PLN yang relevan. Dengan memahami proses bisnis yang relevan dengan pekerjaan Anda, Anda akan lebih mudah menentukan transaksi SAP mana yang perlu dipelajari dan digunakan dalam mendukung implementasi SSoT di PLN.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 5 Oct 2024_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 5 Oct 2024_v100.pdf?se=2025-08-01T02%3A46%3A37Z&sp=r&sv=2025-05-05&sr=b&sig=r%2BQYkW/EuG7ABUHEqRu1xbKtxLoLm6rK/mzSuGGkMJ8%3D)\n- [softlaunch-PLN_CMCT_SC_Checkpoint 1 PIC SSoT_December 2024_v200.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Checkpoint 1 PIC SSoT_December 2024_v200.pdf?se=2025-08-01T02%3A46%3A40Z&sp=r&sv=2025-05-05&sr=b&sig=ZRDr4P8fhPhlGbAS99I9aEbzmTzxpI9WKL0VQxUMVlg%3D)",
+        "timestamp": "2025-08-01T02:41:49.585Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016220870_v8tjjglgn",
+        "role": "user",
+        "content": "Bagaimana high level timeline SSoT?",
+        "timestamp": "2025-08-01T02:43:40.843Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016230860_nrp95yt0m",
+        "role": "assistant",
+        "content": "High level timeline implementasi Single Source of Truth (SSoT) di PLN dirancang untuk selesai pada Q4 \n2027. Berikut adalah tahapan utama beserta waktu pelaksanaannya: - Q3 2021: Short Term Improvement (18 bulan, dalam proses) - Q2 2023: Business Process Reengineering (15 bulan, dalam proses) - Q2 2023: Program Management & Quality Assurance (57 bulan, dalam proses) - Q1 2025: System Implementation (41 bulan, dalam proses) - Q3 2024: Change Management, Communication & Training (39 bulan, dalam proses) - Q2 2024: Posisi saat ini - Q4 2027: Penyelesaian seluruh implementasi SSoT (target) Terdapat perpanjangan masa finalisasi workstream fase 2 (P2M) sehingga timeline sedikit mundur ke Q1 2025, namun hal ini tidak diharapkan mengganggu timeline SSoT secara keseluruhan maupun berdampak pada kontrak BPR. Jika Anda membutuhkan detail lebih lanjut terkait tahapan atau waktu pelaksanaan, silakan sampaikan, saya siap membantu proses implementasi SSoT di PLN.\n\nDokumen yang digunakan:\n- [20250102 Pemaparan Arsitektur Aplikasi Masa Depan.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/20250102 Pemaparan Arsitektur Aplikasi Masa Depan.pdf?se=2025-08-01T02%3A48%3A44Z&sp=r&sv=2025-05-05&sr=b&sig=jJ7K7DIGs7O/qD3/68h049EFv/m%2BsG/kw7lCxwMr/IU%3D)\n- [PLN SSoT BPR - FSD Report Fase 2 (P2M) as per 20 Jun 2025.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/PLN SSoT BPR - FSD Report Fase 2 (P2M) as per 20 Jun 2025.pdf?se=2025-08-01T02%3A48%3A46Z&sp=r&sv=2025-05-05&sr=b&sig=uuD5TlzBC52d1jLK1/r59RroABVtdvQWzqlWm1V8ec8%3D)\n- [PLN SSoT BPR - FSD Report Fase 1 (R2R, H2R, S2P) as per 20 Jun 2025.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/PLN SSoT BPR - FSD Report Fase 1 (R2R, H2R, S2P) as per 20 Jun 2025.pdf?se=2025-08-01T02%3A48%3A48Z&sp=r&sv=2025-05-05&sr=b&sig=ZVMtepFHaL%2Bi93ZoD/WT1zSOnY3e4hPZHh6WCPdiKZo%3D)",
+        "timestamp": "2025-08-01T02:43:50.837Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016267002_l0rnoafjf",
+        "role": "user",
+        "content": "Mengapa perlu ssot?",
+        "timestamp": "2025-08-01T02:44:26.969Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016276863_zqyrtrrxo",
+        "role": "assistant",
+        "content": "Single Source of Truth (SSoT) diperlukan di PLN karena beberapa alasan utama berikut: - Sebelumnya, monitoring dan tracking aset perusahaan mengalami kendala akibat struktur dan kodifikasi data yang belum standar secara end-to-end dan lintas fungsi. - Banyak proses bisnis masih dilakukan secara manual, sehingga proses dan waktu pengerjaan menjadi kurang efisien. - Aplikasi perusahaan yang terfragmentasi membuat sulit menemukan sumber data yang valid dan akuntabel. - Platform ERP yang digunakan (SAP) sudah outdated dan membutuhkan pembaruan. Dengan implementasi SSoT, PLN dapat mengatasi kendala-kendala tersebut, sehingga data menjadi lebih terstandar, proses bisnis lebih efisien, dan sumber data yang digunakan lebih valid serta akuntabel. SSoT juga memastikan semua data bersumber dari satu tempat yang terpercaya, sehingga informasi yang digunakan selalu konsisten, akurat, dan mudah diakses untuk mendukung pembuatan laporan serta pengambilan keputusan yang lebih cepat dan tepat.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 1 Oct 2024_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 1 Oct 2024_v100.pdf?se=2025-08-01T02%3A49%3A30Z&sp=r&sv=2025-05-05&sr=b&sig=F708Qxdby8rzKy0TGEcSCxARvbXh8kHOCXqlBDxkj34%3D)\n- [20250717 FAQ Program SSoT vPMQA_edited.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/20250717 FAQ Program SSoT vPMQA_edited.pdf?se=2025-08-01T02%3A49%3A32Z&sp=r&sv=2025-05-05&sr=b&sig=61YJuMR5ij5Su2YVu0OlLkU/j7PgfsryTujObZxWXSY%3D)\n- [softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf?se=2025-08-01T02%3A49%3A35Z&sp=r&sv=2025-05-05&sr=b&sig=%2BOBK/bw2DoPlLAE5Pi1IAXfZR18xp7sm8dTprTk2RF0%3D)",
+        "timestamp": "2025-08-01T02:44:36.830Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016379652_3b198rdue",
+        "role": "user",
+        "content": "Apa risiko utama dari perubahan ini dan bagaimana mitigasinya?",
+        "timestamp": "2025-08-01T02:46:19.606Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016390860_vzxxboxx5",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen yang tersedia, risiko utama dari perubahan menuju implementasi Single Source of Truth (SSoT) di PLN adalah tantangan dalam memetakan dan memahami secara tepat masalah yang dihadapi selama proses transformasi IT. Risiko ini muncul karena perubahan besar seperti SSoT memerlukan pemahaman mendalam terhadap kondisi eksisting dan potensi hambatan yang mungkin timbul, termasuk tantangan utama dan area kritikal dalam proses yang ada saat ini. Mitigasi terhadap risiko ini dilakukan dengan beberapa langkah berikut: \n1. Melakukan pemetaan masalah secara menyeluruh untuk memastikan setiap tantangan yang diidentifikasi dapat diselesaikan dengan langkah-langkah yang tepat. \n2. Mengumpulkan perspektif dan masukan dari para stakeholder terkait tantangan dan risiko yang dihadapi, serta memastikan area kritikal dan potensi risiko mendapat perhatian khusus sejak awal. \n3. Mengumpulkan rekomendasi dari stakeholder untuk mencapai kesuksesan proyek. \n4. Melakukan komunikasi yang intensif dari leadership, seperti melalui forum SSoT dan publikasi internal, untuk memastikan seluruh pegawai memahami tujuan, tantangan, dan langkah perbaikan yang harus diambil selama proses transformasi ini. Dengan pendekatan ini, PLN dapat mengidentifikasi dan mengelola risiko secara proaktif selama proses implementasi SSoT.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_SC_Checkpoint 1 PIC SSoT_December 2024_v200.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Checkpoint 1 PIC SSoT_December 2024_v200.pdf?se=2025-08-01T02%3A51%3A23Z&sp=r&sv=2025-05-05&sr=b&sig=p3FMPV5uvbxepuOLp2WiY4d5ERrkldsxNV0HUZKo3yA%3D)\n- [softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 5 Oct 2024_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_SSoT PLN 1 - Week 5 Oct 2024_v100.pdf?se=2025-08-01T02%3A51%3A26Z&sp=r&sv=2025-05-05&sr=b&sig=r6e/eHwDlWxC6A6JUGrjO2DPui2LzEVu4oluPJSkaCk%3D)",
+        "timestamp": "2025-08-01T02:46:30.838Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016497282_m2yrwjzr6",
+        "role": "user",
+        "content": "Apa tanggung jawab saya sebagai Change Agent dalam program SSoT ini?",
+        "timestamp": "2025-08-01T02:48:17.227Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016508984_qfp7pogrq",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen yang ada, tanggung jawab Anda sebagai Change Agent dalam program SSoT (Single Source of Truth) di PLN meliputi: - Menjadi PIC (Person In Charge) SSoT yang diresmikan sebagai Change Agent dalam Program IT Transformation menuju SSoT, serta memahami dan menjalankan peran serta tanggung jawab tersebut. - Mewakili end-user (dengan rasio ideal 1 change agent untuk 50 end-user) dan menjadi penghubung antara tim proyek dengan pengguna akhir. - Mempercepat adopsi perubahan, membantu mengurangi resistensi terhadap perubahan, serta meningkatkan efektivitas komunikasi dengan menyampaikan informasi terkait perubahan kepada pihak-pihak yang terdampak. - Mengumpulkan dan menyampaikan feedback atau masukan dari end-user kepada tim proyek agar dapat ditindaklanjuti. - Berpartisipasi aktif dalam kegiatan Change Network, seperti kick-off meeting, onboarding session, serta pertemuan rutin mingguan atau bulanan. - Berperan sebagai katalis perubahan di unit masing-masing, membangun jalur komunikasi antara pegawai, pihak ketiga/vendor, dan manajemen. - Menjadi penghubung utama dalam menyampaikan informasi, mendukung, dan memastikan kelancaran transisi SSoT di lapangan. - Memiliki komitmen dan kontribusi signifikan dalam mendukung perubahan, termasuk menilai risiko, melakukan eskalasi isu, dan membantu penyelesaian masalah yang muncul selama implementasi SSoT. - Melakukan komunikasi dan engagement yang efektif kepada end user agar informasi terkait SSoT dapat diterima dengan baik dan merata. Dengan peran ini, Anda diharapkan dapat membantu memastikan keberhasilan implementasi SSoT di lingkungan PLN, mendukung proses perubahan, serta memastikan seluruh pihak yang terdampak dapat menerima dan menjalankan perubahan dengan baik.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_SC_Onboarding PIC SSoT_20241017_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Onboarding PIC SSoT_20241017_v100.pdf?se=2025-08-01T02%3A53%3A20Z&sp=r&sv=2025-05-05&sr=b&sig=05qKrB2dtoa6wNHjEurEAEiVAevi7fDcBJbcMy6jh1s%3D)\n- [softlaunch-PLN_CMCT_CG010_PLN-Spesific Change Management Playbook_v200.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_CG010_PLN-Spesific Change Management Playbook_v200.pdf?se=2025-08-01T02%3A53%3A22Z&sp=r&sv=2025-05-05&sr=b&sig=WKVvsEVNXf1nDxMORM2yu%2BH3H8HQaiw3f6JfkUv1bM0%3D)",
+        "timestamp": "2025-08-01T02:48:28.935Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016648503_okwtxtolx",
+        "role": "user",
+        "content": "apa perubahan utama dari 8 workstrem ssot",
+        "timestamp": "2025-08-01T02:50:48.459Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016657884_vijee1v6h",
+        "role": "assistant",
+        "content": "Perubahan utama dari 8 workstream SSoT di PLN meliputi standarisasi dan otomatisasi proses bisnis di seluruh workstream utama, sehingga proses menjadi seragam dan lebih efisien. Selain itu, terdapat konsolidasi aplikasi, di mana berbagai aplikasi yang sebelumnya terpisah kini digabungkan untuk mempermudah akses dan pengelolaan data. Implementasi SSoT juga memanfaatkan SAP S/4HANA sebagai platform utama, sehingga seluruh proses dan data terintegrasi dalam satu sistem yang sama. Dengan perubahan ini, pegawai PLN dapat mengakses data yang terpusat dengan lebih mudah, mempercepat pekerjaan, meningkatkan kolaborasi, meminimalkan kesalahan akibat data yang tidak akurat, mengurangi beban administratif, serta mendukung pengambilan keputusan yang lebih baik karena data selalu up-to-date.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf?se=2025-08-01T02%3A55%3A51Z&sp=r&sv=2025-05-05&sr=b&sig=qSeLrLccMU1bRAN1t5A/FEt9ifiSCnq6xADAV%2BwAFMg%3D)\n- [20250717 FAQ Program SSoT vPMQA_edited.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/20250717 FAQ Program SSoT vPMQA_edited.pdf?se=2025-08-01T02%3A55%3A54Z&sp=r&sv=2025-05-05&sr=b&sig=aDcjkoO6vn4kGbNWTctcIpd3GqgnDLiDcu2X5ogl6lY%3D)",
+        "timestamp": "2025-08-01T02:50:57.842Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016688312_nb2g1pu6v",
+        "role": "user",
+        "content": "sosialiasi senior leader",
+        "timestamp": "2025-08-01T02:51:28.279Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016695503_c1ioyv6qu",
+        "role": "assistant",
+        "content": "Sosialisasi kepada senior leader terkait implementasi Single Source of Truth (SSoT) di PLN telah dilakukan pada tanggal 9 Juli 2025 di lingkungan UIP SBT, dan juga dijadwalkan pada Juni 2025 sebagai bagian dari IT Transformation menuju SSoT. Kegiatan ini berfokus pada aspek change management, komunikasi, dan pelatihan untuk memastikan para pemimpin senior memahami serta mendukung implementasi SSoT di lingkungan PLN. Tujuan utama dari sosialisasi ini adalah: \n1. Memberikan informasi terbaru terkait aktivitas dan capaian program SSoT hingga saat ini, serta gambaran langkah selanjutnya. \n2. Mendapatkan komitmen dari senior leader untuk mendukung kesuksesan implementasi SSoT di PLN. Dengan demikian, sosialisasi ini berperan penting dalam memberikan update program dan memastikan dukungan penuh dari para pemimpin senior terhadap transformasi IT menuju SSoT di PLN.\n\nDokumen yang digunakan:\n- [knowledge-doc-PLN_CMCT_SC_Materi Komunikasi Senior Leader (EVP)_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/knowledge-doc-PLN_CMCT_SC_Materi Komunikasi Senior Leader (EVP)_v100.pdf?se=2025-08-01T02%3A56%3A31Z&sp=r&sv=2025-05-05&sr=b&sig=jaeFGk7vVQfpgOd1RIL89Uv5yJx1yyb1/X%2B7rfr4sik%3D)\n- [knowledge-doc-PLN_CMCT_SC_Materi Komunikasi Senior Leader Unit_v200.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/knowledge-doc-PLN_CMCT_SC_Materi Komunikasi Senior Leader Unit_v200.pdf?se=2025-08-01T02%3A56%3A32Z&sp=r&sv=2025-05-05&sr=b&sig=eEteZOWEzZR0xVKUkQzHJwXnOmWrg9bYk0lWtElRaFg%3D)",
+        "timestamp": "2025-08-01T02:51:35.468Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016813074_ykvcn1491",
+        "role": "user",
+        "content": "Gambaran perubahan utama tersebar pada 8 proses bisnis utama",
+        "timestamp": "2025-08-01T02:53:33.031Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016823464_7fh8czaz8",
+        "role": "assistant",
+        "content": "Berikut adalah Bisnis Workflow Diagram:\n\n\n\nDiagram showing the workflow and stages of the main business processes.",
+        "timestamp": "2025-08-01T02:53:43.421Z",
+        "type": "chat",
+        "artifacts": [
+          {
+            "id": "1f25dbe6-6c46-4fe5-8c68-3d2b9d2e8308",
+            "type": "diagram",
+            "diagramType": "workflow",
+            "title": "Bisnis Workflow Diagram",
+            "content": "{\n  \"nodes\": [\n    {\n      \"id\": \"node1\",\n      \"type\": \"taskNode\",\n      \"position\": {\n        \"x\": 0,\n        \"y\": 0\n      },\n      \"data\": {\n        \"label\": \"Identify Business Goals\",\n        \"subtitle\": \"Define the objectives of the business\",\n        \"category\": \"process\"\n      }\n    },\n    {\n      \"id\": \"node2\",\n      \"type\": \"taskNode\",\n      \"position\": {\n        \"x\": 0,\n        \"y\": 100\n      },\n      \"data\": {\n        \"label\": \"Market Research\",\n        \"subtitle\": \"Analyze market needs and trends\",\n        \"category\": \"process\"\n      }\n    },\n    {\n      \"id\": \"node3\",\n      \"type\": \"taskNode\",\n      \"position\": {\n        \"x\": 0,\n        \"y\": 200\n      },\n      \"data\": {\n        \"label\": \"Develop Business Strategy\",\n        \"subtitle\": \"Create a strategic plan for the business\",\n        \"category\": \"process\"\n      }\n    },\n    {\n      \"id\": \"node4\",\n      \"type\": \"taskNode\",\n      \"position\": {\n        \"x\": 0,\n        \"y\": 300\n      },\n      \"data\": {\n        \"label\": \"Resource Allocation\",\n        \"subtitle\": \"Determine resources needed for execution\",\n        \"category\": \"process\"\n      }\n    },\n    {\n      \"id\": \"node5\",\n      \"type\": \"taskNode\",\n      \"position\": {\n        \"x\": 0,\n        \"y\": 400\n      },\n      \"data\": {\n        \"label\": \"Implementation\",\n        \"subtitle\": \"Execute the business strategy\",\n        \"category\": \"process\"\n      }\n    },\n    {\n      \"id\": \"node6\",\n      \"type\": \"taskNode\",\n      \"position\": {\n        \"x\": 0,\n        \"y\": 500\n      },\n      \"data\": {\n        \"label\": \"Monitor Progress\",\n        \"subtitle\": \"Track the execution against goals\",\n        \"category\": \"process\"\n      }\n    },\n    {\n      \"id\": \"node7\",\n      \"type\": \"taskNode\",\n      \"position\": {\n        \"x\": 0,\n        \"y\": 600\n      },\n      \"data\": {\n        \"label\": \"Feedback Collection\",\n        \"subtitle\": \"Gather insights from stakeholders\",\n        \"category\": \"process\"\n      }\n    },\n    {\n      \"id\": \"node8\",\n      \"type\": \"taskNode\",\n      \"position\": {\n        \"x\": 0,\n        \"y\": 700\n      },\n      \"data\": {\n        \"label\": \"Refine Strategies\",\n        \"subtitle\": \"Adjust strategies based on feedback\",\n        \"category\": \"process\"\n      }\n    }\n  ],\n  \"edges\": [\n    {\n      \"id\": \"e1-2\",\n      \"source\": \"node1\",\n      \"target\": \"node2\",\n      \"type\": \"smoothstep\",\n      \"style\": {\n        \"stroke\": \"#3b82f6\",\n        \"strokeWidth\": 2\n      },\n      \"animated\": true\n    },\n    {\n      \"id\": \"e2-3\",\n      \"source\": \"node2\",\n      \"target\": \"node3\",\n      \"type\": \"smoothstep\",\n      \"style\": {\n        \"stroke\": \"#3b82f6\",\n        \"strokeWidth\": 2\n      },\n      \"animated\": true\n    },\n    {\n      \"id\": \"e3-4\",\n      \"source\": \"node3\",\n      \"target\": \"node4\",\n      \"type\": \"smoothstep\",\n      \"style\": {\n        \"stroke\": \"#3b82f6\",\n        \"strokeWidth\": 2\n      },\n      \"animated\": true\n    },\n    {\n      \"id\": \"e4-5\",\n      \"source\": \"node4\",\n      \"target\": \"node5\",\n      \"type\": \"smoothstep\",\n      \"style\": {\n        \"stroke\": \"#3b82f6\",\n        \"strokeWidth\": 2\n      },\n      \"animated\": true\n    },\n    {\n      \"id\": \"e5-6\",\n      \"source\": \"node5\",\n      \"target\": \"node6\",\n      \"type\": \"smoothstep\",\n      \"style\": {\n        \"stroke\": \"#3b82f6\",\n        \"strokeWidth\": 2\n      },\n      \"animated\": true\n    },\n    {\n      \"id\": \"e6-7\",\n      \"source\": \"node6\",\n      \"target\": \"node7\",\n      \"type\": \"smoothstep\",\n      \"style\": {\n        \"stroke\": \"#3b82f6\",\n        \"strokeWidth\": 2\n      },\n      \"animated\": true\n    },\n    {\n      \"id\": \"e7-8\",\n      \"source\": \"node7\",\n      \"target\": \"node8\",\n      \"type\": \"smoothstep\",\n      \"style\": {\n        \"stroke\": \"#3b82f6\",\n        \"strokeWidth\": 2\n      },\n      \"animated\": true\n    }\n  ]\n}",
+            "data": {
+              "nodes": [
+                {
+                  "id": "node1",
+                  "type": "taskNode",
+                  "position": {
+                    "x": 0,
+                    "y": 0
+                  },
+                  "data": {
+                    "label": "Identify Business Goals",
+                    "subtitle": "Define the objectives of the business",
+                    "category": "process"
+                  }
+                },
+                {
+                  "id": "node2",
+                  "type": "taskNode",
+                  "position": {
+                    "x": 0,
+                    "y": 100
+                  },
+                  "data": {
+                    "label": "Market Research",
+                    "subtitle": "Analyze market needs and trends",
+                    "category": "process"
+                  }
+                },
+                {
+                  "id": "node3",
+                  "type": "taskNode",
+                  "position": {
+                    "x": 0,
+                    "y": 200
+                  },
+                  "data": {
+                    "label": "Develop Business Strategy",
+                    "subtitle": "Create a strategic plan for the business",
+                    "category": "process"
+                  }
+                },
+                {
+                  "id": "node4",
+                  "type": "taskNode",
+                  "position": {
+                    "x": 0,
+                    "y": 300
+                  },
+                  "data": {
+                    "label": "Resource Allocation",
+                    "subtitle": "Determine resources needed for execution",
+                    "category": "process"
+                  }
+                },
+                {
+                  "id": "node5",
+                  "type": "taskNode",
+                  "position": {
+                    "x": 0,
+                    "y": 400
+                  },
+                  "data": {
+                    "label": "Implementation",
+                    "subtitle": "Execute the business strategy",
+                    "category": "process"
+                  }
+                },
+                {
+                  "id": "node6",
+                  "type": "taskNode",
+                  "position": {
+                    "x": 0,
+                    "y": 500
+                  },
+                  "data": {
+                    "label": "Monitor Progress",
+                    "subtitle": "Track the execution against goals",
+                    "category": "process"
+                  }
+                },
+                {
+                  "id": "node7",
+                  "type": "taskNode",
+                  "position": {
+                    "x": 0,
+                    "y": 600
+                  },
+                  "data": {
+                    "label": "Feedback Collection",
+                    "subtitle": "Gather insights from stakeholders",
+                    "category": "process"
+                  }
+                },
+                {
+                  "id": "node8",
+                  "type": "taskNode",
+                  "position": {
+                    "x": 0,
+                    "y": 700
+                  },
+                  "data": {
+                    "label": "Refine Strategies",
+                    "subtitle": "Adjust strategies based on feedback",
+                    "category": "process"
+                  }
+                }
+              ],
+              "edges": [
+                {
+                  "id": "e1-2",
+                  "source": "node1",
+                  "target": "node2",
+                  "type": "smoothstep",
+                  "style": {
+                    "stroke": "#3b82f6",
+                    "strokeWidth": 2
+                  },
+                  "animated": true
+                },
+                {
+                  "id": "e2-3",
+                  "source": "node2",
+                  "target": "node3",
+                  "type": "smoothstep",
+                  "style": {
+                    "stroke": "#3b82f6",
+                    "strokeWidth": 2
+                  },
+                  "animated": true
+                },
+                {
+                  "id": "e3-4",
+                  "source": "node3",
+                  "target": "node4",
+                  "type": "smoothstep",
+                  "style": {
+                    "stroke": "#3b82f6",
+                    "strokeWidth": 2
+                  },
+                  "animated": true
+                },
+                {
+                  "id": "e4-5",
+                  "source": "node4",
+                  "target": "node5",
+                  "type": "smoothstep",
+                  "style": {
+                    "stroke": "#3b82f6",
+                    "strokeWidth": 2
+                  },
+                  "animated": true
+                },
+                {
+                  "id": "e5-6",
+                  "source": "node5",
+                  "target": "node6",
+                  "type": "smoothstep",
+                  "style": {
+                    "stroke": "#3b82f6",
+                    "strokeWidth": 2
+                  },
+                  "animated": true
+                },
+                {
+                  "id": "e6-7",
+                  "source": "node6",
+                  "target": "node7",
+                  "type": "smoothstep",
+                  "style": {
+                    "stroke": "#3b82f6",
+                    "strokeWidth": 2
+                  },
+                  "animated": true
+                },
+                {
+                  "id": "e7-8",
+                  "source": "node7",
+                  "target": "node8",
+                  "type": "smoothstep",
+                  "style": {
+                    "stroke": "#3b82f6",
+                    "strokeWidth": 2
+                  },
+                  "animated": true
+                }
+              ]
+            },
+            "timestamp": "2025-08-01T02:53:43.421Z"
+          }
+        ]
+      },
+      {
+        "id": "msg_1754016882732_6vmq8x2rb",
+        "role": "user",
+        "content": "apa perubahan utama yang tersebar pada 8 proses bisnis utama misalny di aspek human capital",
+        "timestamp": "2025-08-01T02:54:42.693Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016893918_ix9l9qbl8",
+        "role": "assistant",
+        "content": "Perubahan utama yang tersebar pada 8 proses bisnis utama SSoT di PLN, khususnya pada aspek human capital (Hire to Retire), meliputi: - Sebelum implementasi SSoT, data kepegawaian tersebar di berbagai aplikasi di PLN Holding, Subholding, dan Anak Perusahaan. Setelah SSoT, seluruh data kepegawaian terpusat di satu sistem, sehingga history data pegawai tersimpan dengan baik dan pengembangan pegawai dapat lebih termonitor serta terkelola. - Seluruh aktivitas pegawai terkait proses pembelajaran, asesmen, dan sertifikasi kini dilakukan dalam satu sistem terintegrasi, yaitu Portal HXMS. - Pengelolaan kinerja pegawai dilakukan secara tersentralisasi melalui SAP SuccessFactors yang telah ditingkatkan fungsinya, termasuk adanya katalog KPI. Dengan perubahan ini, proses-proses human capital di PLN menjadi lebih terintegrasi, efisien, mudah dipantau, dan mendukung pengelolaan SDM yang lebih efektif di seluruh entitas PLN.\n\nDokumen yang digunakan:\n- [knowledge-doc-PLN_CMCT_SC_Materi Komunikasi Senior Leader Unit_v200.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/knowledge-doc-PLN_CMCT_SC_Materi Komunikasi Senior Leader Unit_v200.pdf?se=2025-08-01T02%3A59%3A47Z&sp=r&sv=2025-05-05&sr=b&sig=vHSEzt7GuWePkaqHsc1auBKPSCJMYa4O9guTTZlb1e8%3D)\n- [knowledge-doc-PLN_CMCT_SC_Materi Komunikasi Senior Leader (EVP)_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/knowledge-doc-PLN_CMCT_SC_Materi Komunikasi Senior Leader (EVP)_v100.pdf?se=2025-08-01T02%3A59%3A49Z&sp=r&sv=2025-05-05&sr=b&sig=TRb3KtyKB1JRAoIfYAn3sYh2FpXs8P2q1hr6R3CCwA4%3D)\n- [20250717 FAQ Program SSoT vPMQA_edited.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/20250717 FAQ Program SSoT vPMQA_edited.pdf?se=2025-08-01T02%3A59%3A52Z&sp=r&sv=2025-05-05&sr=b&sig=M8XIwoNQWnzi8%2BwF6C4PtV/G7hSomr/1gxTQtDRweYY%3D)",
+        "timestamp": "2025-08-01T02:54:53.868Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016947825_ezv7l88kl",
+        "role": "user",
+        "content": "8 workstream ssot ada apa saja",
+        "timestamp": "2025-08-01T02:55:47.755Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754016957995_jsmfsdtex",
+        "role": "assistant",
+        "content": "Berikut adalah 8 workstream dalam cakupan proses bisnis Business Process Reengineering (BPR) pada Program SSoT di PLN: \n1. Budget Planning, Forecasting, Monitoring (BPFM): Aktivitas perencanaan dan pengendalian RUPTL, RJPP, keuangan, dan anggaran. \n2. Plan to Construct (P2C): Aktivitas perencanaan dan inisiasi proses pembangunan infrastruktur ketenagalistrikan, termasuk ketersediaan sumber daya, aset, dan rantai pasoknya. \n3. Source to Pay (S2P): Aktivitas pengadaan dan manajemen inventory. \n4. Acquire to Retire (A2R): Akuisisi aset tetap hingga pelepasan aset tersebut di akhir masa pakainya bagi perusahaan. \n5. Plan to Maintain (P2M): Pengelolaan data, monitoring, dan inventory aset. \n6. Record to Report (R2R): Aktivitas konsolidasi, pelaporan keuangan, serta perpajakan. \n7. Hire to Retire (H2R): Aktivitas human resources, mulai dari rekrutmen hingga manajemen talenta, pengembangan karir, hingga pensiun. \n8. Governance, Risk and Compliance (GRC): Aktivitas manajemen kebijakan dan risiko. Workstream ini menjadi dasar dalam implementasi SSoT untuk memastikan proses bisnis PLN berjalan terintegrasi dan efisien. Jika ada pertanyaan lebih lanjut terkait implementasi SSoT di PLN, silakan ditanyakan.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf?se=2025-08-01T03%3A00%3A51Z&sp=r&sv=2025-05-05&sr=b&sig=p4KZnX/3Y/Ob27agBlPwu4iurJMU7UBguVEWDxEhz6Q%3D)\n- [20250717 FAQ Program SSoT vPMQA_edited.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/20250717 FAQ Program SSoT vPMQA_edited.pdf?se=2025-08-01T03%3A00%3A54Z&sp=r&sv=2025-05-05&sr=b&sig=rw4oSkLgqb6dVwKPQvliyXnDqY2nEdG6Bqd0FPN74I8%3D)",
+        "timestamp": "2025-08-01T02:55:57.921Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754017064567_oolnxbhxm",
+        "role": "user",
+        "content": "apa perubahan utama yang terjadi setelah implementasi ssot?",
+        "timestamp": "2025-08-01T02:57:44.486Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754017078026_om058ej3w",
+        "role": "assistant",
+        "content": "Perubahan utama yang terjadi setelah implementasi SSoT (Single Source of Truth) di PLN meliputi beberapa aspek penting berikut: - Registrasi aset properti kini dilakukan melalui integrasi antara SAP S/4HANA FI dengan GASPRO, menggunakan Nomor Induk Aset (NIA) sebagai unique identifier untuk mendukung integrasi antar aplikasi selama siklus hidup aset. - Pengelolaan asuransi terpusat melalui aplikasi E-Insurance sebagai source of truth, mencakup proses survei underrating, survei risiko, klaim, dan pengelolaan polis. - Pembaruan progres fisik proyek dilakukan oleh kontraktor melalui aplikasi rebranding SIDITA yang terintegrasi dengan SAP S/4HANA PS, sehingga penerimaan data progres fisik menjadi otomatis. - Integrasi sistem semakin kuat dengan penggunaan SAP S/4HANA yang terhubung dengan berbagai sistem pendukung seperti DAMS CP, E-Larch, SMARTER, VMS, aplikasi rebranding SIDITA, dan CLMS. - Pengawasan proyek menjadi lebih efisien karena integrasi data kontrak dan master data vendor dari CLMS dan VMS langsung tersedia di aplikasi rebranding SIDITA. - Efisiensi operasional meningkat melalui ekosistem aplikasi yang terintegrasi, sehingga proses bisnis menjadi lebih terkoordinasi dan data yang digunakan lebih akurat serta terpercaya. - Pengambilan keputusan strategis menjadi lebih baik karena data transaksi yang dicatat lebih akurat, terpusat, dan dapat diandalkan. - Konsolidasi aplikasi dan optimalisasi teknologi mendukung transformasi digital di PLN. - Proses bisnis disempurnakan untuk meningkatkan kinerja dan efisiensi perusahaan. - Pengelolaan perubahan dilakukan secara terstruktur, termasuk perencanaan matang, Change Impact Assessment, dan Business Readiness Checklist, sehingga organisasi lebih siap menghadapi perubahan dan risiko operasional dapat diminimalkan. Secara keseluruhan, implementasi SSoT membawa perubahan signifikan pada tata kelola data, efisiensi proses, kualitas pelayanan, serta kesiapan organisasi dalam menghadapi transformasi digital di PLN.\n\nDokumen yang digunakan:\n- [20250717 FAQ Program SSoT vPMQA_edited.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/20250717 FAQ Program SSoT vPMQA_edited.pdf?se=2025-08-01T03%3A02%3A49Z&sp=r&sv=2025-05-05&sr=b&sig=VI7RPWFCezuSSroBWDDRIIB4aG6jG8wbBvueZMwMJvU%3D)\n- [softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf?se=2025-08-01T03%3A02%3A51Z&sp=r&sv=2025-05-05&sr=b&sig=WhdyPzGRTJyjxlhgfHQFGNyfdvlpVnv0Ytms%2BiFpuZk%3D)\n- [softlaunch-PLN_CMCT_CG010_PLN-Spesific Change Management Playbook_v200.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_CG010_PLN-Spesific Change Management Playbook_v200.pdf?se=2025-08-01T03%3A02%3A53Z&sp=r&sv=2025-05-05&sr=b&sig=CbnnIBP3SVACJEVnSCHAYA4sJp5/Wsmdj3q2CSPusmI%3D)",
+        "timestamp": "2025-08-01T02:57:57.957Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754017215494_dh8d1qrdm",
+        "role": "user",
+        "content": "Bagaimana jika muncul perbedaan saat memeriksa syarat pembayaran kontrak vendor?",
+        "timestamp": "2025-08-01T03:00:15.447Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754017226097_kywku3n04",
+        "role": "assistant",
+        "content": "Jika muncul perbedaan saat memeriksa syarat pembayaran kontrak vendor, berikut langkah-langkah yang dilakukan sesuai implementasi di PLN: \n1. Pihak PLN dan vendor bersama-sama menyusun draft Berita Acara (BA) Kesepakatan untuk menyesuaikan perbedaan syarat pembayaran. \n2. Setelah draft BA disusun, dilakukan sosialisasi kepada pihak terkait mengenai perbedaan dan kesepakatan yang akan diambil. \n3. Selanjutnya, dilakukan penandatanganan BA Kesepakatan oleh kedua belah pihak (PLN dan vendor). \n4. Setelah BA ditandatangani, PLN melakukan registrasi kontrak dan Terms of Payment (ToP) yang terkini, disertai lampiran BA Kesepakatan ke dalam sistem SIDITA. \n5. Proses dilanjutkan dengan pembuatan Berita Acara sebagai dokumentasi resmi di sistem SIDITA. Langkah-langkah ini memastikan bahwa setiap perbedaan syarat pembayaran dapat diselesaikan secara formal dan terdokumentasi dengan baik sesuai prosedur implementasi SSoT di PLN.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_SC_Key Changes Briefing IPMS_Vendor_v500.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Key Changes Briefing IPMS_Vendor_v500.pdf?se=2025-08-01T03%3A05%3A19Z&sp=r&sv=2025-05-05&sr=b&sig=G8GE8K8lXc8cfktxb9Sz6D7P1W3FnTmMyflKkV%2B1Lp4%3D)\n- [softlaunch-PLN_CMCT_SC_Key Changes Briefing IPMS_Vendor_v400.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Key Changes Briefing IPMS_Vendor_v400.pdf?se=2025-08-01T03%3A05%3A21Z&sp=r&sv=2025-05-05&sr=b&sig=K7184go2t68O9gbJCwnMSSIpIec92s5%2BjjBwUsKHiIY%3D)\n- [softlaunch-PLN_CMCT_SC_Key Changes Briefing IPMS_Vendor_v300.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Key Changes Briefing IPMS_Vendor_v300.pdf?se=2025-08-01T03%3A05%3A24Z&sp=r&sv=2025-05-05&sr=b&sig=2tic3jih9zgaWc%2Bcp5kV8ZUawvhwPxzigkWCWWPcOtM%3D)",
+        "timestamp": "2025-08-01T03:00:26.014Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754017292267_1locrsyo7",
+        "role": "user",
+        "content": "apa perubahan utama yang tersebar pada 8 proses bisnis utama misalny di aspek human capital",
+        "timestamp": "2025-08-01T03:01:32.206Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754017302905_jm0zpl774",
+        "role": "assistant",
+        "content": "Perubahan utama yang tersebar pada 8 proses bisnis utama dalam implementasi SSoT di PLN, khususnya pada aspek human capital (Hire to Retire), meliputi: - Seluruh data kepegawaian yang sebelumnya tersebar di berbagai aplikasi (PLN Holding, Subholding, dan Anak Perusahaan) kini terpusat dalam satu sistem. Hal ini memungkinkan history data pegawai tersimpan dan terkelola dengan baik, sehingga pengembangan pegawai dapat lebih termonitor. - Aktivitas pegawai terkait pembelajaran, asesmen, dan sertifikasi kini dilakukan dalam satu sistem terintegrasi, yaitu Portal HXMS. - Pengelolaan kinerja pegawai menjadi tersentralisasi melalui SAP SuccessFactors yang telah ditingkatkan fungsinya, misalnya dengan adanya katalog KPI. - Proses-proses human capital menjadi lebih terintegrasi, efisien, dan mudah dipantau dalam satu platform yang sama. Perubahan serupa juga terjadi pada proses bisnis utama lain, seperti financial dan asset management, di mana data yang sebelumnya tersebar kini terintegrasi dan terstandardisasi dalam satu sistem, sehingga meningkatkan efisiensi, akurasi, dan kemudahan pengelolaan. Jika Anda membutuhkan detail lebih lanjut mengenai proses bisnis lainnya, silakan sampaikan. Saya siap membantu implementasi SSoT di PLN sesuai kebutuhan Anda.\n\nDokumen yang digunakan:\n- [knowledge-doc-PLN_CMCT_SC_Materi Komunikasi Senior Leader Unit_v200.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/knowledge-doc-PLN_CMCT_SC_Materi Komunikasi Senior Leader Unit_v200.pdf?se=2025-08-01T03%3A06%3A35Z&sp=r&sv=2025-05-05&sr=b&sig=URfnN06vauSBz9zPBYhu0AUnQAlGNmRIIiJAluMLEkI%3D)\n- [knowledge-doc-PLN_CMCT_SC_Materi Komunikasi Senior Leader (EVP)_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/knowledge-doc-PLN_CMCT_SC_Materi Komunikasi Senior Leader (EVP)_v100.pdf?se=2025-08-01T03%3A06%3A38Z&sp=r&sv=2025-05-05&sr=b&sig=84dlmSezQ/ExIkM0s3RT9vztt92K51thGOqaHEJn/CQ%3D)\n- [20250717 FAQ Program SSoT vPMQA_edited.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/20250717 FAQ Program SSoT vPMQA_edited.pdf?se=2025-08-01T03%3A06%3A39Z&sp=r&sv=2025-05-05&sr=b&sig=abWBm6MvD44dQsF/a1NQdQJc4QHkZF4zxbDr0xZE6ho%3D)",
+        "timestamp": "2025-08-01T03:01:42.835Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754017365267_flfdytly8",
+        "role": "user",
+        "content": "8 proses bisnis utama SSoT ada apa aja",
+        "timestamp": "2025-08-01T03:02:45.188Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1754017374468_s1g8bnmdf",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen yang tersedia, SSoT bertujuan untuk menstandarkan dan mengotomatiskan proses bisnis di 8 workstream utama PLN. Namun, dokumen tersebut tidak merinci secara spesifik apa saja 8 proses bisnis utama (workstream) yang dimaksud. Jika Anda membutuhkan daftar detail dari 8 proses bisnis utama SSoT di PLN, silakan merujuk pada dokumen resmi atau sumber internal PLN yang lebih lengkap. Saya siap membantu jika ada pertanyaan lain terkait implementasi SSoT di PLN!\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_20250303_SSoT Program Onboarding vS.pdf?se=2025-08-01T03%3A07%3A48Z&sp=r&sv=2025-05-05&sr=b&sig=mySGtsf05h7Q0sAWy0Z8DgPGfXyPaAGIsKEgWqWmWuY%3D)\n- [20250717 FAQ Program SSoT vPMQA_edited.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/data_pln/20250717 FAQ Program SSoT vPMQA_edited.pdf?se=2025-08-01T03%3A07%3A50Z&sp=r&sv=2025-05-05&sr=b&sig=nUzh5jxCC4FPpDBhQc5nVspgsGl1GJR9hLT2EVgeV%2Bw%3D)\n- [softlaunch-PLN_CMCT_SC_Checkpoint 1 PIC SSoT_December 2024_v200.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Checkpoint 1 PIC SSoT_December 2024_v200.pdf?se=2025-08-01T03%3A07%3A52Z&sp=r&sv=2025-05-05&sr=b&sig=/UX5WL/iorKf1K72y85tSxy3zV8yV20VFSZeGOaS4CE%3D)",
+        "timestamp": "2025-08-01T03:02:54.377Z",
+        "type": "chat"
+      }
+    ],
+    "lastActivity": "2025-08-01T03:02:54.468Z"
+  },
+  {
+    "id": "chat_1753972705949_q2hhwzgi5",
+    "userId": "6",
+    "timestamp": "2025-07-31T14:38:25.949Z",
+    "messages": [
+      {
+        "id": "msg_1753972705949_5vor1b4nt",
+        "role": "user",
+        "content": "Bagaimana jika muncul perbedaan saat memeriksa syarat pembayaran kontrak vendor?",
+        "timestamp": "2025-07-31T14:38:25.910Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753975432248_tryekdka7",
+        "role": "assistant",
+        "content": "Selamat datang, Eko Prasetyo! Saya Surya, asisten AI untuk Program PLN SSoT. Bagaimana saya bisa membantu Anda hari ini?",
+        "timestamp": "2025-07-31T15:23:52.234Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753975880755_5wpefh2s6",
+        "role": "assistant",
+        "content": "Selamat datang, Eko Prasetyo! Saya Surya, asisten AI untuk Program PLN SSoT. Bagaimana saya bisa membantu Anda hari ini?",
+        "timestamp": "2025-07-31T15:31:20.739Z",
+        "type": "chat"
+      }
+    ],
+    "lastActivity": "2025-07-31T15:31:20.755Z"
+  },
+  {
+    "id": "chat_1753965508644_0ai2lhpo5",
+    "userId": "6",
+    "timestamp": "2025-07-31T12:38:28.644Z",
+    "messages": [
+      {
+        "id": "msg_1753965508644_lql3qoifg",
+        "role": "user",
+        "content": "Apa saja kegiatan utama Program SSoT?",
+        "timestamp": "2025-07-31T12:38:28.616Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753965508675_l9pt6xr73",
+        "role": "assistant",
+        "content": "Program SSoT meliputi beberapa kegiatan sebagai berikut:\n\na. Project Management & Quality Assurance (PMQA)\nMenjaga pengelolaan Program SSoT agar sesuai dengan target waktu dan ruang lingkup yang sudah ditentukan serta mengawasi kualitas pengerjaannya.\n\nb. Business Process Reengineering (BPR)\nMenyempurnakan proses bisnis untuk mencapai peningkatan kinerja dan efisiensi Perusahaan.\n\nc. System Integrator (SI)\nMengintegrasikan dan menterjemahkan solusi yang selaras dengan hasil BPR, serta mengoptimalkan teknologi sebagai bagian dari transformasi digital.\n\nd. Change Management, Communication and Training (CMC&T)\nMengembangkan strategi manajemen perubahan, komunikasi, dan training untuk memastikan kesiapan bisnis dan operasional Program SSoT.\n\nDokumen yang digunakan:\n- PLN_CMCT_FAQ Program SSoT.pdf",
+        "timestamp": "2025-07-31T12:38:28.652Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753965539773_33mk58st9",
+        "role": "user",
+        "content": "Bagaimana jika muncul perbedaan saat memeriksa syarat pembayaran kontrak vendor?",
+        "timestamp": "2025-07-31T12:38:59.738Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753965540705_20wmvjfyp",
+        "role": "assistant",
+        "content": "Dengan SSoT, pembayaran kepada Mitra PLN lebih transparan. Proses dan dokumen distandardisasi dengan SLA yang terukur, sehingga meningkatkan kepercayaan Mitra terhadap PLN. PLN juga memiliki data vendor terpusat dan penilaian vendor yang akurat, sehingga kualitas pekerjaan dan proyek makin baik.\n\nDokumen yang digunakan:\n- PLN_CMCT_FAQ Program SSoT.pdf\n\n*Catatan: Jawaban ini mungkin tidak sepenuhnya sesuai dengan pertanyaan Anda. Silakan ajukan pertanyaan yang lebih spesifik.*",
+        "timestamp": "2025-07-31T12:39:00.677Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753965562927_px5a4y7jg",
+        "role": "user",
+        "content": "Bagaimana jika muncul perbedaan saat memeriksa syarat pembayaran kontrak vendor?",
+        "timestamp": "2025-07-31T12:39:22.888Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753965563136_uq7prtxls",
+        "role": "assistant",
+        "content": "Dengan SSoT, pembayaran kepada Mitra PLN lebih transparan. Proses dan dokumen distandardisasi dengan SLA yang terukur, sehingga meningkatkan kepercayaan Mitra terhadap PLN. PLN juga memiliki data vendor terpusat dan penilaian vendor yang akurat, sehingga kualitas pekerjaan dan proyek makin baik.\n\nDokumen yang digunakan:\n- PLN_CMCT_FAQ Program SSoT.pdf\n\n*Catatan: Jawaban ini mungkin tidak sepenuhnya sesuai dengan pertanyaan Anda. Silakan ajukan pertanyaan yang lebih spesifik.*",
+        "timestamp": "2025-07-31T12:39:23.110Z",
+        "type": "chat"
+      }
+    ],
+    "lastActivity": "2025-07-31T12:39:23.136Z"
+  },
+  {
+    "id": "chat_1753946008835_2bi9z5383",
+    "userId": "6",
+    "timestamp": "2025-07-31T07:13:28.835Z",
+    "messages": [
+      {
+        "id": "msg_1753946008835_31l5wi9if",
+        "role": "assistant",
+        "content": "Selamat datang, Eko Prasetyo! Saya Surya, asisten AI untuk Program PLN SSoT. Bagaimana saya bisa membantu Anda hari ini?",
+        "timestamp": "2025-07-31T07:13:28.817Z",
+        "type": "chat"
+      }
+    ],
+    "lastActivity": "2025-07-31T07:13:28.835Z"
+  },
+  {
+    "id": "chat_1753945949906_yvqyhlfyg",
+    "userId": "7",
+    "timestamp": "2025-07-31T07:12:29.906Z",
+    "messages": [
+      {
+        "id": "msg_1753945949906_1h7u593ee",
+        "role": "assistant",
+        "content": "Selamat datang, System Administrator! Saya Surya, asisten AI untuk Program PLN SSoT. Bagaimana saya bisa membantu Anda hari ini?",
+        "timestamp": "2025-07-31T07:12:29.888Z",
+        "type": "chat"
+      }
+    ],
+    "lastActivity": "2025-07-31T07:12:29.906Z"
+  },
+  {
+    "id": "chat_1753930023060_8wpsmr674",
+    "userId": "6",
+    "timestamp": "2025-07-31T02:47:03.059Z",
+    "messages": [
+      {
+        "id": "msg_1753930023060_gubba8hok",
+        "role": "assistant",
+        "content": "Selamat datang, Eko Prasetyo! Saya Surya, asisten AI untuk Program PLN SSoT. Bagaimana saya bisa membantu Anda hari ini?",
+        "timestamp": "2025-07-31T02:47:03.039Z",
+        "type": "chat"
+      }
+    ],
+    "lastActivity": "2025-07-31T02:47:03.059Z"
+  },
+  {
+    "id": "chat_1753886732414_bm9nmt9wb",
+    "userId": "6",
+    "timestamp": "2025-07-30T14:45:32.414Z",
+    "messages": [
+      {
+        "id": "msg_1753886732414_u4wk95qc2",
+        "role": "assistant",
+        "content": "Selamat datang, Eko Prasetyo! Saya Surya, asisten AI untuk Program PLN SSoT. Bagaimana saya bisa membantu Anda hari ini?",
+        "timestamp": "2025-07-30T14:45:32.388Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753886762472_a2sorsr3q",
+        "role": "user",
+        "content": "bagaimana Roadmap Implementasi Inisiatif Integrated Payment Management System (IPMS)",
+        "timestamp": "2025-07-30T14:46:02.443Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753886776232_s9ka86otx",
+        "role": "assistant",
+        "content": "1. Q2 2024: Business Process Reengineering - Melakukan perbaikan proses bisnis IPMS - Melakukan standardisasi template BAST - Melakukan standardisasi template kontrak \n2. Q2 – Q3 2024: Desain dan Pengembangan Aplikasi Quick Win IPMS - Mendesain aplikasi IPMS beserta integrasinya - Melakukan pengembangan aplikasi IPMS \n3. Q2 – Q3 2024: Rumusan Kebijakan dan Strategi Change Management - Menyusun strategi Change Management, komunikasi, dan pelatihan - Melakukan pemilihan dan penegakan peran PLN Change Agent - Menyusun kebijakan terkait vendor, contract management, dan receiving order \n4. Awal Q4 2024: Piloting Wave 1 - Melakukan roll out implementasi Wave 1 - Melakukan migrasi data untuk Wave 1 - Melakukan Go-Live dan memberikan support untuk Wave 1 \n5. Q1 – Q4 2025: Roll Out Wave 2 – 6 dan Ultimate IPMS - Melakukan roll out implementasi untuk Wave 2 hingga Wave 6 - Melakukan migrasi data untuk Wave 2 hingga Wave 6 - Melakukan Go-Live dan memberikan support untuk Wave 2 hingga Wave 6\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_SC_Key Changes Briefing IPMS_Refresher End User Wave 1.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Key Changes Briefing IPMS_Refresher End User Wave 1.pdf?se=2025-07-30T14%3A51%3A07Z&sp=r&sv=2025-05-05&sr=b&sig=7gNrKYiSvdDZrXonPR3B1k4%2BkjIhUeOSjrlSE8GBAEg%3D)\n- [softlaunch-PLN_CMCT_SC_Key Changes Briefing IPMS_End User_v300.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Key Changes Briefing IPMS_End User_v300.pdf?se=2025-07-30T14%3A51%3A10Z&sp=r&sv=2025-05-05&sr=b&sig=nHA/eyAYlh8NIi4KTYdFdIi3IFCY5Y4N%2BEHU/eHYLTc%3D)\n- [softlaunch-PLN_CMCT_SC_Key Changes Briefing IPMS_End User_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Key Changes Briefing IPMS_End User_v100.pdf?se=2025-07-30T14%3A51%3A13Z&sp=r&sv=2025-05-05&sr=b&sig=O4YVjSwInu02O10FIuwl2otzIPNsa7HbmPE2eChBTZo%3D)",
+        "timestamp": "2025-07-30T14:46:16.215Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753886995241_c7aaxncvj",
+        "role": "assistant",
+        "content": "Selamat datang, Eko Prasetyo! Saya Surya, asisten AI untuk Program PLN SSoT. Bagaimana saya bisa membantu Anda hari ini?",
+        "timestamp": "2025-07-30T14:49:55.225Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753887005162_5yzdzuxu6",
+        "role": "user",
+        "content": "siapa nama saya",
+        "timestamp": "2025-07-30T14:50:05.132Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753887013532_8e2x4ahh7",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen yang diberikan, tidak terdapat informasi mengenai nama Anda. Nama Anda tidak tercantum secara spesifik karena dokumen tersebut hanya berisi format surat permohonan penerbitan sertifikat dari Digisign dan penjelasan alur penggunaan halaman Kontrak Saya, di mana bagian Nama masih berupa placeholder yang harus diisi oleh pemohon. Dengan demikian, identitas atau nama Anda tidak dapat diketahui dari informasi yang tersedia.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_SC_Onboarding PIC SSoT_20241017_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Onboarding PIC SSoT_20241017_v100.pdf?se=2025-07-30T14%3A55%3A07Z&sp=r&sv=2025-05-05&sr=b&sig=k0959gRcF9OJosTrvvqU32jy/9os/LkjqhXq6nivu0A%3D)\n- [Manual Book SIDITA V3 - Rev 3.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/Manual Book SIDITA V3 - Rev 3.pdf?se=2025-07-30T14%3A55%3A09Z&sp=r&sv=2025-05-05&sr=b&sig=TloSiUJTaPo3KA%2BbWaawRJ0P0GzJPEAeu0GHUzmNF3Y%3D)",
+        "timestamp": "2025-07-30T14:50:13.511Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753888045857_owyyac2ib",
+        "role": "user",
+        "content": "apa itu ssot?",
+        "timestamp": "2025-07-30T15:07:25.829Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753888045876_tp1x4ddme",
+        "role": "assistant",
+        "content": "SSoT, atau Single Source of Truth, adalah konsep di mana semua data di PLN bersumber dari satu tempat yang sama, sehingga data dapat dipercaya. Dengan SSoT, kita bisa memastikan informasi yang digunakan selalu konsisten dan akurat.\n\nDokumen yang digunakan:\n- PLN_CMCT_FAQ Program SSoT.pdf",
+        "timestamp": "2025-07-30T15:07:25.864Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753888059847_iyjem36jv",
+        "role": "user",
+        "content": "bagaimana implementasinya?",
+        "timestamp": "2025-07-30T15:07:39.823Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753888059877_dzlpd3m5r",
+        "role": "assistant",
+        "content": "Saat ini, aktivitas yang sedang menjadi fokus pengerjaan dalam implementasi Program SSoT adalah handover proses bisnis masa depan oleh tim Business Process Reengineering (BPR) kepada System Integrator (SI) guna memastikan desain dapat diselaraskan dengan platform ERP yang baru.\n\nDokumen yang digunakan:\n- PLN_CMCT_FAQ Program SSoT.pdf",
+        "timestamp": "2025-07-30T15:07:39.860Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753888069798_777p49r4l",
+        "role": "user",
+        "content": "timelineny gimana",
+        "timestamp": "2025-07-30T15:07:49.773Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753888075847_chfwg4b7c",
+        "role": "assistant",
+        "content": "1. Definisi Peran Change Agent - Change Agent diundang untuk berperan dalam proyek Roll Out ERP System. - Change Agent bertugas membantu pegawai memahami, menerima, dan menjalankan perubahan sistem secara efektif. \n2. Tanggung Jawab Change Agent - Menjadi jembatan komunikasi antara tim proyek dan user. - Menyampaikan informasi perubahan, menampung masukan/kekhawatiran user. - Memberikan pelatihan ringan atau mentoring saat user mengalami kesulitan. \n3. Status Proyek Change Management - Perencanaan proyek sudah selesai (Project Plan, Change Impact Assessment, Business Readiness Checklist). - Identifikasi Change Agent dan stakeholder yang terlibat/terdampak sudah dilakukan. \n4. Penentuan Dampak Perubahan - Dampak perubahan bisa dirasakan dari level leadership hingga level paling bawah di organisasi. - Tim proyek menentukan intervensi dan mencari dukungan stakeholder untuk membantu adopsi perubahan. \n5. Strategi Komunikasi & Pelatihan - Penetapan strategi komunikasi untuk mendukung perubahan. - Perencanaan dan pelaksanaan training sesuai kebutuhan pegawai terdampak agar adopsi berjalan lancar. \n6. Fase Adopsi & Monitoring - Setelah training, masuk ke tahap Adoption untuk memastikan perubahan diadopsi secara berkelanjutan. - Dilakukan monitoring untuk memastikan sustainabilitas perubahan dalam jangka panjang.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_CG010_PLN-Spesific Change Management Playbook_v200.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_CG010_PLN-Spesific Change Management Playbook_v200.pdf?se=2025-07-30T15%3A12%3A56Z&sp=r&sv=2025-05-05&sr=b&sig=IbNHCdsDdpMxWtsogMUdNX2onNtG0byUmsaS7WMU7KE%3D)",
+        "timestamp": "2025-07-30T15:07:55.823Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753888978443_sblqm3p5s",
+        "role": "user",
+        "content": "nama saya eko",
+        "timestamp": "2025-07-30T15:22:58.398Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753888998502_d346fz4g9",
+        "role": "assistant",
+        "content": "Berikut adalah ringkasan terstruktur mengenai dua proses berbeda: permohonan penerbitan sertifikat elektronik dari Digisign dan langkah-langkah melihat detail kontrak pada sistem kontrak. \n1. Proses Permohonan Penerbitan Sertifikat Elektronik dari Digisign - Pemohon menyiapkan surat permohonan penerbitan sertifikat elektronik yang berisi data diri seperti nama, NIK/paspor, tempat dan tanggal lahir, nomor telepon, dan alamat email. - Dalam surat tersebut, pemohon menyatakan telah membaca dan memahami syarat dan ketentuan layanan penerbitan sertifikat elektronik dari CA Digisign serta setuju untuk mematuhinya. - Pemohon juga menyatakan bersedia menjalani proses verifikasi identitas dan hanya akan menggunakan sertifikat untuk tujuan yang sah. - Pemohon bersedia memberikan salinan identitas untuk keperluan verifikasi. \n2. Penandatanganan Surat - Surat permohonan harus diisi, ditandatangani oleh pemohon, dan dibubuhi cap perusahaan (jika diperlukan). \n3. Pengiriman Surat Permohonan - Surat permohonan yang sudah diisi dan ditandatangani beserta cap perusahaan dikirimkan ke email cs@digi-id.id. - Sertakan juga informasi email user WNA (jika pemohon adalah Warga Negara Asing). \n4. Kontak dan Alamat Digisign - PT SOLUSI NET INTERNUSA - Sahid Sudirman Centre, Jl. Jend Sudirman No.86, Jakarta Pusat 10220, Indonesia - Telp +62 2131116109 - www.digisign.id \n5. Langkah-Langkah Melihat Detail Kontrak pada Sistem Kontrak \n1. Pengguna masuk ke halaman 'Kontrak Saya' dan memilih kontrak yang sesuai. - Pada halaman ini, terdapat daftar kontrak beserta informasi seperti nama kontrak, level prioritas, periode, progress bulanan, dan progress termin. - Contoh kontrak yang tersedia antara lain: - SUTT 150 kV Suramadu UIP JBTB (Prioritas 1, Periode hingga 27/09/2025, Progress Mei 2023: 90,91%, Termin 4: 95,23%) - SUTT 150 kV Kubu-Amlapura UIP JBTB 1 (Prioritas 1, Periode hingga 27/06/2024, Progress April 2024: 80,31%, Termin 2: 70,21%) - GI 150 kV Amlapura UIP JBTB 1 (Prioritas 2, Periode hingga 31/08/2024, Progress Mei 2024: 80,93%, Termin 3: 92,11%) - GITET 500 kV Krian UIP JBTB 2 (Prioritas 2, Periode hingga 20/06/2024, Progress Mei 2024: 20,91%, Termin 1: 12,98%) - GISTET 500 kV Paiton UIP JBTB 3 (Prioritas 3, Periode hingga 31/12/2023, Progress Des 2023: 100,00%, Termin 3: 100,00%) \n2. Untuk melihat detail kontrak, pengguna dapat mengklik tombol Detail Kontrak (Btn-1). - Setelah tombol diklik, pengguna akan diarahkan menuju halaman detail kontrak yang dipilih.\n\nDokumen yang digunakan:\n- [Manual Book SIDITA V3 - Rev 3.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/Manual Book SIDITA V3 - Rev 3.pdf?se=2025-07-30T15%3A28%3A04Z&sp=r&sv=2025-05-05&sr=b&sig=g4zXfVm8RgK0vAepXQ4cPRU6LzYGqzpG6I0xhkRuTo4%3D)\n- [softlaunch-Manual Book SIDITA V3_20241031.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-Manual Book SIDITA V3_20241031.pdf?se=2025-07-30T15%3A28%3A11Z&sp=r&sv=2025-05-05&sr=b&sig=Dl/7sKx9BLAGi7g/rRDMeexQ%2BGrDXLjaTvZMOSdsHAI%3D)",
+        "timestamp": "2025-07-30T15:23:18.468Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753889013431_j2fzubvis",
+        "role": "user",
+        "content": "siapa nama saya",
+        "timestamp": "2025-07-30T15:23:33.385Z",
+        "type": "chat"
+      },
+      {
+        "id": "msg_1753889019942_szcnuk8sp",
+        "role": "assistant",
+        "content": "Berdasarkan dokumen yang diberikan, tidak terdapat informasi mengenai nama Anda. Dokumen tersebut tidak menyebutkan nama Anda secara spesifik, hanya memuat format atau penjelasan terkait surat permohonan dan alur penggunaan halaman tanpa mencantumkan identitas pengguna.\n\nDokumen yang digunakan:\n- [softlaunch-PLN_CMCT_SC_Onboarding PIC SSoT_20241017_v100.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/softlaunch-PLN_CMCT_SC_Onboarding PIC SSoT_20241017_v100.pdf?se=2025-07-30T15%3A28%3A35Z&sp=r&sv=2025-05-05&sr=b&sig=NE6cedXanQIa/idqxKOSdD/28NSRgipgh3r3OqYm3R4%3D)\n- [Manual Book SIDITA V3 - Rev 3.pdf](https://stgenaidevdickyidcsap.blob.core.windows.net/sapknowledge/Manual Book SIDITA V3 - Rev 3.pdf?se=2025-07-30T15%3A28%3A37Z&sp=r&sv=2025-05-05&sr=b&sig=v6ne2nT6q1eHvBjiT6qRrw%2BZisKZEUTUoAcic%2Bdc6EM%3D)",
+        "timestamp": "2025-07-30T15:23:39.899Z",
+        "type": "chat"
+      }
+    ],
+    "lastActivity": "2025-07-30T15:23:39.942Z"
+  }
+]
