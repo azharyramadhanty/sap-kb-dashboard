@@ -27,7 +27,7 @@ const DocumentContext = createContext<DocumentContextType>({} as DocumentContext
 export const useDocument = () => useContext(DocumentContext);
 
 // const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-const API_BASE_URL = 'https://nonprodchangecopilot.indonesiacentral.cloudapp.azure.com/cms-be';
+const API_BASE_URL = 'https://nonprod-changecopilot.indonesiacentral.cloudapp.azure.com/cms-be';
 
 export const DocumentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { currentUser, userRole } = useAuth();
