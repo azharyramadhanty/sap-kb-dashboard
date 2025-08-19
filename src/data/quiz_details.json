@@ -1,0 +1,828 @@
+[
+  {
+    "id": "detail_1754020673349_dyx4po6ju",
+    "userId": "6",
+    "quizScoreId": "score_1754020673349_fdkt3gq3y",
+    "timestamp": "2025-08-01T03:57:53.349Z",
+    "questions": [
+      {
+        "id": "cache_1754019182414_779o7q94z",
+        "question": "Manfaat SSoT bagi pegawai tidak termasuk?",
+        "choices": [
+          "Data lebih terpusat",
+          "Pengambilan keputusan lebih baik",
+          "Pekerjaan lebih lambat",
+          "Kolaborasi lebih baik"
+        ],
+        "correctAnswerIndex": 2,
+        "category": "PLN SSoT",
+        "difficulty": "medium",
+        "explanation": "Salah satu manfaat SSoT bagi pegawai adalah membuat pekerjaan lebih cepat, bukan lebih lambat.",
+        "cacheTimestamp": 1754019182414
+      },
+      {
+        "id": "cache_1754014976034_y5lwmgw6y",
+        "question": "Mengapa Program SSoT diperlukan di PLN?",
+        "choices": [
+          "Untuk mengurangi data yang tidak standar",
+          "Untuk meningkatkan pengeluaran perusahaan",
+          "Untuk menambah jumlah aplikasi yang ada",
+          "Untuk mengurangi efisiensi proses"
+        ],
+        "correctAnswerIndex": 0,
+        "category": "PLN SSoT",
+        "difficulty": "medium",
+        "explanation": "Program SSoT diperlukan untuk mengatasi masalah data yang tidak standar dari satu sistem ke sistem lain.",
+        "cacheTimestamp": 1754014976034,
+        "sourceKnowledge": {
+          "id": "ssot-importance",
+          "question": "Mengapa Program SSoT diperlukan?",
+          "answer": "SSoT diperlukan untuk mengatasi beberapa masalah seperti:\na. Data yang tidak standar dari satu sistem ke sistem lain.\nb. Banyak proses manual yang tidak efisien.\nc. Terlalu banyak aplikasi yang terpisah-pisah.\nd. Aplikasi SAP yang perlu pembaruan agar lebih modern dan sesuai kebutuhan masa depan.",
+          "documents": [
+            "PLN_CMCT_FAQ Program SSoT.pdf"
+          ],
+          "keywords": [
+            "masalah data",
+            "standarisasi",
+            "manual",
+            "aplikasi sap"
+          ],
+          "category": "faq"
+        }
+      },
+      {
+        "id": "cache_1754019182414_3btabkcy4",
+        "question": "Apa yang dimaksud dengan Database?",
+        "choices": [
+          "Tempat menyimpan data sementara",
+          "Sumber menyimpan dan mengelola data secara terstruktur",
+          "Sistem operasi untuk komputer",
+          "Jaringan komputer yang menyimpan data"
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "easy",
+        "explanation": "Database adalah sumber yang digunakan untuk menyimpan, mengelola, dan mengatur data secara terstruktur.",
+        "cacheTimestamp": 1754019182414
+      },
+      {
+        "id": "cache_1754015007909_nkuzy30p9",
+        "question": "Apa yang dimaksud dengan AI dalam dunia teknologi?",
+        "choices": [
+          "Automated Interface.",
+          "Artificial Intelligence.",
+          "Advanced Integration.",
+          "Analytical Insights."
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "easy",
+        "explanation": "AI adalah singkatan dari Artificial Intelligence yang memungkinkan komputer membuat respons dan keputusan strategis.",
+        "cacheTimestamp": 1754015007909
+      },
+      {
+        "id": "cache_1754019182414_268w1s0p3",
+        "question": "Cakupan mana yang termasuk dalam Business Process Reengineering (BPR) di Program SSoT?",
+        "choices": [
+          "Plan to Maintain",
+          "Source to Profit",
+          "Hire to Perform",
+          "Governance, Risk and Revenue"
+        ],
+        "correctAnswerIndex": 0,
+        "category": "PLN SSoT",
+        "difficulty": "hard",
+        "explanation": "Plan to Maintain adalah salah satu dari 8 workstream cakupan proses bisnis BPR dalam Program SSoT.",
+        "cacheTimestamp": 1754019182414
+      }
+    ],
+    "userAnswers": [
+      {
+        "questionIndex": 0,
+        "selectedAnswerIndex": null,
+        "isCorrect": false,
+        "timeSpent": 30
+      },
+      {
+        "questionIndex": 1,
+        "selectedAnswerIndex": null,
+        "isCorrect": false,
+        "timeSpent": 30
+      },
+      {
+        "questionIndex": 2,
+        "selectedAnswerIndex": null,
+        "isCorrect": false,
+        "timeSpent": 30
+      },
+      {
+        "questionIndex": 3,
+        "selectedAnswerIndex": null,
+        "isCorrect": false,
+        "timeSpent": 30
+      },
+      {
+        "questionIndex": 4,
+        "selectedAnswerIndex": 2,
+        "isCorrect": false,
+        "timeSpent": 5
+      }
+    ],
+    "timePerQuestion": [],
+    "metadata": {
+      "startTime": "2025-08-01T03:56:44.950Z",
+      "endTime": "2025-08-01T03:57:53.335Z",
+      "totalDuration": 68385,
+      "difficulty": "medium"
+    }
+  },
+  {
+    "id": "detail_1753975912427_jd81ibcma",
+    "userId": "6",
+    "quizScoreId": "score_1753975912427_v8zf8ygnu",
+    "timestamp": "2025-07-31T15:31:52.427Z",
+    "questions": [
+      {
+        "id": "cache_1753974271656_hc13yq6jc",
+        "question": "Mengapa Program SSoT dianggap penting bagi Shareholder dan Board of Commissioners PLN?",
+        "choices": [
+          "A. Untuk meningkatkan jumlah laporan yang dibutuhkan",
+          "B. Untuk memberikan akses data yang valid dan real-time",
+          "C. Untuk mengurangi transparansi dalam pengambilan keputusan",
+          "D. Untuk memperlambat proses pengambilan keputusan"
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "medium",
+        "explanation": "SSoT memberikan akses ke data yang valid dan real-time yang mendukung transparansi dan pengambilan keputusan.",
+        "cacheTimestamp": 1753974271656,
+        "sourceKnowledge": {
+          "id": "ssot-importance",
+          "question": "Mengapa Program SSoT diperlukan?",
+          "answer": "SSoT diperlukan untuk mengatasi beberapa masalah seperti:\na. Data yang tidak standar dari satu sistem ke sistem lain.\nb. Banyak proses manual yang tidak efisien.\nc. Terlalu banyak aplikasi yang terpisah-pisah.\nd. Aplikasi SAP yang perlu pembaruan agar lebih modern dan sesuai kebutuhan masa depan.",
+          "documents": [
+            "PLN_CMCT_FAQ Program SSoT.pdf"
+          ],
+          "keywords": [
+            "masalah data",
+            "standarisasi",
+            "manual",
+            "aplikasi sap"
+          ],
+          "category": "faq"
+        }
+      },
+      {
+        "id": "cache_1753974271656_8b5rm62ro",
+        "question": "Apa sistem ERP terbaru yang digunakan dalam Program SSoT?",
+        "choices": [
+          "A. SAP ECC",
+          "B. SAP S/4HANA",
+          "C. SAP Business One",
+          "D. SAP NetWeaver"
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "easy",
+        "explanation": "SAP S/4HANA adalah sistem ERP versi terbaru yang digunakan dalam Program SSoT.",
+        "cacheTimestamp": 1753974271656
+      },
+      {
+        "id": "cache_1753973342759_457gjkmnf",
+        "question": "Mengapa System Integrator (SI) diperlukan di PLN?",
+        "choices": [
+          "Untuk meningkatkan performa database SAP ECC.",
+          "Agar proses bisnis masa depan PLN dapat terintegrasi dengan baik.",
+          "Untuk mengurangi jumlah pegawai yang diperlukan di PLN.",
+          "Agar semua aplikasi menggunakan teknologi yang sama."
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "medium",
+        "explanation": "SI diperlukan untuk menerjemahkan proses bisnis masa depan PLN agar lebih efisien dan terintegrasi.",
+        "cacheTimestamp": 1753973342759
+      },
+      {
+        "id": "cache_1753974271656_kzdxl0krr",
+        "question": "Apa yang menjadi fokus dari Change Management dalam Program SSoT?",
+        "choices": [
+          "A. Mengurangi komunikasi dengan pegawai",
+          "B. Menerapkan manajemen perubahan dan strategi komunikasi",
+          "C. Mengabaikan pelatihan pegawai",
+          "D. Fokus hanya pada pengurangan biaya"
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "medium",
+        "explanation": "Change Management bertujuan untuk mengembangkan strategi manajemen perubahan, komunikasi, dan pelatihan.",
+        "cacheTimestamp": 1753974271656
+      },
+      {
+        "id": "cache_1753974271656_0k154foiz",
+        "question": "Bagaimana Program SSoT dapat meningkatkan kerja sama dengan Mitra PLN?",
+        "choices": [
+          "A. Dengan menambah jumlah dokumen yang diperlukan",
+          "B. Dengan memperpanjang waktu pembayaran",
+          "C. Dengan membuat proses pembayaran lebih transparan dan terstandarisasi",
+          "D. Dengan mengurangi jumlah vendor"
+        ],
+        "correctAnswerIndex": 2,
+        "category": "PLN SSoT",
+        "difficulty": "medium",
+        "explanation": "SSoT meningkatkan transparansi dan standar dalam proses pembayaran kepada Mitra PLN.",
+        "cacheTimestamp": 1753974271656
+      }
+    ],
+    "userAnswers": [
+      {
+        "questionIndex": 0,
+        "selectedAnswerIndex": null,
+        "isCorrect": false,
+        "timeSpent": 30
+      },
+      {
+        "questionIndex": 1,
+        "selectedAnswerIndex": null,
+        "isCorrect": false,
+        "timeSpent": 30
+      },
+      {
+        "questionIndex": 2,
+        "selectedAnswerIndex": null,
+        "isCorrect": false,
+        "timeSpent": 30
+      },
+      {
+        "questionIndex": 3,
+        "selectedAnswerIndex": null,
+        "isCorrect": false,
+        "timeSpent": 30
+      },
+      {
+        "questionIndex": 4,
+        "selectedAnswerIndex": 1,
+        "isCorrect": false,
+        "timeSpent": 0
+      }
+    ],
+    "timePerQuestion": [],
+    "metadata": {
+      "startTime": "2025-07-31T15:31:23.757Z",
+      "endTime": "2025-07-31T15:31:52.409Z",
+      "totalDuration": 28652,
+      "difficulty": "medium"
+    }
+  },
+  {
+    "id": "detail_1753888634258_9lbxhjs0s",
+    "userId": "6",
+    "quizScoreId": "score_1753888634258_72r6wiga7",
+    "timestamp": "2025-07-30T15:17:14.258Z",
+    "questions": [
+      {
+        "id": "cache_1753886743079_4ltmq2g85",
+        "question": "Mengapa Program SSoT diperlukan di PLN?",
+        "choices": [
+          "Untuk mengurangi jumlah aplikasi yang ada.",
+          "Untuk memastikan semua data berasal dari satu sumber.",
+          "Untuk meningkatkan proses manual yang tidak efisien.",
+          "Untuk mengganti semua sistem yang ada."
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "medium",
+        "explanation": "Program SSoT diperlukan agar semua informasi yang dibutuhkan dapat diakses dengan mudah dari satu sumber.",
+        "cacheTimestamp": 1753886743079,
+        "sourceKnowledge": {
+          "id": "ssot-importance",
+          "question": "Mengapa Program SSoT diperlukan?",
+          "answer": "SSoT diperlukan untuk mengatasi beberapa masalah seperti:\na. Data yang tidak standar dari satu sistem ke sistem lain.\nb. Banyak proses manual yang tidak efisien.\nc. Terlalu banyak aplikasi yang terpisah-pisah.\nd. Aplikasi SAP yang perlu pembaruan agar lebih modern dan sesuai kebutuhan masa depan.",
+          "documents": [
+            "PLN_CMCT_FAQ Program SSoT.pdf"
+          ],
+          "keywords": [
+            "masalah data",
+            "standarisasi",
+            "manual",
+            "aplikasi sap"
+          ],
+          "category": "faq"
+        }
+      },
+      {
+        "id": "cache_1753886781376_cnx8jrv6u",
+        "question": "Apa itu SAP ECC?",
+        "choices": [
+          "Sistem Akuntansi Terintegrasi",
+          "Software ERP untuk pengelolaan bisnis",
+          "Sistem Penyimpanan Data",
+          "Aplikasi Pengolahan Data"
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "easy",
+        "explanation": "SAP ECC adalah salah satu versi dari SAP yang digunakan untuk mendukung pengelolaan proses bisnis utama PLN.",
+        "cacheTimestamp": 1753886781376,
+        "sourceKnowledge": {
+          "id": "40",
+          "question": "Apa itu SAP ECC?",
+          "answer": "SAP ERP Central Component – Salah satu versi dari SAP yang digunakan untuk mendukung pengelolaan proses bisnis utama PLN.",
+          "documents": [
+            "PLN_CMCT_FAQ Program SSoT.pdf"
+          ],
+          "keywords": [
+            "SAP ECC"
+          ],
+          "category": "istilah"
+        }
+      },
+      {
+        "id": "cache_1753886781376_ncasmbtdl",
+        "question": "Bagaimana implementasi SSoT membantu PLN dalam pengambilan keputusan?",
+        "choices": [
+          "Dengan mengurangi jumlah data yang tersedia",
+          "Melalui data yang tidak terintegrasi",
+          "Dengan menyediakan data yang akurat dan terpusat",
+          "Dengan menunda pengambilan keputusan"
+        ],
+        "correctAnswerIndex": 2,
+        "category": "PLN SSoT",
+        "difficulty": "medium",
+        "explanation": "Implementasi SSoT menyediakan data yang akurat dan terpusat untuk pengambilan keputusan strategis.",
+        "cacheTimestamp": 1753886781376,
+        "sourceKnowledge": {
+          "id": "ssot-customer-service",
+          "question": "Bagaimana implementasi SSoT membantu PLN meningkatkan pelayanan Pelanggan?",
+          "answer": "Implementasi SSoT membantu PLN dalam mengoptimalkan efisiensi operasional melalui ekosistem aplikasi yang terintegrasi dan membantu pengambilan keputusan strategis untuk terus meningkatkan pelayanan terhadap Pelanggan berdasarkan pencatatan data transaksi yang akurat, terpercaya, dan terpusat.",
+          "documents": [
+            "PLN_CMCT_FAQ Program SSoT.pdf"
+          ],
+          "keywords": [
+            "pelanggan",
+            "layanan",
+            "efisiensi",
+            "strategis"
+          ],
+          "category": "faq"
+        }
+      },
+      {
+        "id": "cache_1753886872324_2oxeu5o82",
+        "question": "Apa manfaat utama SSoT bagi Shareholder dan Board of Commissioners PLN?",
+        "choices": [
+          "Mempercepat proses penggajian",
+          "Mendapatkan akses ke data yang valid dan real-time",
+          "Meningkatkan jumlah aplikasi yang digunakan",
+          "Mengurangi biaya operasional PLN"
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "medium",
+        "explanation": "SSoT memberikan akses ke data yang valid dan real-time, mendukung transparansi dan pengambilan keputusan.",
+        "cacheTimestamp": 1753886872324
+      },
+      {
+        "id": "cache_1753886872324_u7c42h2qr",
+        "question": "Apa tujuan utama dari Program SSoT di PLN?",
+        "choices": [
+          "Menyederhanakan proses manual",
+          "Mempercepat integrasi sistem data PLN",
+          "Meningkatkan jumlah aplikasi yang dipakai",
+          "Mengurangi jumlah pegawai di PLN"
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "easy",
+        "explanation": "Tujuan utama SSoT adalah untuk mempercepat integrasi sistem data PLN agar informasi mudah diakses.",
+        "cacheTimestamp": 1753886872324
+      }
+    ],
+    "userAnswers": [
+      {
+        "questionIndex": 0,
+        "selectedAnswerIndex": null,
+        "isCorrect": false,
+        "timeSpent": 30
+      },
+      {
+        "questionIndex": 1,
+        "selectedAnswerIndex": null,
+        "isCorrect": false,
+        "timeSpent": 30
+      },
+      {
+        "questionIndex": 2,
+        "selectedAnswerIndex": null,
+        "isCorrect": false,
+        "timeSpent": 30
+      },
+      {
+        "questionIndex": 3,
+        "selectedAnswerIndex": null,
+        "isCorrect": false,
+        "timeSpent": 30
+      },
+      {
+        "questionIndex": 4,
+        "selectedAnswerIndex": 1,
+        "isCorrect": true,
+        "timeSpent": 4
+      }
+    ],
+    "timePerQuestion": [],
+    "metadata": {
+      "startTime": "2025-07-30T15:16:38.520Z",
+      "endTime": "2025-07-30T15:17:14.245Z",
+      "totalDuration": 35725,
+      "difficulty": "medium"
+    }
+  },
+  {
+    "id": "detail_1753886873613_ufepwyjvq",
+    "userId": "6",
+    "quizScoreId": "score_1753886873613_wek13rxr5",
+    "timestamp": "2025-07-30T14:47:53.613Z",
+    "questions": [
+      {
+        "id": "cache_1753886781376_oqowagbdm",
+        "question": "Apa fokus utama dalam pengerjaan implementasi Program SSoT saat ini?",
+        "choices": [
+          "Penghapusan data lama",
+          "Handover proses bisnis masa depan",
+          "Penerapan sistem yang tidak terintegrasi",
+          "Pengurangan jumlah pegawai"
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "medium",
+        "explanation": "Fokus utama adalah handover proses bisnis masa depan kepada System Integrator.",
+        "cacheTimestamp": 1753886781376
+      },
+      {
+        "id": "cache_1753886743079_g5j4q9549",
+        "question": "Apa itu BPR dalam konteks PLN?",
+        "choices": [
+          "Business Process Revision",
+          "Business Process Restructuring",
+          "Business Process Reengineering",
+          "Business Process Realignment"
+        ],
+        "correctAnswerIndex": 2,
+        "category": "PLN SSoT",
+        "difficulty": "medium",
+        "explanation": "BPR adalah strategi penyederhanaan proses bisnis agar lebih cepat, efisien, dan efektif.",
+        "cacheTimestamp": 1753886743079
+      },
+      {
+        "id": "cache_1753886743079_d5e4yuwev",
+        "question": "Apa yang akan terjadi pada aplikasi eksisting setelah Program SSoT diimplementasikan?",
+        "choices": [
+          "Semua aplikasi akan dihentikan tanpa evaluasi.",
+          "Aplikasi akan dievaluasi dan disesuaikan sesuai kebutuhan.",
+          "Aplikasi akan ditingkatkan tanpa evaluasi.",
+          "Semua aplikasi akan diperbarui secara otomatis."
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "medium",
+        "explanation": "Aplikasi eksisting akan dievaluasi untuk menentukan apakah fungsinya tergantikan oleh ERP atau perlu diselaraskan.",
+        "cacheTimestamp": 1753886743079,
+        "sourceKnowledge": {
+          "id": "ssot-aplikasi-eksisting",
+          "question": "Setelah Program SSoT diimplementasikan pada tahun 2027, bagaimana perlakuan terhadap aplikasi-aplikasi yang saat ini tersebar di PLN?",
+          "answer": "Aplikasi eksisting akan dievaluasi dengan ketentuan:\na. Jika fungsinya tergantikan oleh ERP, maka aplikasi dihentikan.\nb. Jika ada fitur tambahan dan dinyatakan dalam proses baru, dilakukan penyelarasan.\nc. Jika tidak dinyatakan, dilakukan asesmen tambahan.",
+          "documents": [
+            "PLN_CMCT_FAQ Program SSoT.pdf"
+          ],
+          "keywords": [
+            "aplikasi",
+            "eksisting",
+            "evaluasi",
+            "erp"
+          ],
+          "category": "faq"
+        }
+      },
+      {
+        "id": "cache_1753886781376_j3z1xa6fr",
+        "question": "Apa saja prinsip utama dalam Program SSoT?",
+        "choices": [
+          "Data tidak terintegrasi dan banyak sumber",
+          "Data yang akurat dan terintegrasi",
+          "Sumber data ganda yang tidak terpercaya",
+          "Aplikasi yang tidak terkonsolidasi"
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "medium",
+        "explanation": "Prinsip utama Program SSoT mencakup data yang akurat dan terintegrasi.",
+        "cacheTimestamp": 1753886781376,
+        "sourceKnowledge": {
+          "id": "ssot-prinsip-utama",
+          "question": "Apa saja prinsip utama Program SSoT?",
+          "answer": "Terdapat 4 prinsip utama dalam Program SSoT, antara lain:\na. Data yang akurat dan terintegrasi\nb. Sumber data tunggal yang terpercaya\nc. Aplikasi yang terkonsolidasi\nd. Selaras dengan transformasi PLN",
+          "documents": [
+            "PLN_CMCT_FAQ Program SSoT.pdf"
+          ],
+          "keywords": [
+            "prinsip",
+            "transformasi",
+            "integrasi",
+            "data"
+          ],
+          "category": "faq"
+        }
+      },
+      {
+        "id": "cache_1753886781376_cla3qq403",
+        "question": "Salah satu hasil implementasi Program SSoT adalah transformasi aplikasi SIMKP ke SAP SuccessFactors. Apa manfaat utama dari implementasi ini?",
+        "choices": [
+          "Meningkatkan biaya operasional",
+          "Mengurangi jumlah pegawai",
+          "Meningkatkan efisiensi manajemen kinerja",
+          "Mengurangi data yang tersedia"
+        ],
+        "correctAnswerIndex": 2,
+        "category": "PLN SSoT",
+        "difficulty": "medium",
+        "explanation": "Transformasi aplikasi ini bertujuan untuk meningkatkan efisiensi manajemen kinerja pegawai.",
+        "cacheTimestamp": 1753886781376
+      }
+    ],
+    "userAnswers": [
+      {
+        "questionIndex": 0,
+        "selectedAnswerIndex": null,
+        "isCorrect": false,
+        "timeSpent": 30
+      },
+      {
+        "questionIndex": 1,
+        "selectedAnswerIndex": null,
+        "isCorrect": false,
+        "timeSpent": 30
+      },
+      {
+        "questionIndex": 2,
+        "selectedAnswerIndex": null,
+        "isCorrect": false,
+        "timeSpent": 30
+      },
+      {
+        "questionIndex": 3,
+        "selectedAnswerIndex": null,
+        "isCorrect": false,
+        "timeSpent": 30
+      },
+      {
+        "questionIndex": 4,
+        "selectedAnswerIndex": 2,
+        "isCorrect": true,
+        "timeSpent": 8
+      }
+    ],
+    "timePerQuestion": [],
+    "metadata": {
+      "startTime": "2025-07-30T14:47:15.022Z",
+      "endTime": "2025-07-30T14:47:53.599Z",
+      "totalDuration": 38577,
+      "difficulty": "medium"
+    }
+  },
+  {
+    "id": "detail_1735024800000_abc123def",
+    "userId": "1",
+    "quizScoreId": "score_1735024800000_abc123def",
+    "timestamp": "2024-12-20T10:30:00.000Z",
+    "questions": [
+      {
+        "id": "q1",
+        "question": "Apa kepanjangan dari SSoT?",
+        "choices": [
+          "Single Source of Truth",
+          "System Source of Technology",
+          "Secure Source of Trust",
+          "Simple Source of Text"
+        ],
+        "correctAnswerIndex": 0,
+        "category": "PLN SSoT",
+        "difficulty": "easy"
+      },
+      {
+        "id": "q2",
+        "question": "Platform ERP utama yang digunakan dalam Program SSoT adalah?",
+        "choices": [
+          "Oracle ERP",
+          "SAP S/4HANA",
+          "Microsoft Dynamics",
+          "Salesforce"
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "medium"
+      },
+      {
+        "id": "q3",
+        "question": "Berapa jumlah workstream utama dalam Program SSoT?",
+        "choices": [
+          "6",
+          "7",
+          "8",
+          "9"
+        ],
+        "correctAnswerIndex": 2,
+        "category": "PLN SSoT",
+        "difficulty": "medium"
+      },
+      {
+        "id": "q4",
+        "question": "Apa kepanjangan dari BPR dalam konteks Program SSoT?",
+        "choices": [
+          "Business Process Review",
+          "Business Process Reengineering",
+          "Business Process Redesign",
+          "Business Process Reform"
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "hard"
+      },
+      {
+        "id": "q5",
+        "question": "Kapan target implementasi penuh SAP S/4HANA di PLN?",
+        "choices": [
+          "2025",
+          "2026",
+          "2027",
+          "2028"
+        ],
+        "correctAnswerIndex": 2,
+        "category": "PLN SSoT",
+        "difficulty": "hard"
+      }
+    ],
+    "userAnswers": [
+      {
+        "questionIndex": 0,
+        "selectedAnswerIndex": 0,
+        "isCorrect": true,
+        "timeSpent": 15000
+      },
+      {
+        "questionIndex": 1,
+        "selectedAnswerIndex": 1,
+        "isCorrect": true,
+        "timeSpent": 20000
+      },
+      {
+        "questionIndex": 2,
+        "selectedAnswerIndex": 2,
+        "isCorrect": true,
+        "timeSpent": 25000
+      },
+      {
+        "questionIndex": 3,
+        "selectedAnswerIndex": 1,
+        "isCorrect": true,
+        "timeSpent": 30000
+      },
+      {
+        "questionIndex": 4,
+        "selectedAnswerIndex": 2,
+        "isCorrect": true,
+        "timeSpent": 30000
+      }
+    ],
+    "timePerQuestion": [
+      15000,
+      20000,
+      25000,
+      30000,
+      30000
+    ],
+    "metadata": {
+      "startTime": "2024-12-20T10:28:00.000Z",
+      "endTime": "2024-12-20T10:30:00.000Z",
+      "totalDuration": 120000,
+      "difficulty": "hard"
+    }
+  },
+  {
+    "id": "detail_1735021200000_def456ghi",
+    "userId": "2",
+    "quizScoreId": "score_1735021200000_def456ghi",
+    "timestamp": "2024-12-20T09:15:00.000Z",
+    "questions": [
+      {
+        "id": "q1",
+        "question": "Apa tujuan utama Program SSoT di PLN?",
+        "choices": [
+          "Mengurangi biaya operasional",
+          "Menstandarkan dan mengotomatiskan proses bisnis",
+          "Menambah jumlah aplikasi",
+          "Mengganti semua sistem lama"
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "medium"
+      },
+      {
+        "id": "q2",
+        "question": "Apa kepanjangan dari CMCT?",
+        "choices": [
+          "Change Management Communication Training",
+          "Change Management, Communication, and Training",
+          "Corporate Management Communication Technology",
+          "Change Management Control Technology"
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "medium"
+      },
+      {
+        "id": "q3",
+        "question": "Workstream S2P dalam Program SSoT mengacu pada?",
+        "choices": [
+          "System to Process",
+          "Source to Pay",
+          "Service to Product",
+          "Solution to Platform"
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "medium"
+      },
+      {
+        "id": "q4",
+        "question": "Apa manfaat utama SSoT bagi pegawai PLN?",
+        "choices": [
+          "Gaji lebih tinggi",
+          "Data lebih terpusat dan pekerjaan lebih cepat",
+          "Jam kerja lebih sedikit",
+          "Promosi lebih mudah"
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "easy"
+      },
+      {
+        "id": "q5",
+        "question": "Sistem ERP yang akan menggantikan SAP ECC adalah?",
+        "choices": [
+          "SAP HANA",
+          "SAP S/4HANA",
+          "SAP Business One",
+          "SAP SuccessFactors"
+        ],
+        "correctAnswerIndex": 1,
+        "category": "PLN SSoT",
+        "difficulty": "medium"
+      }
+    ],
+    "userAnswers": [
+      {
+        "questionIndex": 0,
+        "selectedAnswerIndex": 1,
+        "isCorrect": true,
+        "timeSpent": 20000
+      },
+      {
+        "questionIndex": 1,
+        "selectedAnswerIndex": 1,
+        "isCorrect": true,
+        "timeSpent": 25000
+      },
+      {
+        "questionIndex": 2,
+        "selectedAnswerIndex": 1,
+        "isCorrect": true,
+        "timeSpent": 30000
+      },
+      {
+        "questionIndex": 3,
+        "selectedAnswerIndex": 1,
+        "isCorrect": true,
+        "timeSpent": 18000
+      },
+      {
+        "questionIndex": 4,
+        "selectedAnswerIndex": 0,
+        "isCorrect": false,
+        "timeSpent": 42000
+      }
+    ],
+    "timePerQuestion": [
+      20000,
+      25000,
+      30000,
+      18000,
+      42000
+    ],
+    "metadata": {
+      "startTime": "2024-12-20T09:12:45.000Z",
+      "endTime": "2024-12-20T09:15:00.000Z",
+      "totalDuration": 135000,
+      "difficulty": "medium"
+    }
+  }
+]
