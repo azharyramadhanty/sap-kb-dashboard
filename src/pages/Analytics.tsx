@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart3, PieChart, MessageSquare, TrendingUp, AlertCircle, FileText } from 'lucide-react';
+import { BarChart3, PieChart, MessageSquare, TrendingUp, AlertCircle, FileText, Trophy, Target, Users, BookOpen } from 'lucide-react';
 import StatCard from '../components/StatCard';
 import BarChart from '../components/BarChart';
 import PieChartComponent from '../components/PieChartComponent';
 import TopQuestions from '../components/TopQuestions';
 import UnansweredQuestions from '../components/UnansweredQuestions';
+import WordCloud from '../components/WordCloud';
+import LineChart from '../components/LineChart';
+import LeaderboardTable from '../components/LeaderboardTable';
+import QuestionErrorTable from '../components/QuestionErrorTable';
+import quizScoresData from '../data/quiz_scores.json';
+import quizDetailsData from '../data/quiz_details.json';
 
 interface ChatMessage {
   id: string;
@@ -25,22 +31,35 @@ interface AnalyticsData {
   topicDistribution: { topic: string; count: number; color: string }[];
   topQuestions: { question: string; count: number }[];
   unansweredQuestions: ChatMessage[];
+  wordCloudData: { text: string; value: number }[];
+}
+
+interface QuizAnalyticsData {
+  averageScore: number;
+  averageAccuracy: number;
+  totalQuizzes: number;
+  leaderboard: { userId: string; userName: string; averageScore: number; totalQuizzes: number; averageAccuracy: number }[];
+  scoresTrend: { date: string; score: number; userId: string }[];
+  accuracyByCategory: { category: string; accuracy: number }[];
+  errorQuestions: { question: string; errorRate: number; category: string; totalAttempts: number }[];
 }
 
 const Analytics: React.FC = () => {
-  const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(null);
+  const [activeTab, setActiveTab] = useState<'chat' | 'quiz'>('chat');
+  const [chatAnalyticsData, setChatAnalyticsData] = useState<AnalyticsData | null>(null);
+  const [quizAnalyticsData, setQuizAnalyticsData] = useState<QuizAnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadAnalyticsData();
+    loadChatAnalyticsData();
+    loadQuizAnalyticsData();
   }, []);
 
-  const loadAnalyticsData = async () => {
+  const loadChatAnalyticsData = async () => {
     try {
       setLoading(true);
       
-      // Simulate loading chat history data
-      // In real implementation, this would fetch from your API
+      // Mock chat history data
       const mockChatHistory: ChatMessage[] = [
         {
           id: '1',
@@ -214,19 +233,138 @@ const Analytics: React.FC = () => {
         !msg.is_relevant || msg.confidence_score < 0.5
       );
 
-      setAnalyticsData({
+      // Word cloud data
+      const wordCloudData = Object.entries(topicData)
+        .map(([text, value]) => ({ text, value }))
+        .sort((a, b) => b.value - a.value);
+
+      setChatAnalyticsData({
         totalQuestions,
         relevantPercentage,
         totalDocumentReferences,
         dailyQuestions,
         topicDistribution,
         topQuestions,
-        unansweredQuestions
+        unansweredQuestions,
+        wordCloudData
       });
     } catch (error) {
-      console.error('Error loading analytics data:', error);
+      console.error('Error loading chat analytics data:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadQuizAnalyticsData = async () => {
+    try {
+      // Process quiz data
+      const scores = quizScoresData;
+      const details = quizDetailsData;
+
+      // Calculate KPIs
+      const averageScore = scores.reduce((sum, score) => sum + score.score, 0) / scores.length;
+      const averageAccuracy = scores.reduce((sum, score) => sum + score.accuracy, 0) / scores.length;
+      const totalQuizzes = scores.length;
+
+      // Create leaderboard
+      const userStats = scores.reduce((acc, score) => {
+        if (!acc[score.userId]) {
+          acc[score.userId] = {
+            userId: score.userId,
+            userName: `User ${score.userId}`,
+            totalScore: 0,
+            totalAccuracy: 0,
+            quizCount: 0
+          };
+        }
+        acc[score.userId].totalScore += score.score;
+        acc[score.userId].totalAccuracy += score.accuracy;
+        acc[score.userId].quizCount += 1;
+        return acc;
+      }, {} as Record<string, any>);
+
+      const leaderboard = Object.values(userStats).map((user: any) => ({
+        userId: user.userId,
+        userName: user.userName,
+        averageScore: Math.round(user.totalScore / user.quizCount),
+        totalQuizzes: user.quizCount,
+        averageAccuracy: Math.round(user.totalAccuracy / user.quizCount)
+      })).sort((a, b) => b.averageScore - a.averageScore);
+
+      // Scores trend
+      const scoresTrend = scores
+        .sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())
+        .map(score => ({
+          date: new Date(score.timestamp).toISOString().split('T')[0],
+          score: score.score,
+          userId: score.userId
+        }));
+
+      // Accuracy by category
+      const categoryStats = details.reduce((acc, detail) => {
+        detail.questions.forEach(question => {
+          if (!acc[question.category]) {
+            acc[question.category] = { correct: 0, total: 0 };
+          }
+          acc[question.category].total += 1;
+          
+          const userAnswer = detail.userAnswers.find(ua => 
+            detail.questions[ua.questionIndex]?.id === question.id
+          );
+          if (userAnswer && userAnswer.isCorrect) {
+            acc[question.category].correct += 1;
+          }
+        });
+        return acc;
+      }, {} as Record<string, { correct: number; total: number }>);
+
+      const accuracyByCategory = Object.entries(categoryStats).map(([category, stats]) => ({
+        category,
+        accuracy: Math.round((stats.correct / stats.total) * 100)
+      }));
+
+      // Questions with highest error rate
+      const questionStats = details.reduce((acc, detail) => {
+        detail.questions.forEach((question, index) => {
+          if (!acc[question.id]) {
+            acc[question.id] = {
+              question: question.question,
+              category: question.category,
+              correct: 0,
+              total: 0
+            };
+          }
+          acc[question.id].total += 1;
+          
+          const userAnswer = detail.userAnswers[index];
+          if (userAnswer && userAnswer.isCorrect) {
+            acc[question.id].correct += 1;
+          }
+        });
+        return acc;
+      }, {} as Record<string, any>);
+
+      const errorQuestions = Object.values(questionStats)
+        .map((stat: any) => ({
+          question: stat.question,
+          category: stat.category,
+          errorRate: Math.round(((stat.total - stat.correct) / stat.total) * 100),
+          totalAttempts: stat.total
+        }))
+        .sort((a, b) => b.errorRate - a.errorRate)
+        .slice(0, 10);
+
+      setQuizAnalyticsData({
+        averageScore,
+        averageAccuracy,
+        totalQuizzes,
+        leaderboard,
+        scoresTrend,
+        accuracyByCategory,
+        errorQuestions
+      });
+    } catch (error) {
+      console.error('Error loading quiz analytics data:', error);
     }
   };
 
@@ -238,84 +376,196 @@ const Analytics: React.FC = () => {
     );
   }
 
-  if (!analyticsData) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="text-center">
-          <AlertCircle className="mx-auto h-12 w-12 text-red-500" />
-          <h3 className="mt-2 text-sm font-medium text-gray-900">Failed to load analytics data</h3>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900">Chat Analytics</h1>
+        <h1 className="text-3xl font-bold text-slate-900">Analytics Dashboard</h1>
         <p className="mt-2 text-slate-600">
-          Analisis interaksi pengguna dengan sistem AI Knowledge Management
+          Comprehensive insights into chat interactions and quiz performance
         </p>
       </div>
 
-      {/* Statistics Cards */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard
-          title="Total Pertanyaan"
-          value={analyticsData.totalQuestions}
-          icon={MessageSquare}
-          color="bg-blue-600"
-        />
-        <StatCard
-          title="Pertanyaan Relevan"
-          value={analyticsData.relevantPercentage}
-          icon={TrendingUp}
-          color="bg-emerald-600"
-        />
-        <StatCard
-          title="Referensi Dokumen"
-          value={analyticsData.totalDocumentReferences}
-          icon={FileText}
-          color="bg-purple-600"
-        />
-        <StatCard
-          title="Tidak Terjawab"
-          value={analyticsData.unansweredQuestions.length}
-          icon={AlertCircle}
-          color="bg-red-600"
-        />
+      {/* Tab Navigation */}
+      <div className="border-b border-slate-200">
+        <nav className="-mb-px flex space-x-8">
+          <button
+            onClick={() => setActiveTab('chat')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              activeTab === 'chat'
+                ? 'border-blue-500 text-blue-600'
+                : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+            }`}
+          >
+            <MessageSquare className="inline-block w-4 h-4 mr-2" />
+            Chat Insights
+          </button>
+          <button
+            onClick={() => setActiveTab('quiz')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              activeTab === 'quiz'
+                ? 'border-blue-500 text-blue-600'
+                : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+            }`}
+          >
+            <Trophy className="inline-block w-4 h-4 mr-2" />
+            Quiz Insights
+          </button>
+        </nav>
       </div>
 
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        {/* Bar Chart - Daily Questions */}
-        <div className="card">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-slate-900 flex items-center">
-              <BarChart3 className="mr-2 h-5 w-5" />
-              Pertanyaan per Hari
-            </h2>
+      {/* Chat Insights Tab */}
+      {activeTab === 'chat' && chatAnalyticsData && (
+        <div className="space-y-8">
+          {/* Statistics Cards */}
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <StatCard
+              title="Total Pertanyaan"
+              value={chatAnalyticsData.totalQuestions}
+              icon={MessageSquare}
+              color="bg-blue-600"
+            />
+            <StatCard
+              title="Pertanyaan Relevan"
+              value={chatAnalyticsData.relevantPercentage}
+              icon={TrendingUp}
+              color="bg-emerald-600"
+            />
+            <StatCard
+              title="Referensi Dokumen"
+              value={chatAnalyticsData.totalDocumentReferences}
+              icon={FileText}
+              color="bg-purple-600"
+            />
+            <StatCard
+              title="Tidak Terjawab"
+              value={chatAnalyticsData.unansweredQuestions.length}
+              icon={AlertCircle}
+              color="bg-red-600"
+            />
           </div>
-          <BarChart data={analyticsData.dailyQuestions} />
-        </div>
 
-        {/* Pie Chart - Topic Distribution */}
-        <div className="card">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-slate-900 flex items-center">
-              <PieChart className="mr-2 h-5 w-5" />
-              Distribusi Topik
-            </h2>
+          {/* Charts Section */}
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+            {/* Bar Chart - Daily Questions */}
+            <div className="card">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-lg font-semibold text-slate-900 flex items-center">
+                  <BarChart3 className="mr-2 h-5 w-5" />
+                  Pertanyaan per Hari
+                </h2>
+              </div>
+              <BarChart data={chatAnalyticsData.dailyQuestions} />
+            </div>
+
+            {/* Pie Chart - Topic Distribution */}
+            <div className="card">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-lg font-semibold text-slate-900 flex items-center">
+                  <PieChart className="mr-2 h-5 w-5" />
+                  Distribusi Topik
+                </h2>
+              </div>
+              <PieChartComponent data={chatAnalyticsData.topicDistribution} />
+            </div>
           </div>
-          <PieChartComponent data={analyticsData.topicDistribution} />
-        </div>
-      </div>
 
-      {/* Top Questions and Unanswered Questions */}
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        <TopQuestions questions={analyticsData.topQuestions} />
-        <UnansweredQuestions questions={analyticsData.unansweredQuestions} />
-      </div>
+          {/* Word Cloud */}
+          <div className="card">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg font-semibold text-slate-900">
+                Topik Populer
+              </h2>
+            </div>
+            <WordCloud data={chatAnalyticsData.wordCloudData} />
+          </div>
+
+          {/* Top Questions and Unanswered Questions */}
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+            <TopQuestions questions={chatAnalyticsData.topQuestions} />
+            <UnansweredQuestions questions={chatAnalyticsData.unansweredQuestions} />
+          </div>
+        </div>
+      )}
+
+      {/* Quiz Insights Tab */}
+      {activeTab === 'quiz' && quizAnalyticsData && (
+        <div className="space-y-8">
+          {/* KPI Cards */}
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <StatCard
+              title="Rata-rata Skor"
+              value={Math.round(quizAnalyticsData.averageScore)}
+              icon={Target}
+              color="bg-blue-600"
+            />
+            <StatCard
+              title="Akurasi Rata-rata"
+              value={Math.round(quizAnalyticsData.averageAccuracy)}
+              icon={TrendingUp}
+              color="bg-emerald-600"
+            />
+            <StatCard
+              title="Total Quiz Diambil"
+              value={quizAnalyticsData.totalQuizzes}
+              icon={BookOpen}
+              color="bg-purple-600"
+            />
+          </div>
+
+          {/* Charts Section */}
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+            {/* Line Chart - Score Trends */}
+            <div className="card">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-lg font-semibold text-slate-900">
+                  Tren Skor User
+                </h2>
+              </div>
+              <LineChart data={quizAnalyticsData.scoresTrend} />
+            </div>
+
+            {/* Bar Chart - Accuracy by Category */}
+            <div className="card">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-lg font-semibold text-slate-900">
+                  Akurasi per Kategori
+                </h2>
+              </div>
+              <BarChart 
+                data={quizAnalyticsData.accuracyByCategory.map(item => ({
+                  date: item.category,
+                  count: item.accuracy
+                }))} 
+              />
+            </div>
+          </div>
+
+          {/* Tables Section */}
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+            {/* Leaderboard */}
+            <div className="card">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-lg font-semibold text-slate-900 flex items-center">
+                  <Users className="mr-2 h-5 w-5" />
+                  Leaderboard
+                </h2>
+              </div>
+              <LeaderboardTable data={quizAnalyticsData.leaderboard} />
+            </div>
+
+            {/* Error Questions */}
+            <div className="card">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-lg font-semibold text-slate-900 flex items-center">
+                  <AlertCircle className="mr-2 h-5 w-5" />
+                  Pertanyaan Sulit
+                </h2>
+              </div>
+              <QuestionErrorTable data={quizAnalyticsData.errorQuestions} />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
