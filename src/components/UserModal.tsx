@@ -24,7 +24,7 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, setIsOpen, userData }) =>
       setFormData({
         name: userData.name,
         email: userData.email,
-        role: userData.role,
+        role: userData.role.toLowerCase(),
         status: userData.status,
       });
     } else {
@@ -45,10 +45,15 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, setIsOpen, userData }) =>
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    const submitData = {
+      ...formData,
+      role: formData.role.toUpperCase()
+    };
+    
     if (userData) {
-      updateUser({ ...userData, ...formData });
+      updateUser({ ...userData, ...submitData });
     } else {
-      addUser(formData);
+      addUser(submitData);
     }
     
     setIsOpen(false);
